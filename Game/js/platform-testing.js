@@ -44,7 +44,7 @@ class platformTesting extends Phaser.Scene{
     this.isMouseMoving = false;
     this.initialMouseX = 0;
     this.initialMouseY = 0;
-    this.maxMouseDistance = 130;
+    this.maxMouseDistance = 125;
     
     this.player1CanMove    = true;
 
@@ -116,13 +116,17 @@ class platformTesting extends Phaser.Scene{
   InitMobileCircleUI(){
     this.circle_UI = this.add.sprite(this.RelativePosition(0, "x"), this.RelativePosition(0, "y"), 'Circle-UI').setInteractive();
     this.circle_UI.alpha = 0;
-    this.circle_UI.scaleX = 0.32;
+    this.circle_UI.scaleX = this.RelativeScale(0.031, "x");
+    this.circle_UI_OriginalScale = this.circle_UI.scaleX;
+    this.circle_UI_MinScale = this.RelativeScale(0.029, "x");
     this.circle_UI.scaleY= this.circle_UI.scaleX;
     this.circle_UI.setDepth(10000);
 
     this.circle_UI_Base = this.add.sprite(this.width,this.height,'Circle-UI').setInteractive();
     this.circle_UI_Base.alpha = 0;
-    this.circle_UI_Base.scaleX= 0.02;
+    this.circle_UI_Base.scaleX = this.RelativeScale(0.0023, "x");
+    this.circle_UI_Base_OriginalScale = this.circle_UI_Base.scaleX;
+    this.circle_UI_Base_MinScale = this.RelativeScale(0.0019, "x");
     this.circle_UI_Base.scaleY= this.circle_UI_Base.scaleX;
     this.circle_UI_Base.setDepth(11000);
   }
@@ -181,8 +185,8 @@ class platformTesting extends Phaser.Scene{
         this.tweens.add({
           targets: this.circle_UI,
           alpha: 0.65,
-          scaleX: 0.35,
-          scaleY: 0.35,
+          scaleX: this.circle_UI_OriginalScale,
+          scaleY: this.circle_UI_OriginalScale,
           ease: 'Linear' ,
           duration: 80,
           yoyo: false,
@@ -191,8 +195,8 @@ class platformTesting extends Phaser.Scene{
         this.tweens.add({
           targets: this.circle_UI_Base,
           alpha: 0.65,
-          scaleX: 0.025,
-          scaleY: 0.025,
+          scaleX: this.circle_UI_Base_OriginalScale,
+          scaleY: this.circle_UI_Base_OriginalScale,
           ease: 'Linear' ,
           duration: 80,
           yoyo: false,
@@ -242,8 +246,8 @@ class platformTesting extends Phaser.Scene{
         this.tweens.add({
           targets: this.circle_UI,
           alpha: 0,
-          scaleX: 0.32,
-          scaleY: 0.32,
+          scaleX: this.circle_UI_MinScale,
+          scaleY: this.circle_UI_MinScale,
           ease: 'Linear' ,
           duration: 80,
           yoyo: false,
@@ -252,8 +256,8 @@ class platformTesting extends Phaser.Scene{
         this.tweens.add({
           targets: this.circle_UI_Base,
           alpha: 0,
-          scaleX: 0.01,
-          scaleY: 0.01,
+          scaleX: this.circle_UI_Base_MinScale,
+          scaleY: this.circle_UI_Base_MinScale,
           ease: 'Linear' ,
           duration: 80,
           yoyo: false,
