@@ -3,11 +3,13 @@
  * -
  * German Lopez Gutierrez
  * Ignacio Atance Loras
- * Alberto Romero Abarca
+ * Fernando Martín Espina
  * Jorge Sanchez Sanchez
- * Elvira 
+ * Elvira Gutiérrez Bartolomé
  * -
  */
+
+ //import UsefulMethods from '../js/useful-methods';
 
 //Escena para testeo de juego de plataformas
 class platformTesting extends Phaser.Scene{
@@ -42,6 +44,7 @@ class platformTesting extends Phaser.Scene{
     this.isMouseMoving = false;
     this.initialMouseX = 0;
     this.initialMouseY = 0;
+    this.maxMouseDistance = 130;
     
     this.player1CanMove    = true;
 
@@ -85,6 +88,14 @@ class platformTesting extends Phaser.Scene{
     }
 
     this.SetupCamera();
+
+    this.ConfigureUI();
+  }
+
+  ConfigureUI() {
+    this.UIContainer = this.add.container(this.cameras.main.worldView.x, this.cameras.main.worldView.y);
+    this.UIContainer.add(this.circle_UI);
+    this.UIContainer.add(this.circle_UI_Base);
   }
 
   /**
@@ -161,8 +172,8 @@ class platformTesting extends Phaser.Scene{
       if(this.isMouseMoving === false){
         this.movementPointerId = pointer.id;
         this.isMouseMoving = true;
-        this.initialMouseX = pointer.x /*+ this.cameras.main.x*/;
-        this.initialMouseY = pointer.y /*+ this.cameras.main.y*/;
+        this.initialMouseX = pointer.x;
+        this.initialMouseY = pointer.y;
         this.circle_UI_Base.x = this.initialMouseX;
         this.circle_UI_Base.y = this.initialMouseY;
         this.circle_UI.x = Phaser.Math.Clamp(pointer.x, this.initialMouseX - 150, this.initialMouseX + 150);
@@ -207,8 +218,14 @@ class platformTesting extends Phaser.Scene{
           }
          // this.initialMouseX = pointer.x;
         }
-        this.circle_UI.x = Phaser.Math.Clamp(pointer.x, this.initialMouseX - 130, this.initialMouseX + 130);
-        this.circle_UI.y = Phaser.Math.Clamp(pointer.y, this.initialMouseY - 130, this.initialMouseY + 130);
+        
+        //var module = UsefulMethods.vectorModule(pointer.x - this.initialMouseX, pointer.y - this.initialMouseY);
+        var module = Math.sqrt(Math.pow(pointer.x - this.initialMouseX, 2) + Math.pow(pointer.y - this.initialMouseY, 2));
+        var xMax = Math.abs((pointer.x - this.initialMouseX) / module) * this.maxMouseDistance;
+        var yMax = Math.abs((pointer.y - this.initialMouseY) / module) * this.maxMouseDistance;
+
+        this.circle_UI.x = Phaser.Math.Clamp(pointer.x, this.initialMouseX - xMax, this.initialMouseX + xMax);
+        this.circle_UI.y = Phaser.Math.Clamp(pointer.y, this.initialMouseY - yMax, this.initialMouseY + yMax);
         //this.circle_UI.x = pointer.x;
         //this.circle_UI.y = pointer.y;
       }
@@ -295,6 +312,9 @@ class platformTesting extends Phaser.Scene{
    * Método que se ejecuta constantemente, en el de momento solo están los controles de movimiento.
    */
   update(delta){
+    // Se actualiza en cada frame la posición de la UI con respecto a la cámara.
+    this.UIContainer.x = this.cameras.main.worldView.x;
+    this.UIContainer.y = this.cameras.main.worldView.y;
     // #region Teclas y movimiento
     if(this.isMouseMoving === false){
       if(this.AButton.isDown){
