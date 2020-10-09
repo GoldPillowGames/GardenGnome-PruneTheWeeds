@@ -271,7 +271,8 @@ class platformTesting extends Phaser.Scene{
   InitPlayer(){
     //Al escribir physics, le indicamos que el objeto está sujeto a las leyes de la física, indicadas en el archivo game.js
     this.player1   = this.physics.add.sprite(this.RelativePosition(10, "x"), this.RelativePosition(75, "y"),'Law',4);
-    this.player1.scaleX = this.RelativeScale(0.005, "x");
+    //this.player1.scaleX = this.RelativeScale(0.005, "x");
+    this.player1.displayWidth = this.RelativeScale(3.5, "x");
     this.player1.scaleY = this.player1.scaleX ;
 
     this.player1.setCollideWorldBounds(true);

@@ -127,6 +127,40 @@ class mainMenu extends Phaser.Scene{
 
     }
 
+    RelativePosition(value, axis) 
+    {
+      var result = 0;
+      switch(axis)
+      {
+        case "x":
+          result = this.width * value/100;
+          break;
+        case "y":
+          result = this.height * value/100;
+          break;
+        default:
+          break;
+      }
+      return result;
+    }
+  
+    RelativeScale(value, axis)
+    {
+      var result = 0;
+      switch(axis)
+      {
+        case "x":
+          result = this.width * value/100;
+          break;
+        case "y":
+          result = this.height * value/100;
+          break;
+        default:
+          break;
+      }
+      return result;
+    }
+
     InitControlsButton(){
         this.ControlsButtonSelected = false;
         this.ControlsButton_Image = this.add.sprite(this.width/6.5,this.height/1.504,'Play-Button').setInteractive();
@@ -251,7 +285,7 @@ class mainMenu extends Phaser.Scene{
     InitPlayButton(){
         this.PlayButtonSelected = false;
         this.PlayButton_Image = this.add.sprite(this.width/6.5,this.height/1.504,'Play-Button').setInteractive();
-        this.PlayButton_Image.displayWidth = 230;
+        this.PlayButton_Image.displayWidth = this.RelativeScale(17.5,"x");
         this.PlayButton_Image.scaleY= this.PlayButton_Image.scaleX;
         this.PlayButton_Image.setDepth(1990);
         this.playButton_OriginalPosX = this.PlayButton_Image.x;
@@ -269,8 +303,8 @@ class mainMenu extends Phaser.Scene{
             that.PlayButtonSelected = true;
             that.tweens.add({
                 targets: that.PlayButton_Image,
-                scaleX: 0.9,
-                scaleY: 0.9,
+                scaleX: that.PlayButton_Image.scaleX - 0.02,
+                scaleY: that.PlayButton_Image.scaleX - 0.02,
                 ease: 'Linear',
                 duration: 55,
                 yoyo: true,
@@ -285,8 +319,8 @@ class mainMenu extends Phaser.Scene{
             if(that.PlayButtonSelected === false){
             that.tweens.add({
                 targets: that.PlayButton_Image,
-                scaleX: 0.92,
-                scaleY: 0.92,
+                scaleX: that.PlayButton_Image.scaleX - 0.04,
+                scaleY: that.PlayButton_Image.scaleX - 0.04,
                 ease: 'Linear' ,
                 duration: 80,
                 yoyo: false,
@@ -313,7 +347,7 @@ class mainMenu extends Phaser.Scene{
         this.SettingsButtonSelected = false;
         this.SettingsButtonSelected_Opened = false;
         this.SettingsButton_Image = this.add.sprite(this.width/6.5,this.height/1.32,'Settings-Button').setInteractive();
-        this.SettingsButton_Image.displayWidth = 230;
+        this.SettingsButton_Image.displayWidth = this.RelativeScale(17.5,"x");
         this.SettingsButton_Image.scaleY= this.SettingsButton_Image.scaleX;
         this.SettingsButton_Image.setDepth(1990);
         this.settingsButton_OriginalPosX = this.SettingsButton_Image.x;
@@ -369,8 +403,8 @@ class mainMenu extends Phaser.Scene{
 
             that.tweens.add({
                 targets: that.SettingsButton_Image,
-                scaleX: 0.90,
-                scaleY: 0.90,
+                scaleX: that.SettingsButton_Image.scaleX - 0.02,
+                scaleY: that.SettingsButton_Image.scaleY - 0.02,
                 ease: 'Linear',
                 duration: 55,
                 yoyo: true,
@@ -385,8 +419,8 @@ class mainMenu extends Phaser.Scene{
             if(that.SettingsButtonSelected === false){
             that.tweens.add({
                 targets: that.SettingsButton_Image,
-                scaleX: 0.92,
-                scaleY: 0.92,
+                scaleX: that.SettingsButton_Image.scaleX - 0.04,
+                scaleY: that.SettingsButton_Image.scaleY - 0.04,
                 ease: 'Linear' ,
                 duration: 80,
                 yoyo: false,
@@ -412,7 +446,7 @@ class mainMenu extends Phaser.Scene{
     InitCreditsButton(){
         this.CreditsButtonSelected = false;
         this.CreditsButton_Image = this.add.sprite(this.width/6.5,this.height/1.175,'Credits-Button').setInteractive();
-        this.CreditsButton_Image.displayWidth = 230;
+        this.CreditsButton_Image.displayWidth = this.RelativeScale(17.5,"x");
         this.CreditsButton_Image.scaleY= this.CreditsButton_Image.scaleX;
         this.CreditsButton_Image.setDepth(1990);
         this.creditsButton_OriginalPosX = this.CreditsButton_Image.x;
@@ -430,8 +464,8 @@ class mainMenu extends Phaser.Scene{
             that.CreditsButtonSelected = true;
                 that.tweens.add({
                     targets: that.CreditsButton_Image,
-                    scaleX: 0.90,
-                    scaleY: 0.90,
+                    scaleX: that.CreditsButton_Image.scaleX - 0.02,
+                    scaleY: that.CreditsButton_Image.scaleY - 0.02,
                     ease: 'Linear',
                     duration: 55,
                     yoyo: true,
@@ -444,8 +478,8 @@ class mainMenu extends Phaser.Scene{
             if(that.CreditsButtonSelected === false){
             that.tweens.add({
                 targets: that.CreditsButton_Image,
-                scaleX: 0.92,
-                    scaleY: 0.92,
+                scaleX: that.CreditsButton_Image.scaleX - 0.04,
+                scaleY: that.CreditsButton_Image.scaleY - 0.04,
                 ease: 'Linear' ,
                 duration: 80,
                 yoyo: false,
