@@ -1,17 +1,17 @@
 /**
  * Codigo desarrollado por:
  * -
- * German Lopez Gutierrez
+ * Germán López Gutiérrez
  * Ignacio Atance Loras
  * Fernando Martín Espina
- * Jorge Sanchez Sanchez
+ * Jorge Sánchez Sánchez
  * Elvira Gutiérrez Bartolomé
  * -
  */
 
-class mainMenu extends Phaser.Scene{
+export default class MainMenu extends Phaser.Scene{
     constructor(){
-        super({key:"mainMenu"});
+        super('mainMenu');
       }
 
     preload(){

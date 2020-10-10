@@ -1,21 +1,21 @@
 /**
  * Codigo desarrollado por:
  * -
- * German Lopez Gutierrez
+ * Germán López Gutiérrez
  * Ignacio Atance Loras
  * Fernando Martín Espina
- * Jorge Sanchez Sanchez
+ * Jorge Sánchez Sánchez
  * Elvira Gutiérrez Bartolomé
  * -
  */
 
- //import UsefulMethods from '../js/useful-methods';
+ import UsefulMethods from '../js/useful-methods.js';
 
 //Escena para testeo de juego de plataformas
-class platformTesting extends Phaser.Scene{
+export default class PlatformTesting extends Phaser.Scene{
     //Constructor de la escena, con el identificador de la misma.
     constructor(){
-        super({key:"platformTesting"});
+        super('platformTesting');
     }
 
   /**
@@ -114,7 +114,7 @@ class platformTesting extends Phaser.Scene{
    * Configura la UI que únicamente será mostrada en móvil (pulsación sobre la pantalla)
    */
   InitMobileCircleUI(){
-    this.circle_UI = this.add.sprite(this.RelativePosition(0, "x"), this.RelativePosition(0, "y"), 'Circle-UI').setInteractive();
+    this.circle_UI = this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(0, "y", this), 'Circle-UI').setInteractive();
     this.circle_UI.alpha = 0;
     this.circle_UI.scaleX = 0.32;
     this.circle_UI.scaleY= this.circle_UI.scaleX;
@@ -125,40 +125,6 @@ class platformTesting extends Phaser.Scene{
     this.circle_UI_Base.scaleX= 0.02;
     this.circle_UI_Base.scaleY= this.circle_UI_Base.scaleX;
     this.circle_UI_Base.setDepth(11000);
-  }
-
-  RelativePosition(value, axis) 
-  {
-    var result = 0;
-    switch(axis)
-    {
-      case "x":
-        result = this.width * value/100;
-        break;
-      case "y":
-        result = this.height * value/100;
-        break;
-      default:
-        break;
-    }
-    return result;
-  }
-
-  RelativeScale(value, axis)
-  {
-    var result = 0;
-    switch(axis)
-    {
-      case "x":
-        result = this.width * value/100;
-        break;
-      case "y":
-        result = this.height * value/100;
-        break;
-      default:
-        break;
-    }
-    return result;
   }
 
   /**
@@ -219,8 +185,8 @@ class platformTesting extends Phaser.Scene{
          // this.initialMouseX = pointer.x;
         }
         
-        //var module = UsefulMethods.vectorModule(pointer.x - this.initialMouseX, pointer.y - this.initialMouseY);
-        var module = Math.sqrt(Math.pow(pointer.x - this.initialMouseX, 2) + Math.pow(pointer.y - this.initialMouseY, 2));
+        var module = UsefulMethods.vectorModule(pointer.x - this.initialMouseX, pointer.y - this.initialMouseY);
+        //var module = Math.sqrt(Math.pow(pointer.x - this.initialMouseX, 2) + Math.pow(pointer.y - this.initialMouseY, 2));
         var xMax = Math.abs((pointer.x - this.initialMouseX) / module) * this.maxMouseDistance;
         var yMax = Math.abs((pointer.y - this.initialMouseY) / module) * this.maxMouseDistance;
 
@@ -267,7 +233,7 @@ class platformTesting extends Phaser.Scene{
    * Inicializa la superficie sobre la que el personaje camina (sin hacer)
    */
   InitFloor(){
-    this.floor = this.physics.add.image(this.RelativePosition(50, "x"), this.RelativePosition(50, "y"),'Floor',4);
+    this.floor = this.physics.add.image(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this),'Floor',4);
     this.floor.body.allowGravity = false;
     this.floor.body.immovable = true;
   }
@@ -287,9 +253,9 @@ class platformTesting extends Phaser.Scene{
    */
   InitPlayer(){
     //Al escribir physics, le indicamos que el objeto está sujeto a las leyes de la física, indicadas en el archivo game.js
-    this.player1   = this.physics.add.sprite(this.RelativePosition(10, "x"), this.RelativePosition(75, "y"),'Law',4);
-    //this.player1.scaleX = this.RelativeScale(0.005, "x");
-    this.player1.displayWidth = this.RelativeScale(3.5, "x");
+    this.player1   = this.physics.add.sprite(UsefulMethods.RelativePosition(10, "x", this), UsefulMethods.RelativePosition(75, "y", this),'Law',4);
+    //this.player1.scaleX = UsefulMethods.RelativeScale(0.005, "x", this);
+    this.player1.displayWidth = UsefulMethods.RelativeScale(3.5, "x", this);
     this.player1.scaleY = this.player1.scaleX ;
 
     this.player1.setCollideWorldBounds(true);
