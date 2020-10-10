@@ -18,14 +18,23 @@ export default class PlatformTesting extends Phaser.Scene{
         super('platformTesting');
     }
 
+    
   /**
    * Método que se ejecuta ANTES de cargar la página
    * En el se inicializan los sprites y otros elementos
    * como la barra de carga
    */
   preload(){
+
+    this.playerStates = {
+      STOPPED: 'stopped',
+      WALKING: 'walking',
+    }
+
     // #region VARIABLES
     this.debugMode             = true;
+
+    this.playerState = this.playerStates.STOPPED;
 
     //this.sys.game.config.width = 100;
     
@@ -44,7 +53,7 @@ export default class PlatformTesting extends Phaser.Scene{
     this.isMouseMoving = false;
     this.initialMouseX = 0;
     this.initialMouseY = 0;
-    this.maxMouseDistance = 130;
+    this.maxMouseDistance = 125;
     
     this.player1CanMove    = true;
 
@@ -60,6 +69,10 @@ export default class PlatformTesting extends Phaser.Scene{
     this.load.image('Law'       ,  'assets/test/Law.jpg');
     this.load.image('Floor'     ,  'assets/game-elements/ground.png');
     this.load.image('Circle-UI' ,  'assets/test/circle-ui.png');
+    this.load.spritesheet('Character' , 'assets/test/spritesheet-1.png',{
+      frameWidth: 64,
+      frameHeight: 64
+    });
   }
 
   /**
@@ -69,6 +82,7 @@ export default class PlatformTesting extends Phaser.Scene{
 
     this.movementPointerId = 0;
     this.input.addPointer(2);
+    this.velocity = 0;
 
     this.InitFloor();
     this.InitPlayer();   
@@ -116,13 +130,17 @@ export default class PlatformTesting extends Phaser.Scene{
   InitMobileCircleUI(){
     this.circle_UI = this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(0, "y", this), 'Circle-UI').setInteractive();
     this.circle_UI.alpha = 0;
-    this.circle_UI.scaleX = 0.32;
+    this.circle_UI.scaleX = this.RelativeScale(0.031, "x");
+    this.circle_UI_OriginalScale = this.circle_UI.scaleX;
+    this.circle_UI_MinScale = this.RelativeScale(0.029, "x");
     this.circle_UI.scaleY= this.circle_UI.scaleX;
     this.circle_UI.setDepth(10000);
 
     this.circle_UI_Base = this.add.sprite(this.width,this.height,'Circle-UI').setInteractive();
     this.circle_UI_Base.alpha = 0;
-    this.circle_UI_Base.scaleX= 0.02;
+    this.circle_UI_Base.scaleX = this.RelativeScale(0.0023, "x");
+    this.circle_UI_Base_OriginalScale = this.circle_UI_Base.scaleX;
+    this.circle_UI_Base_MinScale = this.RelativeScale(0.0019, "x");
     this.circle_UI_Base.scaleY= this.circle_UI_Base.scaleX;
     this.circle_UI_Base.setDepth(11000);
   }
@@ -147,8 +165,8 @@ export default class PlatformTesting extends Phaser.Scene{
         this.tweens.add({
           targets: this.circle_UI,
           alpha: 0.65,
-          scaleX: 0.35,
-          scaleY: 0.35,
+          scaleX: this.circle_UI_OriginalScale,
+          scaleY: this.circle_UI_OriginalScale,
           ease: 'Linear' ,
           duration: 80,
           yoyo: false,
@@ -157,8 +175,8 @@ export default class PlatformTesting extends Phaser.Scene{
         this.tweens.add({
           targets: this.circle_UI_Base,
           alpha: 0.65,
-          scaleX: 0.025,
-          scaleY: 0.025,
+          scaleX: this.circle_UI_Base_OriginalScale,
+          scaleY: this.circle_UI_Base_OriginalScale,
           ease: 'Linear' ,
           duration: 80,
           yoyo: false,
@@ -176,11 +194,14 @@ export default class PlatformTesting extends Phaser.Scene{
       if(this.movementPointerId === pointer.id){
         if(this.isMouseMoving){
           if(pointer.x - this.initialMouseX > 0){
-            this.player1.setVelocityX(this.xSpeed);
+            this.player1.scaleX = this.playerScale;
+            this.velocity = this.xSpeed;
             //print("Moving");
           }
           else if(pointer.x - this.initialMouseX < 0){
-            this.player1.setVelocityX(-this.xSpeed);
+            this.player1.scaleX = -this.playerScale;
+            
+            this.velocity = -this.xSpeed;
           }
          // this.initialMouseX = pointer.x;
         }
@@ -208,8 +229,8 @@ export default class PlatformTesting extends Phaser.Scene{
         this.tweens.add({
           targets: this.circle_UI,
           alpha: 0,
-          scaleX: 0.32,
-          scaleY: 0.32,
+          scaleX: this.circle_UI_MinScale,
+          scaleY: this.circle_UI_MinScale,
           ease: 'Linear' ,
           duration: 80,
           yoyo: false,
@@ -218,8 +239,8 @@ export default class PlatformTesting extends Phaser.Scene{
         this.tweens.add({
           targets: this.circle_UI_Base,
           alpha: 0,
-          scaleX: 0.01,
-          scaleY: 0.01,
+          scaleX: this.circle_UI_Base_MinScale,
+          scaleY: this.circle_UI_Base_MinScale,
           ease: 'Linear' ,
           duration: 80,
           yoyo: false,
@@ -253,12 +274,29 @@ export default class PlatformTesting extends Phaser.Scene{
    */
   InitPlayer(){
     //Al escribir physics, le indicamos que el objeto está sujeto a las leyes de la física, indicadas en el archivo game.js
-    this.player1   = this.physics.add.sprite(UsefulMethods.RelativePosition(10, "x", this), UsefulMethods.RelativePosition(75, "y", this),'Law',4);
-    //this.player1.scaleX = UsefulMethods.RelativeScale(0.005, "x", this);
-    this.player1.displayWidth = UsefulMethods.RelativeScale(3.5, "x", this);
+    this.player1   = this.physics.add.sprite(this.RelativePosition(10, "x"), this.RelativePosition(75, "y"),'Character',4);
+    //this.player1.scaleX = this.RelativeScale(0.005, "x");
+    this.player1.displayWidth = this.RelativeScale(10, "x");
     this.player1.scaleY = this.player1.scaleX ;
+    this.playerScale = this.player1.scaleX;
 
     this.player1.setCollideWorldBounds(true);
+
+    this.anims.create({
+      key: 'walk',
+      frames: this.anims.generateFrameNumbers('Character', { start: 0, end: 3}),
+      frameRate: 6,
+      repeat: -1
+    });
+
+    this.anims.create({
+      key: 'stopped',
+      frames: [ { key: 'Character', frame: 2 } ],
+      frameRate: 4,
+      repeat: -1
+    });
+
+   // this.player1.anims.play('stopped');
   }
 
   /**
@@ -278,6 +316,7 @@ export default class PlatformTesting extends Phaser.Scene{
    * Método que se ejecuta constantemente, en el de momento solo están los controles de movimiento.
    */
   update(delta){
+
     // Se actualiza en cada frame la posición de la UI con respecto a la cámara.
     this.UIContainer.x = this.cameras.main.worldView.x;
     this.UIContainer.y = this.cameras.main.worldView.y;
@@ -286,23 +325,34 @@ export default class PlatformTesting extends Phaser.Scene{
       if(this.AButton.isDown){
 
         if(this.player1CanMove)
-          this.player1.setVelocityX(-this.xSpeed);
+          this.velocity = -this.xSpeed;
   
       }else if(this.DButton.isDown){
   
         if(this.player1CanMove)
-          this.player1.setVelocityX(this.xSpeed);
+          this.velocity = this.xSpeed;
   
       }else{
   
-        this.player1.setVelocityX(0);
+          this.velocity = 0;
   
       }
   
       this.PlayerJump();
     }
-    
 
+    if((this.velocity > 0 || this.velocity < 0) && this.playerState === this.playerStates.STOPPED){
+      this.player1.anims.play('walk');
+      this.playerState = this.playerStates.WALKING;
+      console.log("WALKING");
+    }else if(this.playerState === this.playerStates.WALKING && this.velocity === 0){
+      this.player1.anims.play('stopped');
+      this.playerState = this.playerStates.STOPPED;
+    }
+
+    this.player1.setVelocityX(this.velocity);
+    
+    
   }
 
 }
