@@ -130,17 +130,17 @@ export default class PlatformTesting extends Phaser.Scene{
   InitMobileCircleUI(){
     this.circle_UI = this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(0, "y", this), 'Circle-UI').setInteractive();
     this.circle_UI.alpha = 0;
-    this.circle_UI.scaleX = this.RelativeScale(0.031, "x");
+    this.circle_UI.scaleX = UsefulMethods.RelativeScale(0.031, "x", this);
     this.circle_UI_OriginalScale = this.circle_UI.scaleX;
-    this.circle_UI_MinScale = this.RelativeScale(0.029, "x");
+    this.circle_UI_MinScale = UsefulMethods.RelativeScale(0.029, "x", this);
     this.circle_UI.scaleY= this.circle_UI.scaleX;
     this.circle_UI.setDepth(10000);
 
     this.circle_UI_Base = this.add.sprite(this.width,this.height,'Circle-UI').setInteractive();
     this.circle_UI_Base.alpha = 0;
-    this.circle_UI_Base.scaleX = this.RelativeScale(0.0023, "x");
+    this.circle_UI_Base.scaleX = UsefulMethods.RelativeScale(0.0023, "x", this);
     this.circle_UI_Base_OriginalScale = this.circle_UI_Base.scaleX;
-    this.circle_UI_Base_MinScale = this.RelativeScale(0.0019, "x");
+    this.circle_UI_Base_MinScale = UsefulMethods.RelativeScale(0.0019, "x", this);
     this.circle_UI_Base.scaleY= this.circle_UI_Base.scaleX;
     this.circle_UI_Base.setDepth(11000);
   }
@@ -274,9 +274,9 @@ export default class PlatformTesting extends Phaser.Scene{
    */
   InitPlayer(){
     //Al escribir physics, le indicamos que el objeto está sujeto a las leyes de la física, indicadas en el archivo game.js
-    this.player1   = this.physics.add.sprite(this.RelativePosition(10, "x"), this.RelativePosition(75, "y"),'Character',4);
-    //this.player1.scaleX = this.RelativeScale(0.005, "x");
-    this.player1.displayWidth = this.RelativeScale(10, "x");
+    this.player1   = this.physics.add.sprite(UsefulMethods.RelativePosition(10, "x", this), UsefulMethods.RelativePosition(75, "y", this),'Character',4);
+    //this.player1.scaleX = UsefulMethods.RelativeScale(0.005, "x", this);
+    this.player1.displayWidth = UsefulMethods.RelativeScale(10, "x", this);
     this.player1.scaleY = this.player1.scaleX ;
     this.playerScale = this.player1.scaleX;
 
