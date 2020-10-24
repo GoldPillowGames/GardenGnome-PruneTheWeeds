@@ -10,7 +10,7 @@
  */
 
 import PlatformTesting from './platform-testing.js';
-import MainMenu from './menus/main-menu.js';
+import MainMenu from './main-menu.js';
 
 var isWeb = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
