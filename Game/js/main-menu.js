@@ -118,6 +118,7 @@ export default class MainMenu extends Phaser.Scene{
         // var that = this;
         this.width  = this.sys.game.config.width;
         this.height = this.sys.game.config.height;
+        this.levelButtonsPosition = 120;
         var that = this;
 
         this.cameras.main.fadeIn(1000);
@@ -135,12 +136,77 @@ export default class MainMenu extends Phaser.Scene{
         this.PlayTitle1Tween();
         this.PlayTitle2Tween();
 
+        //#region Variables temporales
+        let levelName;
+        let difficultyButtons;
+        let levelButtons;
+        let mainButtons;
+        //#endregion
+
+        var text = this.add.text(UsefulMethods.RelativePosition(50,'x', this), UsefulMethods.RelativePosition(47,'y', this), '', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif'});
+        text.setStyle({
+            color: '#ffffff',
+            align:'center'
+        });
+        text.setOrigin(0.5);
+
+        //#region Botones de selección de dificultad
+        this.difficultyButton1 = new Button({scene:this, x:40, y:120, texture:'Credits-Button', frame:4, scale:0.08});
+        this.difficultyButton1.create();
+        this.difficultyButton1.pointerUp = function(){
+            that.cameras.main.fadeOut(200);
+            that.scene.get("mainMenu").time.addEvent({delay: 210, callback: function(){that.scene.start(levelName);}, callbackScope:this, loop:false});
+        }
+
+        this.difficultyButton2 = new Button({scene:this, x:60, y:120, texture:'Credits-Button', frame:4, scale:0.08});
+        this.difficultyButton2.create();
+        this.difficultyButton2.pointerUp = function(){
+            that.cameras.main.fadeOut(200);
+            that.scene.get("mainMenu").time.addEvent({delay: 210, callback: function(){that.scene.start(levelName);}, callbackScope:this, loop:false});
+        }
+
+        difficultyButtons = [this.difficultyButton1, this.difficultyButton2];
+        //#endregion
+
+        //#region Botones de selección de nivel
+        this.level1Button = new Button({scene:this, x:30, y:120, texture:'Credits-Button', frame:4, scale:0.08});
+        this.level1Button.create();
+        this.level1Button.pointerUp = function(){
+            text.setText("Select a Difficulty Level");
+            levelName = 'platformTesting';
+            that.ShowButtons(difficultyButtons);
+            this.playPressedButtonArray(levelButtons);
+        }
+
+        this.level2Button = new Button({scene:this, x:50, y:120, texture:'Credits-Button', frame:4, scale:0.08});
+        this.level2Button.create();
+        this.level2Button.pointerUp = function(){
+            text.setText("Select a Difficulty Level");
+            that.ShowButtons(difficultyButtons);
+            levelName = 'platformTesting';
+            this.playPressedButtonArray(levelButtons);
+        }
+
+        this.level3Button = new Button({scene:this, x:70, y:120, texture:'Credits-Button', frame:4, scale:0.08});
+        this.level3Button.create();
+        this.level3Button.pointerUp = function(){
+            text.setText("Select a Difficulty Level");
+            // Level 1
+            // that.scene.get("mainMenu").time.addEvent({delay: 210, callback: function(){that.scene.start('platformTesting');}, callbackScope:this, loop:false});
+            that.ShowButtons(difficultyButtons);
+            levelName = 'platformTesting';
+            this.playPressedButtonArray(levelButtons);
+        }
+        levelButtons = [this.level1Button, this.level2Button, this.level3Button];
+        //#endregion
+
+        //#region Botones del menú principal
         this.playButton = new Button({scene:this, x:50, y:60, texture:'Play-Button', frame:4, scale:0.08});
         this.playButton.create();
         this.playButton.pointerUp = function(){
-            // Play
-            that.cameras.main.fadeOut(200);
-            that.scene.get("mainMenu").time.addEvent({delay: 210, callback: function(){that.scene.start('platformTesting');}, callbackScope:this, loop:false});
+            text.setText("Select a Level");
+            that.ShowButtons(levelButtons);
+            this.playPressedButtonArray(mainButtons);
         }
 
         this.settingsButton = new Button({scene:this, x:20, y:70, texture:'Settings-Button', frame:4, scale:0.08});
@@ -154,389 +220,26 @@ export default class MainMenu extends Phaser.Scene{
         this.creditsButton.pointerUp = function(){
             // Credits
         }
+        mainButtons = [this.playButton, this.settingsButton, this.creditsButton];
+        //#endregion
+
+        this.buttons = [this.level1Button, this.level2Button, this.level3Button, this.playButton, this.settingsButton, this.creditsButton, this.difficultyButton1, this.difficultyButton2];
     }
 
-    RelativePosition(value, axis) 
-    {
-      var result = 0;
-      switch(axis)
-      {
-        case "x":
-          result = this.width * value/100;
-          break;
-        case "y":
-          result = this.height * value/100;
-          break;
-        default:
-          break;
-      }
-      return result;
+
+    ShowButtons(array){
+        array.forEach(element => {
+            this.tweens.add({
+                targets: element,
+                delay: 380,
+                y: UsefulMethods.RelativePosition(60, 'y', this),
+                ease: 'Sine.easeInOut',
+                duration: 500,
+                yoyo: false,
+                repeat: 0
+            });
+        });
     }
-  
-    RelativeScale(value, axis)
-    {
-      var result = 0;
-      switch(axis)
-      {
-        case "x":
-          result = this.width * value/100;
-          break;
-        case "y":
-          result = this.height * value/100;
-          break;
-        default:
-          break;
-      }
-      return result;
-    }
-
-    // InitControlsButton(){
-    //     this.ControlsButtonSelected = false;
-    //     this.ControlsButton_Image = this.add.sprite(this.width/6.5,this.height/1.504,'Play-Button').setInteractive();
-    //     this.ControlsButton_Image.alpha = 0;
-    //     this.ControlsButton_Image.displayWidth = 230;
-    //     this.ControlsButton_Image.scaleY= this.ControlsButton_Image.scaleX;
-    //     this.ControlsButton_Image.setDepth(1990);
-    //     this.ControlsButton_OriginalPosX = this.ControlsButton_Image.x;
-    //     this.ControlsButton_OriginalScale = this.ControlsButton_Image.scaleY;
-
-    //     this.ControlsButton = this.add.sprite(this.ControlsButton_Image.x, this.ControlsButton_Image.y,'Play-Button').setInteractive();
-    //     this.ControlsButton.displayWidth = 245;
-    //     this.ControlsButton.scaleY= this.ControlsButton.scaleX;
-    //     this.ControlsButton.setDepth(2000);
-    //     this.ControlsButton.alpha = 0.0001;
-
-    //     var that = this;
-
-    //     this.ControlsButton.on('pointerdown', function(){
-    //         that.ControlsButtonSelected = true;
-    //         that.tweens.add({
-    //             targets: that.ControlsButton_Image,
-    //             scaleX: 0.9,
-    //             scaleY: 0.9,
-    //             ease: 'Linear',
-    //             duration: 55,
-    //             yoyo: true,
-    //             repeat: 0
-    //         });
-    //     });
-
-    //     this.ControlsButton.on('pointerover', function() {
-    //         if(that.ControlsButtonSelected === false){
-    //             that.tweens.add({
-    //                 targets: that.ControlsButton_Image,
-    //                 scaleX: 0.92,
-    //                 scaleY: 0.92,
-    //                 ease: 'Linear' ,
-    //                 duration: 80,
-    //                 yoyo: false,
-    //                 repeat: 0
-    //             });
-    //         }
-    //      });
-
-    //      this.ControlsButton.on('pointerout', function() {
-    //                 that.tweens.add({
-    //                 targets: that.ControlsButton_Image,
-    //                 scaleX: that.ControlsButton_OriginalScale,
-    //                 scaleY: that.ControlsButton_OriginalScale,
-    //                 ease: 'Linear' ,
-    //                 duration: 80,
-    //                 yoyo: false,
-    //                 repeat: 0
-    //             });
-    //             that.ControlsButtonSelected = false;
-             
-    //      });
-    // }
-
-    // InitAudioButton(){
-    //     this.AudioButtonSelected = false;
-    //     this.AudioButton_Image = this.add.sprite(0, 0,'Play-Button').setInteractive();
-    //     this.AudioButton_Image.alpha = 0;
-    //     this.AudioButton_Image.displayWidth = 230;
-    //     this.AudioButton_Image.scaleY= this.AudioButton_Image.scaleX;
-    //     this.AudioButton_Image.setDepth(1990);
-    //     this.AudioButton_OriginalPosX = this.AudioButton_Image.x;
-    //     this.AudioButton_OriginalScale = this.AudioButton_Image.scaleY;
-
-    //     this.AudioButton = this.add.sprite(this.AudioButton_Image.x, this.AudioButton_Image.y,'Play-Button').setInteractive();
-    //     this.AudioButton.displayWidth = 245;
-    //     this.AudioButton.scaleY= this.AudioButton.scaleX;
-    //     this.AudioButton.setDepth(2000);
-    //     this.AudioButton.alpha = 0.0001;
-
-    //     var that = this;
-
-    //     this.AudioButton.on('pointerdown', function(){
-    //         that.AudioButtonSelected = true;
-    //         that.tweens.add({
-    //             targets: that.AudioButton_Image,
-    //             scaleX: 0.9,
-    //             scaleY: 0.9,
-    //             ease: 'Linear',
-    //             duration: 55,
-    //             yoyo: true,
-    //             repeat: 0
-    //         });
-    //     });
-
-    //     this.AudioButton.on('pointerover', function() {
-    //         if(that.AudioButtonSelected === false){
-    //             that.tweens.add({
-    //                 targets: that.AudioButton_Image,
-    //                 scaleX: 0.92,
-    //                 scaleY: 0.92,
-    //                 ease: 'Linear' ,
-    //                 duration: 80,
-    //                 yoyo: false,
-    //                 repeat: 0
-    //             });
-    //         }
-    //      });
-
-    //      this.AudioButton.on('pointerout', function() {
-    //          that.AudioButtonSelected = false;
-    //          if(that.AudioButtonSelected === false){
-    //                 that.tweens.add({
-    //                 targets: that.AudioButton_Image,
-    //                 scaleX: that.AudioButton_OriginalScale,
-    //                 scaleY: that.AudioButton_OriginalScale,
-    //                 ease: 'Linear' ,
-    //                 duration: 80,
-    //                 yoyo: false,
-    //                 repeat: 0
-    //             });
-    //          }
-    //      });
-    // }
-
-    // InitPlayButton(){
-    //     this.PlayButtonSelected = false;
-    //     this.PlayButton_Image = this.add.sprite(this.width/6.5,this.height/1.504,'Play-Button').setInteractive();
-    //     this.PlayButton_Image.displayWidth = this.RelativeScale(17.5,"x");
-    //     this.PlayButton_Image.scaleY= this.PlayButton_Image.scaleX;
-    //     this.PlayButton_Image.setDepth(1990);
-    //     this.playButton_OriginalPosX = this.PlayButton_Image.x;
-    //     this.playButton_OriginalScale = this.PlayButton_Image.scaleY;
-
-    //     this.PlayButton = this.add.sprite(this.PlayButton_Image.x, this.PlayButton_Image.y,'Play-Button').setInteractive();
-    //     this.PlayButton.displayWidth = 245;
-    //     this.PlayButton.scaleY= this.PlayButton.scaleX;
-    //     this.PlayButton.setDepth(2000);
-    //     this.PlayButton.alpha = 0.0001;
-
-    //     var that = this;
-
-    //     this.PlayButton.on('pointerdown', function(){
-    //         that.PlayButtonSelected = true;
-    //         that.tweens.add({
-    //             targets: that.PlayButton_Image,
-    //             scaleX: that.PlayButton_Image.scaleX - 0.02,
-    //             scaleY: that.PlayButton_Image.scaleX - 0.02,
-    //             ease: 'Linear',
-    //             duration: 55,
-    //             yoyo: true,
-    //             repeat: 0
-    //         });
-    //         // that.sound2.play();
-    //         that.cameras.main.fadeOut(200);
-    //         that.scene.get("mainMenu").time.addEvent({delay: 210, callback: function(){that.scene.start('platformTesting');}, callbackScope:this, loop:false});
-    //     });
-
-    //     this.PlayButton.on('pointerover', function() {
-    //         if(that.PlayButtonSelected === false){
-    //         that.tweens.add({
-    //             targets: that.PlayButton_Image,
-    //             scaleX: that.PlayButton_Image.scaleX - 0.04,
-    //             scaleY: that.PlayButton_Image.scaleX - 0.04,
-    //             ease: 'Linear' ,
-    //             duration: 80,
-    //             yoyo: false,
-    //             repeat: 0
-    //         });
-    //         }
-    //     });
-
-    //     this.PlayButton.on('pointerout', function() {
-    //         that.tweens.add({
-    //             targets: that.PlayButton_Image,
-    //             scaleX: that.playButton_OriginalScale,
-    //             scaleY: that.playButton_OriginalScale,
-    //             ease: 'Linear' ,
-    //             duration: 80,
-    //             yoyo: false,
-    //             repeat: 0
-    //         });
-    //         that.PlayButtonSelected = false;
-    //     });
-    // }
-
-    // InitSettingsButton(){
-    //     this.SettingsButtonSelected = false;
-    //     this.SettingsButtonSelected_Opened = false;
-    //     this.SettingsButton_Image = this.add.sprite(this.width/6.5,this.height/1.32,'Settings-Button').setInteractive();
-    //     this.SettingsButton_Image.displayWidth = this.RelativeScale(17.5,"x");
-    //     this.SettingsButton_Image.scaleY= this.SettingsButton_Image.scaleX;
-    //     this.SettingsButton_Image.setDepth(1990);
-    //     this.settingsButton_OriginalPosX = this.SettingsButton_Image.x;
-    //     this.settingsButton_OriginalScale = this.SettingsButton_Image.scaleY;
-
-    //     this.SettingsButton = this.add.sprite(this.SettingsButton_Image.x, this.SettingsButton_Image.y,'Settings-Button').setInteractive();
-    //     this.SettingsButton.displayWidth = 245;
-    //     this.SettingsButton.scaleY= this.SettingsButton.scaleX;
-    //     this.SettingsButton.setDepth(2000);
-    //     this.SettingsButton.alpha = 0.0001;
-
-    //     var that = this;
-
-    //     this.SettingsButton.on('pointerdown', function(){
-    //         if(that.SettingsButtonSelected === false && that.SettingsButtonSelected_Opened === false){
-    //             that.tweens.add({
-    //                 targets: that.SettingsButtonsContainer,
-    //                 x: that.SettingsButtonsContainer.x + 20,
-    //                 ease: 'Sine.easeInOut',
-    //                 duration: 350,
-    //                 yoyo: false,
-    //                 repeat: 0
-    //             });
-    
-    //             that.tweens.add({
-    //                 targets: that.ControlsButton_Image,
-    //                 alpha: 1,
-    //                 ease: 'Sine.easeInOut',
-    //                 duration: 350,
-    //                 yoyo: false,
-    //                 repeat: 0
-    //             });
-    
-    //             that.tweens.add({
-    //                 targets: that.AudioButton_Image,
-    //                 alpha: 1,
-    //                 ease: 'Sine.easeInOut',
-    //                 duration: 350,
-    //                 yoyo: false,
-    //                 repeat: 0
-    //             });
-    
-    //             that.tweens.add({
-    //                 targets: that.SettingsMenuBackground,
-    //                 x: that.SettingsMenuBackground_OriginalPosX - 640,
-    //                 ease: 'Sine.easeInOut',
-    //                 duration: 350,
-    //                 yoyo: false,
-    //                 repeat: 0
-    //             });
-                
-    //         }
-
-    //         that.tweens.add({
-    //             targets: that.SettingsButton_Image,
-    //             scaleX: that.SettingsButton_Image.scaleX - 0.02,
-    //             scaleY: that.SettingsButton_Image.scaleY - 0.02,
-    //             ease: 'Linear',
-    //             duration: 55,
-    //             yoyo: true,
-    //             repeat: 0
-    //         });
-
-    //         that.SettingsButtonSelected = true;
-    //         that.SettingsButtonSelected_Opened = true;
-    //     });
-
-    //     this.SettingsButton.on('pointerover', function() {
-    //         if(that.SettingsButtonSelected === false){
-    //         that.tweens.add({
-    //             targets: that.SettingsButton_Image,
-    //             scaleX: that.SettingsButton_Image.scaleX - 0.04,
-    //             scaleY: that.SettingsButton_Image.scaleY - 0.04,
-    //             ease: 'Linear' ,
-    //             duration: 80,
-    //             yoyo: false,
-    //             repeat: 0
-    //         });
-    //         }
-    //     });
-
-    //      this.SettingsButton.on('pointerout', function() {
-    //         that.tweens.add({
-    //             targets: that.SettingsButton_Image,
-    //             scaleX: that.settingsButton_OriginalScale,
-    //             scaleY: that.settingsButton_OriginalScale,
-    //             ease: 'Linear' ,
-    //             duration: 80,
-    //             yoyo: false,
-    //             repeat: 0
-    //         });
-    //         that.SettingsButtonSelected = false;
-    //      });
-    // }
-
-    // InitCreditsButton(){
-    //     this.CreditsButtonSelected = false;
-    //     this.CreditsButton_Image = this.add.sprite(this.width/6.5,this.height/1.175,'Credits-Button').setInteractive();
-    //     this.CreditsButton_Image.displayWidth = this.RelativeScale(17.5,"x");
-    //     this.CreditsButton_Image.scaleY= this.CreditsButton_Image.scaleX;
-    //     this.CreditsButton_Image.setDepth(1990);
-    //     this.creditsButton_OriginalPosX = this.CreditsButton_Image.x;
-    //     this.creditsButton_OriginalScale = this.CreditsButton_Image.scaleY;
-
-    //     this.CreditsButton = this.add.sprite(this.CreditsButton_Image.x, this.CreditsButton_Image.y,'Credits-Button').setInteractive();
-    //     this.CreditsButton.displayWidth = 245;
-    //     this.CreditsButton.scaleY= this.CreditsButton.scaleX;
-    //     this.CreditsButton.setDepth(2000);
-    //     this.CreditsButton.alpha = 0.0001;
-
-    //     var that = this;
-
-    //     this.CreditsButton.on('pointerdown', function(){
-    //         that.CreditsButtonSelected = true;
-    //             that.tweens.add({
-    //                 targets: that.CreditsButton_Image,
-    //                 scaleX: that.CreditsButton_Image.scaleX - 0.02,
-    //                 scaleY: that.CreditsButton_Image.scaleY - 0.02,
-    //                 ease: 'Linear',
-    //                 duration: 55,
-    //                 yoyo: true,
-    //                 repeat: 0
-    //             });
-            
-    //     });
-
-    //     this.CreditsButton.on('pointerover', function() {
-    //         if(that.CreditsButtonSelected === false){
-    //         that.tweens.add({
-    //             targets: that.CreditsButton_Image,
-    //             scaleX: that.CreditsButton_Image.scaleX - 0.04,
-    //             scaleY: that.CreditsButton_Image.scaleY - 0.04,
-    //             ease: 'Linear' ,
-    //             duration: 80,
-    //             yoyo: false,
-    //             repeat: 0
-    //         });
-    //         }
-    //      });
-
-    //      this.CreditsButton.on('pointerout', function() {
-    //         that.tweens.add({
-    //             targets: that.CreditsButton_Image,
-    //             scaleX: that.creditsButton_OriginalScale,
-    //             scaleY: that.creditsButton_OriginalScale,
-    //             ease: 'Linear' ,
-    //             duration: 80,
-    //             yoyo: false,
-    //             repeat: 0
-    //         });
-    //         that.CreditsButtonSelected = false;
-    //      });
-    // }
-
-    // InitSettingsMenu(){
-    //     this.SettingsMenuBackground = this.add.sprite(this.width/1.31 + 640,this.height / 2,'Settings-Menu-Background').setInteractive();
-    //     this.SettingsMenuBackground.setDepth(1990);
-    //     this.SettingsMenuBackground_OriginalPosX = this.SettingsMenuBackground.x;
-
-    // }
 
     PlayTitle1Tween(){
         this.title1 = this.add.sprite(this.width / 2.2, this.height/6,'Title-Example');
@@ -574,16 +277,9 @@ export default class MainMenu extends Phaser.Scene{
     }
 
     update(delta){
-        // this.ControlsButton_Image.x = this.SettingsButtonsContainer.x;
-        // this.ControlsButton_Image.y = this.SettingsButtonsContainer.y - 32.5;
-        // this.ControlsButton.x = this.ControlsButton_Image.x;
-        // this.ControlsButton.y = this.ControlsButton_Image.y;
-
-        // this.AudioButton_Image.x = this.SettingsButtonsContainer.x;
-        // this.AudioButton_Image.y = this.SettingsButtonsContainer.y + 32.5;
-        // this.AudioButton.x = this.AudioButton_Image.x;
-        // this.AudioButton.y = this.AudioButton_Image.y;
-
+        this.buttons.forEach(element => {
+            element.update(delta);
+        });
         this.playButton.update(delta);
     }
 }

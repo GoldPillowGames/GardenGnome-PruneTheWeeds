@@ -70,6 +70,7 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
                 }else{
                     that.playPointerOutAnim(that);
                 }
+                //that.playPressedButton();
             }
         });  
 
@@ -200,7 +201,67 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
     }
     //#endregion
 
-    update(delta) {
+    playPressedButton(){
+        var that = this;
+        this.scene.tweens.add({
+            targets: this,
+            y: UsefulMethods.RelativePosition(55, 'y', this.scene),
+            ease: 'Power1',
+            duration: 100,
+            yoyo: false,
+            repeat: 0,
+            onStart: function () { 
+                console.log('onStart'); console.log(arguments); 
+            },
+            onComplete: function () { 
+                that.playHideButton();
+            },
+            onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
+            onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+        });
+    }
 
+    playPressedButtonArray(buttonsArray){
+        var that = this;
+        this.scene.tweens.add({
+            targets: this,
+            y: UsefulMethods.RelativePosition(55, 'y', this.scene),
+            ease: 'Power1',
+            duration: 100,
+            yoyo: false,
+            repeat: 0,
+            onStart: function () { 
+                console.log('onStart'); console.log(arguments); 
+            },
+            onComplete: function () { 
+                that.playHideButton(0, 300);
+                buttonsArray.forEach(element => {
+                    if(!(element === that))
+                    {
+                         element.playHideButton(0, 400);
+                    }
+                   
+                });
+            },
+            onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
+            onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+        });
+    }
+
+    playHideButton(delay, duration){
+        this.scene.tweens.add({
+            targets: this,
+            y: UsefulMethods.RelativePosition(120, 'y', this.scene),
+            ease: 'Sine.easeInOut',
+            delay:delay,
+            duration: duration,
+            yoyo: false,
+            repeat: 0,
+        });
+    }
+
+    update(delta) {
+        this.touchableArea.x = this.x;
+        this.touchableArea.y = this.y;
     }
 }
