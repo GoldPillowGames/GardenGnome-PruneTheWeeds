@@ -10,6 +10,7 @@
  */
 
 import UsefulMethods from '../js/useful-methods.js';
+import Enemy from './Enemy.js';
 import Player from './player.js';
 
 //Escena para testeo de juego de plataformas
@@ -47,6 +48,9 @@ export default class PlatformTesting extends Phaser.Scene {
     this.initialMouseY = 0;
     this.maxMouseDistance = 125;
 
+    this.combatHappening = false;
+    this.currentEnemy;
+
     this.DButton = this.input.keyboard.addKey('D');
     this.AButton = this.input.keyboard.addKey('A');
     this.WButton = this.input.keyboard.addKey('W');
@@ -76,6 +80,20 @@ export default class PlatformTesting extends Phaser.Scene {
     // Se crea el objeto player en la escena.
     this.player = new Player({scene:this, x:UsefulMethods.RelativePosition(10, "x", this), y:UsefulMethods.RelativePosition(75, "y", this), texture:'Character', frame:4});
     this.player.create();
+
+    this.enemy = new Enemy({scene:this, x:UsefulMethods.RelativePosition(50,"x", this), y:UsefulMethods.RelativePosition(75, "y", this), texture:'Law', frame:0, attackTime:2, window: 1, stamina: 2, hp:2});
+    this.enemy.create();
+
+    this.enemy1Collision = this.physics.add.sprite(UsefulMethods.RelativePosition(40, "x", this), UsefulMethods.RelativePosition(75, "y", this), 'Law', 4);
+    this.enemy1Collision.setAlpha(0.2);
+
+    this.enemy1Collision.displayWidth = UsefulMethods.RelativeScale(10, "x", this);
+    this.enemy1Collision.scaleY = this.enemy1Collision.scaleX;
+    this.enemy1Collision.setCollideWorldBounds(true);
+
+    this.testingText = this.add.text(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), this.enemy.enemyState, { fontFamily: '"Roboto Condensed"',fontFamily: '"brush_font"', fontSize: 21 , color: 'white'});
+    this.testingText2 = this.add.text(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(45, "y", this), "Energía: " + this.enemy.stamina, { fontFamily: '"Roboto Condensed"',fontFamily: '"brush_font"', fontSize: 21 , color: 'white'});
+    this.testingText3 = this.add.text(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(40, "y", this), "Vida: " + this.enemy.hp, { fontFamily: '"Roboto Condensed"',fontFamily: '"brush_font"', fontSize: 21 , color: 'white'});
 
     this.InitFloor();
     this.InitPlayer();
@@ -229,7 +247,7 @@ export default class PlatformTesting extends Phaser.Scene {
    * Inicializa la superficie sobre la que el personaje camina (sin hacer)
    */
   InitFloor() {
-    this.floor = this.physics.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(90, "y", this), 'Floor', 4);
+    this.floor = this.physics.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'Floor', 4);
     this.floor.body.allowGravity = false;
     this.floor.body.immovable = true;
   }
@@ -265,6 +283,18 @@ export default class PlatformTesting extends Phaser.Scene {
     this.wall_right = this.walls.create(825, this.height / 2, 'wall');
     this.wall_right.setAlpha(0);
     this.physics.add.collider(this.player, this.floor);
+
+    //Función que se ejecutará al chocar con el primer enemigo del nivel (hacer una por enemigo)
+    var firstCombat = function(){
+      this.player.canMove = false;
+      this.combatHappening = true;
+      this.currentEnemy = this.enemy;
+      this.enemy.Attack();
+      this.enemy1Collision.destroy();
+    };
+
+    //Creamos un trigger entre el jugador y una zona cercana al primer enemigo
+    this.physics.add.overlap(this.player, this.enemy1Collision, firstCombat, null, this);
   }
 
   /**
@@ -272,11 +302,38 @@ export default class PlatformTesting extends Phaser.Scene {
    */
   update(delta) {
 
+    //Si currentEnemy existe (lo hace en caso de estar en un combate) se actualizan los textos con sus datos para testear.
+    if(this.currentEnemy != null){
+      this.testingText.setText(this.currentEnemy.enemyState); 
+      this.testingText2.setText("Energía: " + this.currentEnemy.stamina); 
+      this.testingText3.setText("Vida: " + this.currentEnemy.hp); 
+    }
+    
     // Se actualiza en cada frame la posición de la UI con respecto a la cámara.
     this.UIContainer.x = this.cameras.main.worldView.x;
     this.UIContainer.y = this.cameras.main.worldView.y;
     // #region Teclas y movimiento
     this.player.update(delta);
+
+
+    //Si se está combatiendo, se comprueba si se acaba de pulsar el espacio. En caso de ser así, y si el enemigo está en estado de parry, se le aplica un parry.
+    //Si se ha pulsado espacio, y el enemigo está TIRED, se le quita vida. 
+    //Si se pulsa y el enemigo está atacando, se penalizará al jugador, quitandole vida o algo similar (pendiente de programar).
+    if(this.combatHappening){
+      var spacePressed = Phaser.Input.Keyboard.JustDown(this.upButton);
+
+      if(spacePressed && this.currentEnemy.enemyState == this.currentEnemy.enemyStates.PARRY){
+        this.currentEnemy.GetParried();
+      }else if(spacePressed && this.currentEnemy.enemyState == this.currentEnemy.enemyStates.TIRED){
+        this.currentEnemy.getAttacked();
+        console.log('Recibi ataque');
+        if(this.currentEnemy.hp == 0){
+          this.currentEnemy.die();
+          this.combatHappening = false;
+          this.player.canMove=true;
+        }
+      }
+    }
   }
 
 }

@@ -4,7 +4,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     constructor(data) {
         // #region Contructor
         let { scene, x, y, texture, frame, attackTime, window, stamina, hp} = data;
-        super(scene, x, y, texture, frame, attackTime, window, stamina, hp);
+        super(scene, x, y, texture, frame);
         // #endregion
 
         // #region Variables
@@ -13,6 +13,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             PARRY: 'parry',
             TIRED: 'tired'
         }
+
         this.enemyState = this.enemyStates.ATTACKING;
         this.enemyScale = 1;
 
@@ -38,13 +39,14 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 this.setVelocityX(0);
             }
         });*/       
-        this.Attack();
+        //this.Attack();
     }
 
     GetParried(){
         this.stamina -= 1;
         if(this.stamina == 0){
             this.enemyState = this.enemyStates.TIRED;
+            this.BeingTired();
         }
         else{
             this.enemyState = this.enemyStates.ATTACKING;
@@ -56,29 +58,34 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     NotGetParried(){
         if(this.enemyState == this.enemyStates.PARRY){
             this.enemyState = this.enemyStates.ATTACKING;
+            this.Attack();
         }    
     }
 
     BeingTired(){
-        this.BackAttack = this.scene.get("platformTesting").time.addEvent({delay: this.attackTime, callback: this.NotGettingAttacked, callbackScope:this, loop:false});
+        console.log('tired');
+        this.BackAttack = this.scene.time.addEvent({delay: this.window*1000, callback: this.NotGettingAttacked, callbackScope:this, loop:false});
     }
 
     Attack(){
-        this.stopAttacking = this.scene.get("platformTesting").time.addEvent({delay: this.attackTime, callback: this.GoParry, callbackScope:this, loop:false});
+        console.log('attack');
+        if(this.scene != null)
+            this.stopAttacking = this.scene.time.addEvent({delay: this.attackTime*1000, callback: this.GoParry, callbackScope:this, loop:false});
     }
 
     GoParry(){
+        console.log('parry');
         this.enemyState = this.enemyStates.PARRY;
-        this.stopBeingParried = this.scene.get("platformTesting").time.addEvent({delay: this.attackTime, callback: this.NotGetParried, callbackScope:this, loop:false});
+        this.stopBeingParried = this.scene.scene.get("platformTesting").time.addEvent({delay: this.window*1000, callback: this.NotGetParried, callbackScope:this, loop:false});
     }
 
     getAttacked(){
-        hp -= 1;
-        if(hp == 0){
-            die();
-        }else{
+        
+        this.hp -= 1;       
+        if(this.hp != 0){
             this.stamina = this.baseStamina;
             this.enemyState = this.enemyStates.ATTACKING;
+            this.Attack();
         }
     }
 
@@ -89,6 +96,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.stamina = this.baseStamina;
             this.Attack();
         }
+    }
+
+    die(){
+        this.destroy();
     }
 
     update(delta) {

@@ -84,7 +84,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.scaleX = Math.abs(this.scaleX);
         }
         
-        // Se aplica la velocidad de movimiento al sprite.
-        this.setVelocityX(this.direction * this.velocity);
+    
+        // Se aplica la velocidad de movimiento al sprite
+        var calculatedSpeed = this.canMove ? (this.direction * this.velocity) : 0;
+
+        this.setVelocityX(calculatedSpeed);
+            
     }
 }
