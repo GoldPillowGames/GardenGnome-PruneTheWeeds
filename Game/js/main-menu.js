@@ -20,9 +20,12 @@ export default class MainMenu extends Phaser.Scene{
     preload(){
         this.load.image('Title-Example'  , 'assets/test/example.png');
         this.load.image('Title-Title'    , 'assets/test/title.png');
-        this.load.image('Play-Button'    , 'assets/test/play-button.png');
-        this.load.image('Settings-Button', 'assets/test/settings-button.png');
-        this.load.image('Credits-Button', 'assets/test/credits-button.png');
+        this.load.image('Play-Button'    , 'assets/test/play.png');
+        this.load.image('Settings-Button', 'assets/test/settings.png');
+        this.load.image('Credits-Button' , 'assets/test/rankings.png');
+        this.load.image('Easy-Button'    , 'assets/test/easy.png');
+        this.load.image('Hard-Button'    , 'assets/test/hard.png');
+        this.load.image('Settings-Menu-Background', 'assets/test/settings-menu-background.png');
         this.load.image('Settings-Menu-Background', 'assets/test/settings-menu-background.png');
         this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
             frameWidth: 64,
@@ -143,7 +146,7 @@ export default class MainMenu extends Phaser.Scene{
         let mainButtons;
         //#endregion
 
-        var text = this.add.text(UsefulMethods.RelativePosition(50,'x', this), UsefulMethods.RelativePosition(47,'y', this), '', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif'});
+        var text = this.add.text(UsefulMethods.RelativePosition(50,'x', this), UsefulMethods.RelativePosition(42,'y', this), '', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif'});
         text.setStyle({
             color: '#ffffff',
             align:'center'
@@ -151,14 +154,14 @@ export default class MainMenu extends Phaser.Scene{
         text.setOrigin(0.5);
 
         //#region Botones de selección de dificultad
-        this.difficultyButton1 = new Button({scene:this, x:40, y:120, texture:'Credits-Button', frame:4, scale:0.08});
+        this.difficultyButton1 = new Button({scene:this, x:40, y:120, texture:'Easy-Button', frame:4, scale:0.0225});
         this.difficultyButton1.create();
         this.difficultyButton1.pointerUp = function(){
             that.cameras.main.fadeOut(200);
             that.scene.get("mainMenu").time.addEvent({delay: 210, callback: function(){that.scene.start(levelName);}, callbackScope:this, loop:false});
         }
 
-        this.difficultyButton2 = new Button({scene:this, x:60, y:120, texture:'Credits-Button', frame:4, scale:0.08});
+        this.difficultyButton2 = new Button({scene:this, x:60, y:120, texture:'Hard-Button', frame:4, scale:0.0225});
         this.difficultyButton2.create();
         this.difficultyButton2.pointerUp = function(){
             that.cameras.main.fadeOut(200);
@@ -169,7 +172,7 @@ export default class MainMenu extends Phaser.Scene{
         //#endregion
 
         //#region Botones de selección de nivel
-        this.level1Button = new Button({scene:this, x:30, y:120, texture:'Credits-Button', frame:4, scale:0.08});
+        this.level1Button = new Button({scene:this, x:30, y:120, texture:'Credits-Button', frame:4, scale:0.0225});
         this.level1Button.create();
         this.level1Button.pointerUp = function(){
             text.setText("Select a Difficulty Level");
@@ -178,7 +181,7 @@ export default class MainMenu extends Phaser.Scene{
             this.playPressedButtonArray(levelButtons);
         }
 
-        this.level2Button = new Button({scene:this, x:50, y:120, texture:'Credits-Button', frame:4, scale:0.08});
+        this.level2Button = new Button({scene:this, x:50, y:120, texture:'Credits-Button', frame:4, scale:0.0225});
         this.level2Button.create();
         this.level2Button.pointerUp = function(){
             text.setText("Select a Difficulty Level");
@@ -187,7 +190,7 @@ export default class MainMenu extends Phaser.Scene{
             this.playPressedButtonArray(levelButtons);
         }
 
-        this.level3Button = new Button({scene:this, x:70, y:120, texture:'Credits-Button', frame:4, scale:0.08});
+        this.level3Button = new Button({scene:this, x:70, y:120, texture:'Credits-Button', frame:4, scale:0.0225});
         this.level3Button.create();
         this.level3Button.pointerUp = function(){
             text.setText("Select a Difficulty Level");
@@ -201,7 +204,7 @@ export default class MainMenu extends Phaser.Scene{
         //#endregion
 
         //#region Botones del menú principal
-        this.playButton = new Button({scene:this, x:50, y:60, texture:'Play-Button', frame:4, scale:0.08});
+        this.playButton = new Button({scene:this, x:50, y:60, texture:'Play-Button', frame:4, scale:0.0225});
         this.playButton.create();
         this.playButton.pointerUp = function(){
             text.setText("Select a Level");
@@ -209,13 +212,13 @@ export default class MainMenu extends Phaser.Scene{
             this.playPressedButtonArray(mainButtons);
         }
 
-        this.settingsButton = new Button({scene:this, x:20, y:70, texture:'Settings-Button', frame:4, scale:0.08});
+        this.settingsButton = new Button({scene:this, x:20, y:60, texture:'Settings-Button', frame:4, scale:0.02});
         this.settingsButton.create();
         this.settingsButton.pointerUp = function(){
             // Settings
         }
 
-        this.creditsButton = new Button({scene:this, x:80, y:70, texture:'Credits-Button', frame:4, scale:0.08});
+        this.creditsButton = new Button({scene:this, x:80, y:60, texture:'Credits-Button', frame:4, scale:0.02});
         this.creditsButton.create();
         this.creditsButton.pointerUp = function(){
             // Credits
