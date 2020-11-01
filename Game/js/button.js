@@ -21,6 +21,8 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
         this.originalPosX = x;
         this.scene = scene;
         this.pressed = false;
+        this.pointerOverScale = 0.01;
+        this.pointerUpScale = 0.03;
         // #endregion
 
         this.scene.add.existing(this);
@@ -45,7 +47,6 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
         this.originalScale = this.scaleY;
 
         this.initButtons();
-        
         //#endregion
     }
 
@@ -104,8 +105,8 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
             case that.buttonAnims.SHRINK:
                 that.scene.tweens.add({
                     targets: that,
-                    scaleX: that.originalScale - 0.05,
-                    scaleY: that.originalScale - 0.05,
+                    scaleX: that.originalScale - that.pointerOverScale,
+                    scaleY: that.originalScale - that.pointerOverScale,
                     ease: 'Linear' ,
                     duration: 40,
                     yoyo: false,
@@ -158,8 +159,8 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
             case that.buttonAnims.SHRINK:
                 that.scene.tweens.add({
                     targets: that,
-                    scaleX: that.originalScale - 0.08,
-                    scaleY: that.originalScale - 0.08,
+                    scaleX: that.originalScale - that.pointerUpScale,
+                    scaleY: that.originalScale - that.pointerUpScale,
                     ease: 'Linear',
                     duration: 50,
                     yoyo: false,
@@ -185,8 +186,8 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
             case that.buttonAnims.SHRINK:
                 that.scene.tweens.add({
                     targets: that,
-                    scaleX: that.originalScale - 0.05,
-                    scaleY: that.originalScale - 0.05,
+                    scaleX: that.originalScale - that.pointerOverScale,
+                    scaleY: that.originalScale - that.pointerOverScale,
                     ease: 'Linear',
                     duration: 50,
                     yoyo: false,
@@ -234,11 +235,11 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
                 console.log('onStart'); console.log(arguments); 
             },
             onComplete: function () { 
-                that.playHideButton(0, 300);
+                that.playHideButton(0, 300, 60);
                 buttonsArray.forEach(element => {
                     if(!(element === that))
                     {
-                         element.playHideButton(0, 400);
+                         element.playHideButton(0, 400, 30);
                     }
                    
                 });
@@ -248,11 +249,12 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
         });
     }
 
-    playHideButton(delay, duration){
+    playHideButton(delay, duration, rotation){
         this.scene.tweens.add({
             targets: this,
             y: UsefulMethods.RelativePosition(120, 'y', this.scene),
             ease: 'Sine.easeInOut',
+            angle: rotation,
             delay:delay,
             duration: duration,
             yoyo: false,
