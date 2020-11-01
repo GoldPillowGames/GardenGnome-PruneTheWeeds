@@ -29,39 +29,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         //this.setCollideWorldBounds(true);
     }
 
-    parryCooldownFunction(){
+    parryCooldownFunction() {
         this.canParry = false;
-        this.scene.time.addEvent({delay: this.parryCooldown*1000, callback: this.canParryAgain, callbackScope:this, loop:false});
+        this.scene.time.addEvent({ delay: this.parryCooldown * 1000, callback: this.canParryAgain, callbackScope: this, loop: false });
     }
 
-    canParryAgain(){
+    canParryAgain() {
         this.canParry = true;
     }
 
     createParryControls() {
         // Cuando se suelta el click izquierdo del ratón, el personaje hace parry o ataca.
         this.scene.input.on('pointerup', function (pointer) {
-
-            if (this.scene.combatHappening && this.scene.currentEnemy != null && this.scene.inputManager.movementPointerId === pointer.id && this.canParry) {
+            if (this.scene.combatHappening && this.scene.currentEnemy != null && this.scene.inputManager.movementPointerId === pointer.id &&
+            this.canParry && pointer.x >= this.scene.inputManager.initialMouseX) {
                 console.debug("En combate");
-                switch (this.scene.currentEnemy.enemyState) {
-                    case this.scene.currentEnemy.enemyStates.ATTACKING:
-                        //implementar que no se pueda hacer parry de nuevo en un tiempo corto
-                        this.parryCooldownFunction();
-                        break;
-                    case this.scene.currentEnemy.enemyStates.PARRY:
-                        this.scene.currentEnemy.GetParried();
-                        break;
-                    case this.scene.currentEnemy.enemyStates.TIRED:
-                        this.scene.currentEnemy.getAttacked();
-                        console.log('Recibi ataque');
-                        if (this.scene.currentEnemy.hp == 0) {
-                            this.scene.currentEnemy.die();
-                            this.scene.combatHappening = false;
-                            this.canMove = true;
-                        }
-                        break;
-                }
+                this.scene.currentEnemy.playerHasParried();
             }
 
         }, this);

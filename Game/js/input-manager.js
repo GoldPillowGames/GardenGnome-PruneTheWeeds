@@ -15,15 +15,15 @@ export default class InputManager {
         this.movementPointerId = 0;
         this.initialMouseX = 0;
         this.initialMouseY = 0;
-        this.maxMouseDistance = 125;this.patata = "patataText";
+        this.maxMouseDistance = 125;
     }
 
     create() {
         this.scene.input.addPointer(2);
 
         if (this.isJoystickVisible()) {
-            console.log("Controles");
             this.HandleMobileTouchMovement();
+            this.InitMobileCircleUI();
         }
     }
 
@@ -31,6 +31,29 @@ export default class InputManager {
         return this.scene.sys.game.device.os.android || this.scene.sys.game.device.os.iOS ||
             this.scene.sys.game.device.os.iPad || this.scene.sys.game.device.os.iPhone ||
             this.scene.debugMode;
+    }
+
+    /**
+       * Configura la UI que únicamente será mostrada en móvil (pulsación sobre la pantalla)
+       */
+    InitMobileCircleUI() {
+        this.circle_UI = this.scene.add.sprite(UsefulMethods.RelativePosition(0, "x", this.scene), UsefulMethods.RelativePosition(0, "y", this.scene), 'Circle-UI').setInteractive();
+        this.circle_UI.alpha = 0;
+        this.circle_UI.scaleX = UsefulMethods.RelativeScale(0.031, "x", this.scene);
+        this.circle_UI_OriginalScale = this.circle_UI.scaleX;
+        this.circle_UI_MinScale = UsefulMethods.RelativeScale(0.029, "x", this.scene);
+        this.circle_UI.scaleY = this.circle_UI.scaleX;
+        this.circle_UI.setDepth(10000);
+        this.circle_UI.setScrollFactor(0);
+
+        this.circle_UI_Base = this.scene.add.sprite(this.scene.width, this.scene.height, 'Circle-UI').setInteractive();
+        this.circle_UI_Base.alpha = 0;
+        this.circle_UI_Base.scaleX = UsefulMethods.RelativeScale(0.0023, "x", this.scene);
+        this.circle_UI_Base_OriginalScale = this.circle_UI_Base.scaleX;
+        this.circle_UI_Base_MinScale = UsefulMethods.RelativeScale(0.0019, "x", this.scene);
+        this.circle_UI_Base.scaleY = this.circle_UI_Base.scaleX;
+        this.circle_UI_Base.setDepth(11000);
+        this.circle_UI_Base.setScrollFactor(0);
     }
 
     /**
@@ -47,25 +70,25 @@ export default class InputManager {
                 that.isMouseMoving = true;
                 that.initialMouseX = pointer.x;
                 that.initialMouseY = pointer.y;
-                this.scene.circle_UI_Base.x = that.initialMouseX;
-                this.scene.circle_UI_Base.y = that.initialMouseY;
-                this.scene.circle_UI.x = Phaser.Math.Clamp(pointer.x, that.initialMouseX - 150, that.initialMouseX + 150);
-                this.scene.circle_UI.y = Phaser.Math.Clamp(pointer.y, that.initialMouseY - 150, that.initialMouseY + 150);
+                that.circle_UI_Base.x = that.initialMouseX;
+                that.circle_UI_Base.y = that.initialMouseY;
+                that.circle_UI.x = Phaser.Math.Clamp(pointer.x, that.initialMouseX - 150, that.initialMouseX + 150);
+                that.circle_UI.y = Phaser.Math.Clamp(pointer.y, that.initialMouseY - 150, that.initialMouseY + 150);
                 this.scene.tweens.add({
-                    targets: this.scene.circle_UI,
+                    targets: that.circle_UI,
                     alpha: 0.65,
-                    scaleX: this.scene.circle_UI_OriginalScale,
-                    scaleY: this.scene.circle_UI_OriginalScale,
+                    scaleX: that.circle_UI_OriginalScale,
+                    scaleY: that.circle_UI_OriginalScale,
                     ease: 'Linear',
                     duration: 80,
                     yoyo: false,
                     repeat: 0
                 });
                 this.scene.tweens.add({
-                    targets: this.scene.circle_UI_Base,
+                    targets: that.circle_UI_Base,
                     alpha: 0.65,
-                    scaleX: this.scene.circle_UI_Base_OriginalScale,
-                    scaleY: this.scene.circle_UI_Base_OriginalScale,
+                    scaleX: that.circle_UI_Base_OriginalScale,
+                    scaleY: that.circle_UI_Base_OriginalScale,
                     ease: 'Linear',
                     duration: 80,
                     yoyo: false,
@@ -86,8 +109,8 @@ export default class InputManager {
                 var xMax = Math.abs((pointer.x - that.initialMouseX) / module) * that.maxMouseDistance;
                 var yMax = Math.abs((pointer.y - that.initialMouseY) / module) * that.maxMouseDistance;
 
-                this.scene.circle_UI.x = Phaser.Math.Clamp(pointer.x, that.initialMouseX - xMax, that.initialMouseX + xMax);
-                this.scene.circle_UI.y = Phaser.Math.Clamp(pointer.y, that.initialMouseY - yMax, that.initialMouseY + yMax);
+                that.circle_UI.x = Phaser.Math.Clamp(pointer.x, that.initialMouseX - xMax, that.initialMouseX + xMax);
+                that.circle_UI.y = Phaser.Math.Clamp(pointer.y, that.initialMouseY - yMax, that.initialMouseY + yMax);
                 //this.circle_UI.x = pointer.x;
                 //this.circle_UI.y = pointer.y;
             }
@@ -104,20 +127,20 @@ export default class InputManager {
                 that.isMouseMoving = false;
                 //this.circle_UI.alpha = 0;
                 this.scene.tweens.add({
-                    targets: this.scene.circle_UI,
+                    targets: that.circle_UI,
                     alpha: 0,
-                    scaleX: this.scene.circle_UI_MinScale,
-                    scaleY: this.scene.circle_UI_MinScale,
+                    scaleX: that.circle_UI_MinScale,
+                    scaleY: that.circle_UI_MinScale,
                     ease: 'Linear',
                     duration: 80,
                     yoyo: false,
                     repeat: 0
                 });
                 this.scene.tweens.add({
-                    targets: this.scene.circle_UI_Base,
+                    targets: that.circle_UI_Base,
                     alpha: 0,
-                    scaleX: this.scene.circle_UI_Base_MinScale,
-                    scaleY: this.scene.circle_UI_Base_MinScale,
+                    scaleX: that.circle_UI_Base_MinScale,
+                    scaleY: that.circle_UI_Base_MinScale,
                     ease: 'Linear',
                     duration: 80,
                     yoyo: false,
