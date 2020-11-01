@@ -63,7 +63,7 @@ export default class Level_1 extends Phaser.Scene {
     this.load.image('Law', 'assets/test/Law.jpg');
     this.load.image('Floor', 'assets/game-elements/ground.png');
     this.load.image('Circle-UI', 'assets/test/circle-ui.png');
-    this.load.image('Rana', 'assets/test/Rana.png');
+    this.load.image('Rana', 'assets/test/Rana1.png');
     this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
       frameWidth: 64,
       frameHeight: 64
@@ -285,6 +285,8 @@ export default class Level_1 extends Phaser.Scene {
     this.floor = this.physics.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'Floor', 4);
     this.floor.body.allowGravity = false;
     this.floor.body.immovable = true;
+    this.floor.scaleX = UsefulMethods.RelativeScale(0.1, "x", this);
+    this.floor.scaleY = this.floor.scaleX;
 
     this.floor1 = this.physics.add.sprite(UsefulMethods.RelativePosition(45, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'Floor', 4);
     this.floor1.body.allowGravity = false;

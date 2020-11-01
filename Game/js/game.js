@@ -31,7 +31,8 @@ var isWeb = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.te
         gravity: { y: 1000}
       }
     },
-    scene: [MainMenu, PlatformTesting, Level_1/*, localGameSettings, settingsMenu, controlsMenu, creditsMenu,onlineLobby, localgame*/]
+    scene: [MainMenu, PlatformTesting, Level_1/*, localGameSettings, settingsMenu, controlsMenu, creditsMenu,onlineLobby, localgame*/],
+    antialias: true
   };
 
   
