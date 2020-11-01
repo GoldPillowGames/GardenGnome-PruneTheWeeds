@@ -56,8 +56,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     NotGetParried(){
+        console.log("NotGetParried");
         if(this.enemyState == this.enemyStates.PARRY){
             this.enemyState = this.enemyStates.ATTACKING;
+            console.log("back to parrry");
             this.Attack();
         }    
     }
@@ -76,7 +78,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     GoParry(){
         console.log('parry');
         this.enemyState = this.enemyStates.PARRY;
-        this.stopBeingParried = this.scene.scene.get("platformTesting").time.addEvent({delay: this.window*1000, callback: this.NotGetParried, callbackScope:this, loop:false});
+        this.stopBeingParried = this.scene.time.addEvent({delay: this.window*1000, callback: this.NotGetParried, callbackScope:this, loop:false});
     }
 
     getAttacked(){

@@ -12,9 +12,10 @@
 import UsefulMethods from './useful-methods.js';
 import Enemy from './Enemy.js';
 import Player from './player.js';
+import InputManager from './input-manager.js';
 
 //Escena para testeo de juego de plataformas
-export default class Level_1 extends Phaser.Scene {
+export default class level1 extends Phaser.Scene {
   //Constructor de la escena, con el identificador de la misma.
   constructor() {
     super('Level_1');
@@ -36,28 +37,12 @@ export default class Level_1 extends Phaser.Scene {
     this.width = this.sys.game.config.width;
     this.height = this.sys.game.config.height;
 
-    this.xSpeed = 180; // 280
     this.ended = false;
     this.isPlayable = false;
-    this.pointerOver = true;
-    this.fallingP1 = false;
-
-    // Movimiento con ratón o pulsación
-    this.isMouseMoving = false;
-    this.initialMouseX = 0;
-    this.initialMouseY = 0;
-    this.maxMouseDistance = 125;
 
     this.combatHappening = false;
     this.currentEnemy;
-
-    this.DButton = this.input.keyboard.addKey('D');
-    this.AButton = this.input.keyboard.addKey('A');
-    this.WButton = this.input.keyboard.addKey('W');
-
-    this.rightButton = this.input.keyboard.addKey('right');
-    this.leftButton = this.input.keyboard.addKey('left');
-    this.upButton = this.input.keyboard.addKey('space');
+    
     // #endregion
 
     this.load.image('Law', 'assets/test/Law.jpg');
@@ -74,12 +59,6 @@ export default class Level_1 extends Phaser.Scene {
    * Método que se ejecuta al comienzo del juego, cuandos se ha creado todo.
    */
   create() {
-    
-
-    this.movementPointerId = 0;
-    this.input.addPointer(2);
-    this.velocity = 0;
-    
     // Se crea el objeto player en la escena.
     this.player = new Player({scene:this, x:UsefulMethods.RelativePosition(10, "x", this), y:UsefulMethods.RelativePosition(75, "y", this), texture:'Character', frame:4});
     this.player.create();
@@ -87,31 +66,26 @@ export default class Level_1 extends Phaser.Scene {
     //Creamos los enemigos
     this.createEnemies();
 
-    this.testingText = this.add.text(UsefulMethods.RelativePosition(80, "x", this), UsefulMethods.RelativePosition(90, "y", this), this.enemy.enemyState, { fontFamily: '"Roboto Condensed"',fontFamily: '"brush_font"', fontSize: 21 , color: 'white'});
-    this.testingText2 = this.add.text(UsefulMethods.RelativePosition(80, "x", this), UsefulMethods.RelativePosition(85, "y", this), "Energía: " + this.enemy.stamina, { fontFamily: '"Roboto Condensed"',fontFamily: '"brush_font"', fontSize: 21 , color: 'white'});
-    this.testingText3 = this.add.text(UsefulMethods.RelativePosition(80, "x", this), UsefulMethods.RelativePosition(80, "y", this), "Vida: " + this.enemy.hp, { fontFamily: '"Roboto Condensed"',fontFamily: '"brush_font"', fontSize: 21 , color: 'white'});
+    this.testingText = this.add.text(UsefulMethods.RelativePosition(5, "x", this), UsefulMethods.RelativePosition(90, "y", this), this.enemy.enemyState, { fontFamily: '"Roboto Condensed"',fontFamily: '"brush_font"', fontSize: 21 , color: 'white'});
+    this.testingText2 = this.add.text(UsefulMethods.RelativePosition(5, "x", this), UsefulMethods.RelativePosition(85, "y", this), "Energía: " + this.enemy.stamina, { fontFamily: '"Roboto Condensed"',fontFamily: '"brush_font"', fontSize: 21 , color: 'white'});
+    this.testingText3 = this.add.text(UsefulMethods.RelativePosition(5, "x", this), UsefulMethods.RelativePosition(80, "y", this), "Vida: " + this.enemy.hp, { fontFamily: '"Roboto Condensed"',fontFamily: '"brush_font"', fontSize: 21 , color: 'white'});
+    this.coolDownText = this.add.text(UsefulMethods.RelativePosition(5, "x", this), UsefulMethods.RelativePosition(75, "y", this), "Estado del parry: se puede hacer.", { fontFamily: '"Roboto Condensed"',fontFamily: '"brush_font"', fontSize: 21 , color: 'white'});
 
     this.testingText.setScrollFactor(0);
     this.testingText2.setScrollFactor(0);
     this.testingText3.setScrollFactor(0);
+    this.coolDownText.setScrollFactor(0);
 
     this.InitFloor();
     this.InitPlayer();
     this.InitColliders();
     this.InitMobileCircleUI();
 
-    if (this.debugMode) {
-      this.HandleMobileTouchMovement();
-    }
-    else {
-      if (this.sys.game.device.os.android || this.sys.game.device.os.iOS || this.sys.game.device.os.iPad || this.sys.game.device.os.iPhone) {
-        this.HandleMobileTouchMovement();
-      }
-    }
-
     this.SetupCamera();
 
     this.ConfigureUI();
+    this.inputManager = new InputManager(this);
+    this.inputManager.create();
   }
 
 
@@ -147,7 +121,6 @@ export default class Level_1 extends Phaser.Scene {
     this.enemy3Collision.displayWidth = UsefulMethods.RelativeScale(10, "x", this);
     this.enemy3Collision.scaleY = this.enemy3Collision.scaleX;
   }
-
 
   ConfigureUI() {
     this.UIContainer = this.add.container(this.cameras.main.worldView.x, this.cameras.main.worldView.y);
@@ -186,96 +159,6 @@ export default class Level_1 extends Phaser.Scene {
     this.circle_UI_Base_MinScale = UsefulMethods.RelativeScale(0.0019, "x", this);
     this.circle_UI_Base.scaleY = this.circle_UI_Base.scaleX;
     this.circle_UI_Base.setDepth(11000);
-  }
-
-  /**
-   * Configura el movimiento del personaje mediante la pulsación sobre la pantalla
-   * en dispositivos móviles
-   */
-  HandleMobileTouchMovement() {
-    // Cuando el presiona el click izquierdo en el estado de caminar se
-    // guarda la coordenada inicial del ratón en el eje x
-    this.input.on('pointerdown', function (pointer) {
-      if (this.isMouseMoving === false) {
-        this.movementPointerId = pointer.id;
-        this.isMouseMoving = true;
-        this.initialMouseX = pointer.x;
-        this.initialMouseY = pointer.y;
-        this.circle_UI_Base.x = this.initialMouseX;
-        this.circle_UI_Base.y = this.initialMouseY;
-        this.circle_UI.x = Phaser.Math.Clamp(pointer.x, this.initialMouseX - 150, this.initialMouseX + 150);
-        this.circle_UI.y = Phaser.Math.Clamp(pointer.y, this.initialMouseY - 150, this.initialMouseY + 150);
-        this.tweens.add({
-          targets: this.circle_UI,
-          alpha: 0.65,
-          scaleX: this.circle_UI_OriginalScale,
-          scaleY: this.circle_UI_OriginalScale,
-          ease: 'Linear',
-          duration: 80,
-          yoyo: false,
-          repeat: 0
-        });
-        this.tweens.add({
-          targets: this.circle_UI_Base,
-          alpha: 0.65,
-          scaleX: this.circle_UI_Base_OriginalScale,
-          scaleY: this.circle_UI_Base_OriginalScale,
-          ease: 'Linear',
-          duration: 80,
-          yoyo: false,
-          repeat: 0
-        });
-      }
-    }, this);
-
-    // Cuando se mantiene presionado el click izquierdo del ratón y
-    // se mueve el ratón, se resta la posición anterior del ratón en el eje x
-    // a la actual y en función del valor obtenido, el personaje se mueve en una u
-    // otra dirección
-    this.input.on('pointermove', function (pointer) {
-      // Comprobamos si el id del puntero es el mismo que inició el movimiento
-      if (this.movementPointerId === pointer.id) {
-        var module = UsefulMethods.vectorModule(pointer.x - this.initialMouseX, pointer.y - this.initialMouseY);
-        //var module = Math.sqrt(Math.pow(pointer.x - this.initialMouseX, 2) + Math.pow(pointer.y - this.initialMouseY, 2));
-        var xMax = Math.abs((pointer.x - this.initialMouseX) / module) * this.maxMouseDistance;
-        var yMax = Math.abs((pointer.y - this.initialMouseY) / module) * this.maxMouseDistance;
-
-        this.circle_UI.x = Phaser.Math.Clamp(pointer.x, this.initialMouseX - xMax, this.initialMouseX + xMax);
-        this.circle_UI.y = Phaser.Math.Clamp(pointer.y, this.initialMouseY - yMax, this.initialMouseY + yMax);
-        //this.circle_UI.x = pointer.x;
-        //this.circle_UI.y = pointer.y;
-      }
-    }, this);
-
-    // Cuando se suelta el click izquierdo del ratón, el personaje
-    // detiene su movimiento horizontal
-    this.input.on('pointerup', function (pointer) {
-      // Comprobamos si el id del puntero es el mismo que inició el movimiento
-      if (this.movementPointerId === pointer.id) {
-        this.isMouseMoving = false;
-        //this.circle_UI.alpha = 0;
-        this.tweens.add({
-          targets: this.circle_UI,
-          alpha: 0,
-          scaleX: this.circle_UI_MinScale,
-          scaleY: this.circle_UI_MinScale,
-          ease: 'Linear',
-          duration: 80,
-          yoyo: false,
-          repeat: 0
-        });
-        this.tweens.add({
-          targets: this.circle_UI_Base,
-          alpha: 0,
-          scaleX: this.circle_UI_Base_MinScale,
-          scaleY: this.circle_UI_Base_MinScale,
-          ease: 'Linear',
-          duration: 80,
-          yoyo: false,
-          repeat: 0
-        });
-      }
-    }, this);
   }
 
   /**
@@ -388,11 +271,15 @@ export default class Level_1 extends Phaser.Scene {
    */
   update(delta) {
 
+    
+
     //Si currentEnemy existe (lo hace en caso de estar en un combate) se actualizan los textos con sus datos para testear.
     if(this.currentEnemy != null){
       this.testingText.setText(this.currentEnemy.enemyState); 
       this.testingText2.setText("Energía: " + this.currentEnemy.stamina); 
       this.testingText3.setText("Vida: " + this.currentEnemy.hp); 
+
+      this.coolDownText.setText("CanParry: " + this.player.canParry);
     }
     
     // Se actualiza en cada frame la posición de la UI con respecto a la cámara.
@@ -400,26 +287,6 @@ export default class Level_1 extends Phaser.Scene {
     this.UIContainer.y = this.cameras.main.worldView.y;
     // #region Teclas y movimiento
     this.player.update(delta);
-
-
-    //Si se está combatiendo, se comprueba si se acaba de pulsar el espacio. En caso de ser así, y si el enemigo está en estado de parry, se le aplica un parry.
-    //Si se ha pulsado espacio, y el enemigo está TIRED, se le quita vida. 
-    //Si se pulsa y el enemigo está atacando, se penalizará al jugador, quitandole vida o algo similar (pendiente de programar).
-    if(this.combatHappening){
-      var spacePressed = Phaser.Input.Keyboard.JustDown(this.upButton);
-
-      if(spacePressed && this.currentEnemy.enemyState == this.currentEnemy.enemyStates.PARRY){
-        this.currentEnemy.GetParried();
-      }else if(spacePressed && this.currentEnemy.enemyState == this.currentEnemy.enemyStates.TIRED){
-        this.currentEnemy.getAttacked();
-        console.log('Recibi ataque');
-        if(this.currentEnemy.hp == 0){
-          this.currentEnemy.die();
-          this.combatHappening = false;
-          this.player.canMove=true;
-        }
-      }
-    }
   }
 
 }
