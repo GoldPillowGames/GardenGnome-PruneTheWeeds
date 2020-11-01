@@ -169,11 +169,11 @@ export default class MainMenu extends Phaser.Scene{
         //#endregion
 
         //#region Botones de selección de nivel
-        this.level1Button = new Button({scene:this, x:30, y:120, texture:'Credits-Button', frame:4, scale:0.08});
+        this.level1Button = new Button({scene:this, x:30, y:120, texture:'Settings-Button', frame:4, scale:0.08});
         this.level1Button.create();
         this.level1Button.pointerUp = function(){
             text.setText("Select a Difficulty Level");
-            levelName = 'platformTesting';
+            levelName = 'Level_1';
             that.ShowButtons(difficultyButtons);
             this.playPressedButtonArray(levelButtons);
         }

@@ -27,7 +27,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
-        this.setCollideWorldBounds(true);
+        //this.setCollideWorldBounds(true);
     }
     create() {
         this.displayWidth = UsefulMethods.RelativeScale(10, "x", this.scene);
