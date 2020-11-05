@@ -44,7 +44,14 @@ export default class level1 extends Phaser.Scene {
     this.load.image('Law', 'assets/test/Law.jpg');
     this.load.image('Floor', 'assets/game-elements/ground.png');
     this.load.image('Circle-UI', 'assets/test/circle-ui.png');
-    this.load.image('Rana', 'assets/test/Rana1.png');
+    this.load.image('Frog', 'assets/test/Rana1.png');
+
+    this.load.image('BaseFloor1', 'assets/Level 1/suelo_base1.png');
+    this.load.image('BaseSky1', 'assets/Level 1/cielo_base1.png');
+
+    this.load.image('MetalFence', 'assets/Props/wood-fence.png');
+    this.load.image('WoodFence', 'assets/Props/metal-fence.png');
+
     this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
       frameWidth: 64,
       frameHeight: 64
@@ -86,20 +93,20 @@ export default class level1 extends Phaser.Scene {
 
     this.enemies.push(new Enemy({
       scene: this, x: 50, y: 75,
-      texture: 'Rana', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 2
+      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 2
     }));
 
     this.enemies.push(new Enemy({
       scene: this, x: 95, y: 75,
-      texture: 'Rana', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 2
+      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 2
     }));
 
     this.enemies.push(new Enemy({
       scene: this, x: 140, y: 75,
-      texture: 'Rana', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 2
+      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 2
     }));
 
-    this.enemies.forEach(function (element, index, array) { element.create(); });
+    this.enemies.forEach(element => { element.create(); });
 
   }
 
@@ -119,23 +126,34 @@ export default class level1 extends Phaser.Scene {
    * Inicializa la superficie sobre la que el personaje camina (sin hacer)
    */
   InitFloor() {
-    this.floor = this.physics.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'Floor', 4);
+    this.sky = this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', );
+    this.sky.setDepth(-11);
+
+    this.floor = this.physics.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4);
+    this.floor.setDepth(-9);
     this.floor.body.allowGravity = false;
     this.floor.body.immovable = true;
-    this.floor.scaleX = UsefulMethods.RelativeScale(0.1, "x", this);
-    this.floor.scaleY = this.floor.scaleX;
+    this.floor.body.setOffset(0, 55);
+    this.floor.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
+    this.floor.scaleY = UsefulMethods.RelativeScale(0.11, 'y', this);
 
-    this.floor1 = this.physics.add.sprite(UsefulMethods.RelativePosition(45, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'Floor', 4);
-    this.floor1.body.allowGravity = false;
-    this.floor1.body.immovable = true;
+    this.fence = this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(68, "y", this), 'WoodFence');
+    this.fence.setDepth(-10);
 
-    this.floor2 = this.physics.add.sprite(UsefulMethods.RelativePosition(90, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'Floor', 4);
-    this.floor2.body.allowGravity = false;
-    this.floor2.body.immovable = true;
+    // this.floor.scaleX = UsefulMethods.RelativeScale(0.1, "x", this);
+    // this.floor.scaleY = this.floor.scaleX;
 
-    this.floor3 = this.physics.add.sprite(UsefulMethods.RelativePosition(135, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'Floor', 4);
-    this.floor3.body.allowGravity = false;
-    this.floor3.body.immovable = true;
+    // this.floor1 = this.physics.add.sprite(UsefulMethods.RelativePosition(45, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'Floor', 4);
+    // this.floor1.body.allowGravity = false;
+    // this.floor1.body.immovable = true;
+
+    // this.floor2 = this.physics.add.sprite(UsefulMethods.RelativePosition(90, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'Floor', 4);
+    // this.floor2.body.allowGravity = false;
+    // this.floor2.body.immovable = true;
+
+    // this.floor3 = this.physics.add.sprite(UsefulMethods.RelativePosition(135, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'Floor', 4);
+    // this.floor3.body.allowGravity = false;
+    // this.floor3.body.immovable = true;
   }
 
   /**
@@ -175,23 +193,23 @@ export default class level1 extends Phaser.Scene {
     this.physics.add.collider(this.player, this.floor3);
 
     // PROVISIONAL. Lo suyo sería:
-    /*this.enemies.forEach(function (element, index, array) {
+    this.enemies.forEach(element => {
       this.physics.add.collider(element, this.floor);
       this.physics.add.collider(element.collision, this.floor);
-    });*/
+    });
 
-    this.physics.add.collider(this.enemies[0], this.floor1);
-    this.physics.add.collider(this.enemies[0].collision, this.floor1);
+    // this.physics.add.collider(this.enemies[0], this.floor1);
+    // this.physics.add.collider(this.enemies[0].collision, this.floor1);
 
-    this.physics.add.collider(this.enemies[1], this.floor2);
-    this.physics.add.collider(this.enemies[1].collision, this.floor2);
+    // this.physics.add.collider(this.enemies[1], this.floor2);
+    // this.physics.add.collider(this.enemies[1].collision, this.floor2);
 
-    this.physics.add.collider(this.enemies[2], this.floor3);
-    this.physics.add.collider(this.enemies[2].collision, this.floor3);
+    // this.physics.add.collider(this.enemies[2], this.floor3);
+    // this.physics.add.collider(this.enemies[2].collision, this.floor3);
 
     var that = this;
 
-    this.enemies.forEach(function (element, index, array) {
+    this.enemies.forEach(element => {
       var combat = function () {
         that.player.canMove = false;
         that.combatHappening = true;

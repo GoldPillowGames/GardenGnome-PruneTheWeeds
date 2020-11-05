@@ -78,7 +78,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     }
     update(delta) {
-        if ((this.direction != 0) && this.playerState === this.playerStates.STOPPED) {
+        if ((this.direction != 0) && this.playerState === this.playerStates.STOPPED && this.canMove) {
             this.anims.play('walk');
             this.playerState = this.playerStates.WALKING;
         } else if (this.playerState === this.playerStates.WALKING && this.direction === 0) {

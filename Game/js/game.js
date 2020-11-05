@@ -19,8 +19,8 @@ var isWeb = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.te
 // {
   var config = {
     type:Phaser.AUTO,
-    width:  isWeb ? 1280 * window.screen.width / 2560 : window.screen.width,//900 * window.screen.width / 760 ,
-    height: isWeb ? 720 * window.screen.height / 1440 : window.screen.height,//400 * window.screen.height / 400,
+    width:  isWeb ? 1280 /* * window.screen.width / 2560 */ : window.screen.width,//900 * window.screen.width / 760 ,
+    height: isWeb ? 720 /* * window.screen.height / 1440 */: window.screen.height,//400 * window.screen.height / 400,
     parent: "game",
     dom: {
       createContainer: true
