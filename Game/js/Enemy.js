@@ -81,13 +81,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     getAttacked() {
-
         this.hp -= 1;
-        if (this.hp != 0) {
-            this.stamina = this.baseStamina;
-            this.enemyState = this.enemyStates.ATTACKING;
-            this.attack();
-        }
     }
 
     notGettingAttacked() {
@@ -107,6 +101,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             case this.enemyStates.PARRY:
                 this.getParried();
                 break;
+            default:
+                break;
+        }
+    }
+
+    playerHasAttacked(){
+        switch (this.enemyState) {
             case this.enemyStates.TIRED:
                 this.getAttacked();
                 console.log('Recibi ataque');
@@ -114,9 +115,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     // Las siguiente dos líneas agruparlas en el CombatController.
                     this.scene.combatHappening = false;
                     this.scene.player.canMove = true;
-
+                    this.scene.cameraZoom = 0.9;
+                    this.scene.cameras.main.setFollowOffset(0);
+                    this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 300, 'Sine.easeInOut');
                     this.die();
                 }
+                break;
+            default:
                 break;
         }
     }

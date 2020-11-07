@@ -36,6 +36,8 @@ export default class level1 extends Phaser.Scene {
     this.width = this.sys.game.config.width;
     this.height = this.sys.game.config.height;
 
+    this.cameraZoom = 0.9;
+
     this.combatHappening = false;
     this.currentEnemy;
 
@@ -46,11 +48,12 @@ export default class level1 extends Phaser.Scene {
     this.load.image('Circle-UI', 'assets/test/circle-ui.png');
     this.load.image('Frog', 'assets/test/Rana1.png');
 
-    this.load.image('BaseFloor1', 'assets/Level 1/suelo_base1.png');
+    this.load.image('BaseFloor1', 'assets/Level 1/suelo4.png');
     this.load.image('BaseSky1', 'assets/Level 1/cielo_base1.png');
 
-    this.load.image('MetalFence', 'assets/Props/wood-fence.png');
-    this.load.image('WoodFence', 'assets/Props/metal-fence.png');
+    this.load.image('MetalFence', 'assets/Props/metal_fence.png');
+    this.load.image('WoodFence', 'assets/Props/wood_fence.png');
+    this.load.image('Grass', 'assets/Props/grass.png');
 
     this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
       frameWidth: 64,
@@ -80,10 +83,49 @@ export default class level1 extends Phaser.Scene {
     this.coolDownText.setScrollFactor(0);
 
     this.InitFloor();
+    this.createFences();
+    this.createRandomSprites('Grass', 200, -7, -40, 14, 20, 102, 103.3);
+    this.createRandomSprites('Grass', 200, 7, -30, 14, 20, 103.3, 111);
     this.InitPlayer();
     this.InitColliders();
-
     this.SetupCamera();
+  }
+
+  createFences(){
+    var initialPosition = -40;
+    var fence = this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence');
+    fence.scaleX = UsefulMethods.RelativeScale(0.065, "x", this);
+    fence.scaleY = fence.scaleX;
+    fence.setDepth(-8);
+
+    var numberOfFences = 20;
+    
+    for(var i = 0; i < numberOfFences; i++)
+    {
+      initialPosition += 12;
+      fence = this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence');
+      fence.scaleX = UsefulMethods.RelativeScale(0.065, "x", this);
+      fence.scaleY = fence.scaleX;
+      fence.setDepth(-8);
+    }
+  }
+
+  createRandomSprites(sprite, maxDistance, depth, initX, minX, maxX, minY, maxY) {
+    var nextSpritePositionX = initX;
+    var nextSpritePositionY = minY;
+
+    while(nextSpritePositionX < maxDistance)
+    {
+      var object = this.add.sprite(
+        UsefulMethods.RelativePosition(nextSpritePositionX, "x", this),
+        UsefulMethods.RelativePosition(nextSpritePositionY, "y", this), sprite, 4).setDepth(depth);
+      
+
+      object.scaleX = UsefulMethods.RelativeScale(0.04, "x", this);
+      object.scaleY = object.scaleX;
+      nextSpritePositionX = nextSpritePositionX + (Math.random() * (maxX - minX) + minX);
+      nextSpritePositionY = (Math.random() * (maxY - minY) + minY);
+    }
   }
 
 
@@ -93,17 +135,17 @@ export default class level1 extends Phaser.Scene {
 
     this.enemies.push(new Enemy({
       scene: this, x: 50, y: 75,
-      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 2
+      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 10
     }));
 
     this.enemies.push(new Enemy({
       scene: this, x: 95, y: 75,
-      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 2
+      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 10
     }));
 
     this.enemies.push(new Enemy({
       scene: this, x: 140, y: 75,
-      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 2
+      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 10
     }));
 
     this.enemies.forEach(element => { element.create(); });
@@ -115,9 +157,8 @@ export default class level1 extends Phaser.Scene {
    */
   SetupCamera() {
     // Ambos zooms sirven
-    // this.cameras.main.setZoom(1.3);
     // this.cameras.main.zoom = 0.5;
-
+    this.cameras.main.zoomTo(this.cameraZoom, 300, 'Sine.easeInOut');
     // La cámara sigue al jugador
     this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
   }
@@ -135,10 +176,7 @@ export default class level1 extends Phaser.Scene {
     this.floor.body.immovable = true;
     this.floor.body.setOffset(0, 55);
     this.floor.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
-    this.floor.scaleY = UsefulMethods.RelativeScale(0.11, 'y', this);
-
-    this.fence = this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(68, "y", this), 'WoodFence');
-    this.fence.setDepth(-10);
+    this.floor.scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
 
     // this.floor.scaleX = UsefulMethods.RelativeScale(0.1, "x", this);
     // this.floor.scaleY = this.floor.scaleX;
@@ -216,6 +254,9 @@ export default class level1 extends Phaser.Scene {
         that.currentEnemy = element;
         element.attack();
         element.collision.destroy();
+        this.cameraZoom = 1.1;
+        this.cameras.main.setFollowOffset(-100);
+        this.cameras.main.zoomTo(this.cameraZoom, 300, 'Sine.easeInOut');
       };
       that.physics.add.overlap(that.player, element.collision, combat, null, that);
     });
@@ -233,6 +274,7 @@ export default class level1 extends Phaser.Scene {
 
       this.coolDownText.setText("CanParry: " + this.player.canParry);
     }
+
     // #region Teclas y movimiento
     this.player.update(delta);
   }

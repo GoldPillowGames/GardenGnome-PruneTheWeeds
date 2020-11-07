@@ -40,13 +40,20 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     createParryControls() {
         // Cuando se suelta el click izquierdo del ratón, el personaje hace parry o ataca.
-        this.scene.input.on('pointerup', function (pointer) {
+        this.scene.input.on('pointermove', function (pointer) {
+            console.log("Distancia recorrida en el parry: " + (new Phaser.Math.Vector2(pointer.x - this.scene.inputManager.initialMouseX, pointer.y - this.scene.inputManager.initialMouseY)).length());
             if (this.scene.combatHappening && this.scene.currentEnemy != null && this.scene.inputManager.movementPointerId === pointer.id &&
-            this.canParry && pointer.x >= this.scene.inputManager.initialMouseX) {
+            this.canParry && pointer.x >= this.scene.inputManager.initialMouseX &&
+            (new Phaser.Math.Vector2(pointer.x - this.scene.inputManager.initialMouseX, pointer.y - this.scene.inputManager.initialMouseY)).length() >= 40) {
                 console.debug("En combate");
                 this.scene.currentEnemy.playerHasParried();
             }
 
+        }, this);
+
+        this.scene.input.on('pointerdown', function (pointer) {
+            if(this.scene.currentEnemy != null)
+                this.scene.currentEnemy.playerHasAttacked();
         }, this);
     }
 
