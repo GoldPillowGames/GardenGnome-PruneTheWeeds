@@ -39,7 +39,7 @@ export default class MainMenu extends Phaser.Scene{
             progressBox.fillRect(20, 555, 760, 20).setDepth(5000);
 
             this.load.on('progress', function (value) {
-                console.log(value);
+                UsefulMethods.print(value);
                 progressBar.clear();
                 progressBar.fillStyle(0xffffff, 1);
                 progressBar.fillRect(25, 560, 750 * value, 10);
@@ -75,17 +75,17 @@ export default class MainMenu extends Phaser.Scene{
 
 
             this.load.on('progress', function (value) {
-                console.log(value);
+                UsefulMethods.print(value);
             });
 
             this.load.on('fileprogress', function (file) {
                 assetText.setText('Loading asset: ' + file.key);
-                console.log(file.src);
+                UsefulMethods.print(file.src);
             });
 
             // Destructor
             this.load.on('complete', function () {
-                console.log('complete');
+                UsefulMethods.print('complete');
                 progressBar.destroy();
                 progressBox.destroy();
                 loadingText.destroy();

@@ -13,6 +13,7 @@ import UsefulMethods from './useful-methods.js';
 import Enemy from './Enemy.js';
 import Player from './player.js';
 import InputManager from './input-manager.js';
+import UIContainer from './ui-container.js';
 
 //Escena para testeo de juego de plataformas
 export default class level1 extends Phaser.Scene {
@@ -37,6 +38,9 @@ export default class level1 extends Phaser.Scene {
     this.height = this.sys.game.config.height;
 
     this.cameraZoom = 0.9;
+
+    this.cameraZoomInCombat = 1.1;
+    this.cameraOffsetInCombat = 100;
 
     this.combatHappening = false;
     this.currentEnemy;
@@ -63,11 +67,14 @@ export default class level1 extends Phaser.Scene {
 
   create() {
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(75, "y", this), texture: 'Character', frame: 4 });
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(75, "y", this), texture: 'Character', frame: 4 , HP: 5});
     this.player.create();
 
     this.inputManager = new InputManager(this);
     this.inputManager.create();
+
+    this.uiContainer = new UIContainer({ scene: this, x: 0, y: 0});
+    this.uiContainer.create();
 
     //Creamos los enemigos
     this.createEnemies();
@@ -76,11 +83,19 @@ export default class level1 extends Phaser.Scene {
     this.testingText2 = this.add.text(UsefulMethods.RelativePosition(5, "x", this), UsefulMethods.RelativePosition(85, "y", this), "Energía: " + this.enemies[0].stamina, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     this.testingText3 = this.add.text(UsefulMethods.RelativePosition(5, "x", this), UsefulMethods.RelativePosition(80, "y", this), "Vida: " + this.enemies[0].hp, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     this.coolDownText = this.add.text(UsefulMethods.RelativePosition(5, "x", this), UsefulMethods.RelativePosition(75, "y", this), "Estado del parry: se puede hacer.", { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
+    this.playerHPText = this.add.text(UsefulMethods.RelativePosition(5, "x", this), UsefulMethods.RelativePosition(10, "y", this), "Vidas restantes: " + this.player.HP, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'black' });;
 
-    this.testingText.setScrollFactor(0);
+    /*this.testingText.setScrollFactor(0);
     this.testingText2.setScrollFactor(0);
     this.testingText3.setScrollFactor(0);
     this.coolDownText.setScrollFactor(0);
+    this.playerHPText.setScrollFactor(0);*/
+
+    this.uiContainer.add(this.testingText);
+    this.uiContainer.add(this.testingText2);
+    this.uiContainer.add(this.testingText3);
+    this.uiContainer.add(this.coolDownText);
+    this.uiContainer.add(this.playerHPText);
 
     this.InitFloor();
     this.createFences();
@@ -254,12 +269,25 @@ export default class level1 extends Phaser.Scene {
         that.currentEnemy = element;
         element.attack();
         element.collision.destroy();
-        this.cameraZoom = 1.1;
-        this.cameras.main.setFollowOffset(-100);
-        this.cameras.main.zoomTo(this.cameraZoom, 300, 'Sine.easeInOut');
+        
+        that.cameras.main.setFollowOffset(-that.cameraOffsetInCombat);
+        that.cameras.main.zoomTo(that.cameraZoomInCombat, 300, 'Sine.easeInOut');
+
+        //that.resizeText();
+
       };
       that.physics.add.overlap(that.player, element.collision, combat, null, that);
     });
+  }
+
+  resizeText(){
+    this.testingText.scaleX = this.testingText.scaleX / this.cameraZoomInCombat;
+    this.testingText.scaleY = this.testingText.scaleY / this.cameraZoomInCombat;
+    this.testingText.x = this.testingText.x / this.cameraZoomInCombat + this.cameraOffsetInCombat;
+    this.testingText.y = this.testingText.y / this.cameraZoomInCombat;
+
+    //Se sigue esta formula para cambiar el tamaño y la posición de la interfaz cuando se cambia el zoom de la camara
+
   }
 
   /**
@@ -269,11 +297,13 @@ export default class level1 extends Phaser.Scene {
     //Si currentEnemy existe (lo hace en caso de estar en un combate) se actualizan los textos con sus datos para testear.
     if (this.currentEnemy != null) {
       this.testingText.setText(this.currentEnemy.enemyState);
-      this.testingText2.setText("Energía: " + this.currentEnemy.stamina);
+      this.testingText2.setText("Energia: " + this.currentEnemy.stamina);
       this.testingText3.setText("Vida: " + this.currentEnemy.hp);
-
+      this.playerHPText.setText("Vidas restantes: " + this.player.HP);
       this.coolDownText.setText("CanParry: " + this.player.canParry);
     }
+
+    this.uiContainer.update();
 
     // #region Teclas y movimiento
     this.player.update(delta);

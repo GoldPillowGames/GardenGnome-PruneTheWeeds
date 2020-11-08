@@ -3,7 +3,7 @@ import UsefulMethods from '../js/useful-methods.js';
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(data) {
         // #region Contructor
-        let { scene, x, y, texture, frame } = data;
+        let { scene, x, y, texture, frame, HP } = data;
         super(scene, x, y, texture, frame);
         // #endregion
 
@@ -15,8 +15,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.playerState = this.playerStates.STOPPED;
         this.velocity = 180;
         this.direction = 0;
+        this.HP = HP;
         this.canMove = true;
         this.playerScale = 1;
+
+        this.parrying = false;
 
         this.canParry = true;
         this.parryCooldown = 1;
@@ -41,19 +44,27 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     createParryControls() {
         // Cuando se suelta el click izquierdo del ratón, el personaje hace parry o ataca.
         this.scene.input.on('pointermove', function (pointer) {
-            console.log("Distancia recorrida en el parry: " + (new Phaser.Math.Vector2(pointer.x - this.scene.inputManager.initialMouseX, pointer.y - this.scene.inputManager.initialMouseY)).length());
+            
             if (this.scene.combatHappening && this.scene.currentEnemy != null && this.scene.inputManager.movementPointerId === pointer.id &&
             this.canParry && pointer.x >= this.scene.inputManager.initialMouseX &&
             (new Phaser.Math.Vector2(pointer.x - this.scene.inputManager.initialMouseX, pointer.y - this.scene.inputManager.initialMouseY)).length() >= 40) {
-                console.debug("En combate");
-                this.scene.currentEnemy.playerHasParried();
+                UsefulMethods.print("En combate");
+
+                if(this.parrying)
+                    this.scene.currentEnemy.playerHasParried();
             }
 
         }, this);
 
         this.scene.input.on('pointerdown', function (pointer) {
-            if(this.scene.currentEnemy != null)
+            if(this.scene.currentEnemy != null){
+                this.parrying = true;
                 this.scene.currentEnemy.playerHasAttacked();
+            }
+        }, this);
+
+        this.scene.input.on('pointerup', function (pointer){
+            this.parrying = false;
         }, this);
     }
 
@@ -84,6 +95,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         });
 
     }
+
+    die(){
+        UsefulMethods.print("El jugador muere. Pasa lo que tenga que pasar.");
+
+        //lo que sea que pase cuando se pierde
+    }
+
     update(delta) {
         if ((this.direction != 0) && this.playerState === this.playerStates.STOPPED && this.canMove) {
             this.anims.play('walk');
@@ -118,7 +136,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.scaleX = Math.abs(this.scaleX);
         }
 
-
+        if(this.HP <= 0){
+            this.die();
+        }
         // Se aplica la velocidad de movimiento al sprite
         var calculatedSpeed = this.canMove ? (this.direction * this.velocity) : 0;
 

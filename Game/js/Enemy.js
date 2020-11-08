@@ -55,27 +55,27 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     notGetParried() {
-        console.log("NotGetParried");
+        UsefulMethods.print("NotGetParried");
         if (this.enemyState == this.enemyStates.PARRY) {
             this.enemyState = this.enemyStates.ATTACKING;
-            console.log("back to parrry");
+            UsefulMethods.print("back to parrry");
             this.attack();
         }
     }
 
     beingTired() {
-        console.log('tired');
+        UsefulMethods.print('tired');
         this.BackAttack = this.scene.time.addEvent({ delay: this.window * 1000, callback: this.notGettingAttacked, callbackScope: this, loop: false });
     }
 
     attack() {
-        console.log('attack');
+        UsefulMethods.print('attack');
         if (this.scene != null)
             this.stopAttacking = this.scene.time.addEvent({ delay: this.attackTime * 1000, callback: this.goParry, callbackScope: this, loop: false });
     }
 
     goParry() {
-        console.log('parry');
+        UsefulMethods.print('parry');
         this.enemyState = this.enemyStates.PARRY;
         this.stopBeingParried = this.scene.time.addEvent({ delay: this.window * 1000, callback: this.notGetParried, callbackScope: this, loop: false });
     }
@@ -94,11 +94,14 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     playerHasParried() {
+        UsefulMethods.print("Parry");
         switch (this.enemyState) {
             case this.enemyStates.ATTACKING:
                 this.scene.player.parryCooldownFunction();
+                this.scene.player.HP--;
                 break;
             case this.enemyStates.PARRY:
+                this.scene.player.parrying = false;
                 this.getParried();
                 break;
             default:
@@ -110,7 +113,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         switch (this.enemyState) {
             case this.enemyStates.TIRED:
                 this.getAttacked();
-                console.log('Recibi ataque');
+                UsefulMethods.print('Recibi ataque');
                 if (this.hp == 0) {
                     // Las siguiente dos líneas agruparlas en el CombatController.
                     this.scene.combatHappening = false;

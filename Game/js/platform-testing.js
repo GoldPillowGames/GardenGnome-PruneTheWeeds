@@ -326,7 +326,7 @@ export default class PlatformTesting extends Phaser.Scene {
         this.currentEnemy.GetParried();
       }else if(spacePressed && this.currentEnemy.enemyState == this.currentEnemy.enemyStates.TIRED){
         this.currentEnemy.getAttacked();
-        console.log('Recibi ataque');
+        UsefulMethods.print('Recibi ataque');
         if(this.currentEnemy.hp == 0){
           this.currentEnemy.die();
           this.combatHappening = false;
