@@ -72,18 +72,23 @@ export default class level1 extends Phaser.Scene {
 
     this.inputManager = new InputManager(this);
     this.inputManager.create();
-
-    this.uiContainer = new UIContainer({ scene: this, x: 0, y: 0});
+    this.SetupCamera();
+    this.uiContainer = new UIContainer({ scene: this, x: this.width / 2, y: this.height / 2});
     this.uiContainer.create();
 
     //Creamos los enemigos
     this.createEnemies();
 
-    this.testingText = this.add.text(UsefulMethods.RelativePosition(5, "x", this), UsefulMethods.RelativePosition(90, "y", this), this.enemies[0].enemyState, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
-    this.testingText2 = this.add.text(UsefulMethods.RelativePosition(5, "x", this), UsefulMethods.RelativePosition(85, "y", this), "Energía: " + this.enemies[0].stamina, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
-    this.testingText3 = this.add.text(UsefulMethods.RelativePosition(5, "x", this), UsefulMethods.RelativePosition(80, "y", this), "Vida: " + this.enemies[0].hp, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
-    this.coolDownText = this.add.text(UsefulMethods.RelativePosition(5, "x", this), UsefulMethods.RelativePosition(75, "y", this), "Estado del parry: se puede hacer.", { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
-    this.playerHPText = this.add.text(UsefulMethods.RelativePosition(5, "x", this), UsefulMethods.RelativePosition(10, "y", this), "Vidas restantes: " + this.player.HP, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'black' });;
+    this.testingText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(25, "y", this), this.enemies[0].enemyState, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
+    //this.testingText.setOrigin(0.5, 0,5);
+    this.testingText2 = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(30, "y", this), "Energía: " + this.enemies[0].stamina, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
+    //this.testingText2.setOrigin(0.5, 0,5);
+    this.testingText3 = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(35, "y", this), "Vida: " + this.enemies[0].hp, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
+    //this.testingText3.setOrigin(0.5, 0,5);
+    this.coolDownText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(40, "y", this), "Estado del parry: se puede hacer.", { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
+    //this.coolDownText.setOrigin(0.5, 0,5);
+    this.playerHPText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(-45, "y", this), "Vidas restantes: " + this.player.HP, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'black' });;
+    //this.playerHPText.setOrigin(0.5, 0,5);
 
     /*this.testingText.setScrollFactor(0);
     this.testingText2.setScrollFactor(0);
@@ -103,7 +108,7 @@ export default class level1 extends Phaser.Scene {
     this.createRandomSprites('Grass', 200, 7, -30, 14, 20, 103.3, 111);
     this.InitPlayer();
     this.InitColliders();
-    this.SetupCamera();
+    
   }
 
   createFences(){

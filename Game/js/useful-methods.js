@@ -42,7 +42,7 @@ export default class UsefulMethods{
           result = scene.width * value/100;
           break;
         case "y":
-          result = scene.game.config.height * value/100;
+          result = scene.height * value/100;
           break;
         default:
           break;
