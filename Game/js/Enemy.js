@@ -3,7 +3,7 @@ import UsefulMethods from './useful-methods.js';
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     constructor(data) {
         // #region Contructor
-        let { scene, x, y, texture, frame, attackTime, window, stamina, hp } = data;
+        let { scene, x, y, texture, frame, attackTime, window, stamina, hp , idleAnimation, attackAnimation} = data;
         super(scene, UsefulMethods.RelativePosition(x, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
         // #endregion
 
@@ -16,6 +16,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.enemyState = this.enemyStates.ATTACKING;
         this.enemyScale = 1;
+        
+        this.idleAnimation = idleAnimation;
+        this.attackAnimation = attackAnimation;
 
         this.scene = scene;
         this.attackTime = attackTime;
@@ -37,8 +40,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.scaleY = this.scaleX;
         this.enemyScale = this.scaleX;
 
+        this.anims.play(this.idleAnimation);
+
         this.collision.displayWidth = UsefulMethods.RelativeScale(10, "x", this.scene);
         this.collision.scaleY = this.collision.scaleX;
+
+        //this.anims.play('CarnivoreFlowerIdle');
     }
 
     getParried() {

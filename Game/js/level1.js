@@ -63,6 +63,11 @@ export default class level1 extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64
     });
+
+    this.load.spritesheet('CarnivoreFlower' , 'assets/enemies/texture.png',{
+      frameWidth: 550,
+      frameHeight: 660
+    });
   }
 
   create() {
@@ -155,8 +160,17 @@ export default class level1 extends Phaser.Scene {
 
     this.enemies.push(new Enemy({
       scene: this, x: 50, y: 75,
-      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 10
+      texture: 'CarnivoreFlower', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 10, idleAnimation: 'CarnivoreFlowerIdle', attackAnimation:'CarnivoreFlowerAttack'
     }));
+
+    this.anims.create({
+      key: 'CarnivoreFlowerIdle',
+      frames: this.anims.generateFrameNumbers('CarnivoreFlower', { start: 0, end: 8 }),
+      frameRate: 6,
+      repeat: -1
+    });
+
+    
 
     this.enemies.push(new Enemy({
       scene: this, x: 95, y: 75,
