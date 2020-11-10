@@ -20,17 +20,12 @@ export default class MainMenu extends Phaser.Scene{
     preload(){
         this.load.image('Title-Example'  , 'assets/test/example.png');
         this.load.image('Title-Title'    , 'assets/test/title.png');
-        this.load.image('Play-Button'    , 'assets/test/play.png');
-        this.load.image('Settings-Button', 'assets/test/settings.png');
-        this.load.image('Credits-Button' , 'assets/test/rankings.png');
-        this.load.image('Easy-Button'    , 'assets/test/easy.png');
-        this.load.image('Hard-Button'    , 'assets/test/hard.png');
+        this.load.image('Play-Button'    , 'assets/main-menu/play.png');
+        this.load.image('Settings-Button', 'assets/main-menu/settings.png');
+        this.load.image('Credits-Button' , 'assets/main-menu/rankings.png');
+        this.load.image('Easy-Button'    , 'assets/main-menu/easy.png');
+        this.load.image('Hard-Button'    , 'assets/main-menu/hard.png');
         this.load.image('Settings-Menu-Background', 'assets/test/settings-menu-background.png');
-        this.load.image('Settings-Menu-Background', 'assets/test/settings-menu-background.png');
-        this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
-            frameWidth: 64,
-            frameHeight: 64
-          });
 
         // #region Loading Bar
             var progressBar = this.add.graphics();
@@ -124,7 +119,7 @@ export default class MainMenu extends Phaser.Scene{
         this.levelButtonsPosition = 120;
         var that = this;
 
-        this.cameras.main.fadeIn(1000);
+        this.cameras.main.fadeIn(550);
 
         // this.SettingsButtonsContainer = this.add.sprite(this.width/3, this.height/1.32,'').setInteractive();
         // this.SettingsButtonsContainer.alpha = 0;
@@ -215,7 +210,8 @@ export default class MainMenu extends Phaser.Scene{
         this.settingsButton = new Button({scene:this, x:20, y:60, texture:'Settings-Button', frame:4, scale:0.02});
         this.settingsButton.create();
         this.settingsButton.pointerUp = function(){
-            // Settings
+            that.cameras.main.fadeOut(225);
+            that.scene.get("mainMenu").time.addEvent({delay: 510, callback: function(){that.scene.start("settingsMenu");}, callbackScope:this, loop:false});
         }
 
         this.creditsButton = new Button({scene:this, x:80, y:60, texture:'Credits-Button', frame:4, scale:0.02});

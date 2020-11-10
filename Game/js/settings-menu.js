@@ -1,0 +1,95 @@
+/**
+ * Codigo desarrollado por:
+ * -
+ * Germán López Gutiérrez
+ * Ignacio Atance Loras
+ * Fernando Martín Espina
+ * Jorge Sánchez Sánchez
+ * Elvira Gutiérrez Bartolomé
+ * -
+ */
+
+import UsefulMethods from '../js/useful-methods.js';
+import Slider from '../js/slider.js';
+import Button from '../js/button.js';
+
+export default class SettingsMenu extends Phaser.Scene{
+    constructor(){
+        super('settingsMenu');
+      }
+
+    preload(){
+        this.load.image('SettingsBackground', ['assets/main-menu/settings-background.png', 'assets/main-menu/settings-background_n3.png']);
+        this.load.image('SliderBar', 'assets/main-menu/slider-bar.png');
+        this.load.image('Plus', 'assets/main-menu/plus.png');
+        this.load.image('Minus', 'assets/main-menu/minus.png');
+        this.load.image('ExitButton', 'assets/main-menu/exit.png');
+    }
+    
+    create(){
+        this.cameras.main.fadeIn(550);
+        
+        let that = this;
+
+        this.width  = this.sys.game.config.width;
+        this.height = this.sys.game.config.height;
+
+         // this.lights.enable();
+        if(!(this.sys.game.device.os.android || this.sys.game.device.os.iOS || this.sys.game.device.os.iPad || this.sys.game.device.os.iPhone)){
+            var light  = this.lights.addLight(0, 0, 100000, 0xe6fcf5, 0.2);
+            this.lights.enable().setAmbientColor(0xc3c3c3);
+            this.input.on('pointermove', function (pointer) {
+                light.x = pointer.x;
+                light.y = pointer.y;
+            });
+        }
+        
+
+        var background = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this),'SettingsBackground').setPipeline('Light2D');
+        background.setDepth(-100);
+
+        background.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
+        background.scaleY = background.scaleX;
+
+        let style = {
+            fontFamily: 'amazingkids_font', 
+            fontSize: '88px',
+            color: '#e6fcf5',
+            stroke: '#0e302f',
+            strokeThickness: 15
+        }
+
+        let text = this.add.text(UsefulMethods.RelativePosition(50, 'x', this), UsefulMethods.RelativePosition(15, 'y', this), 'SETTINGS', style);
+
+        text.setOrigin(0.5);
+        text.setDepth(100);
+        text.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        text.scaleY = text.scaleX;
+
+        this.masterVolume = new Slider({scene:this, x:10, y:35, sliderTexture:'SliderBar', minusTexture:'Minus', plusTexture:'Plus', sliderText:'MASTER VOLUME'});
+        this.masterVolume.create();
+
+        this.musicVolume = new Slider({scene:this, x:10, y:47.5, sliderTexture:'SliderBar', minusTexture:'Minus', plusTexture:'Plus', sliderText:'MUSIC VOLUME'});
+        this.musicVolume.create();
+
+        this.sfxVolume = new Slider({scene:this, x:10, y:60, sliderTexture:'SliderBar', minusTexture:'Minus', plusTexture:'Plus', sliderText:'SFX VOLUME'});
+        this.sfxVolume.create();
+
+        this.exitButton = new Button({scene:this, x:89.5, y:86, texture:'ExitButton', frame:4, scale:0.018});
+        this.exitButton.create();
+        this.exitButton.pointerUp = function(){
+            that.cameras.main.fadeOut(225);
+            that.scene.get("settingsMenu").time.addEvent({delay: 510, callback: function(){that.scene.start('mainMenu');}, callbackScope:this, loop:false});
+        }
+        this.exitButton.setTint(0xe6fcf5);
+
+        
+    }
+
+    update(delta){
+        this.masterVolume.update(delta);
+        this.musicVolume.update(delta);
+        this.sfxVolume.update(delta);
+        this.exitButton.update(delta);
+    }
+}
