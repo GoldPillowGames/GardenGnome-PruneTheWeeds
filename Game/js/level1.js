@@ -52,8 +52,8 @@ export default class level1 extends Phaser.Scene {
     this.load.image('Circle-UI', 'assets/test/circle-ui.png');
     this.load.image('Frog', 'assets/test/Rana1.png');
 
-    this.load.image('BaseFloor1', 'assets/Level 1/suelo4.png');
-    this.load.image('BaseSky1', 'assets/Level 1/cielo_base1.png');
+    this.load.image('BaseFloor1', 'assets/Level 1/sueloTileado.png');
+    this.load.image('BaseSky1', 'assets/Level 1/cielo_base2.png');
 
     this.load.image('MetalFence', 'assets/Props/metal_fence.png');
     this.load.image('WoodFence', 'assets/Props/wood_fence.png');
@@ -165,7 +165,7 @@ export default class level1 extends Phaser.Scene {
 
     this.enemies.push(new Enemy({
       scene: this, x: 50, y: 75,
-      texture: 'CarnivoreFlower', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 10, idleAnimation: 'CarnivoreFlowerIdle', attackAnimation:'CarnivoreFlowerAttack'
+      texture: 'CarnivoreFlower', frame: 0, attackTime: 2, window: 1, stamina: 1, hp: 1, idleAnimation: 'CarnivoreFlowerIdle', attackAnimation:'CarnivoreFlowerAttack'
     }));
 
     this.anims.create({
@@ -202,12 +202,24 @@ export default class level1 extends Phaser.Scene {
     this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
   }
 
+
+  RepeatElement(element, distance, times, yCoord, depth){
+    for(var i = 0; i < times; i++){
+      this.repeatedElement = this.add.sprite(0 + distance*i, UsefulMethods.RelativePosition(yCoord, "y", this), element, );
+      this.repeatedElement.setDepth(depth);
+    }
+  }
+
   /**
    * Inicializa la superficie sobre la que el personaje camina (sin hacer)
    */
   InitFloor() {
+    var floorDistance = 2289;
+
     this.sky = this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', );
     this.sky.setDepth(-11);
+
+    this.RepeatElement('BaseSky1', this.sky.width, 5, 105, -11);
 
     this.floor = this.physics.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4);
     this.floor.setDepth(-9);
@@ -216,6 +228,23 @@ export default class level1 extends Phaser.Scene {
     this.floor.body.setOffset(0, 55);
     this.floor.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     this.floor.scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
+    UsefulMethods.print("Ancho" + this.floor.width);
+
+    this.floor1 = this.physics.add.sprite(this.floor.x + this.floor.width*this.floor.scaleX, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4);
+    this.floor1.setDepth(-9);
+    this.floor1.body.allowGravity = false;
+    this.floor1.body.immovable = true;
+    this.floor1.body.setOffset(0, 55);
+    this.floor1.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
+    this.floor1.scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
+
+    this.floor2 = this.physics.add.sprite(this.floor.x + this.floor.width*2, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4);
+    this.floor2.setDepth(-9);
+    this.floor2.body.allowGravity = false;
+    this.floor2.body.immovable = true;
+    this.floor2.body.setOffset(0, 55);
+    this.floor2.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
+    this.floor2.scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
 
     // this.floor.scaleX = UsefulMethods.RelativeScale(0.1, "x", this);
     // this.floor.scaleY = this.floor.scaleX;
@@ -273,6 +302,12 @@ export default class level1 extends Phaser.Scene {
     this.enemies.forEach(element => {
       this.physics.add.collider(element, this.floor);
       this.physics.add.collider(element.collision, this.floor);
+
+      this.physics.add.collider(element, this.floor1);
+      this.physics.add.collider(element.collision, this.floor1);
+
+      this.physics.add.collider(element, this.floor2);
+      this.physics.add.collider(element.collision, this.floor2);
     });
 
     // this.physics.add.collider(this.enemies[0], this.floor1);
