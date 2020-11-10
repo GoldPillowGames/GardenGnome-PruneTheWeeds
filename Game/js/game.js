@@ -12,6 +12,8 @@
 import PlatformTesting from './platform-testing.js';
 import MainMenu from './main-menu.js';
 import Level_1 from './level1.js';
+import LoadingScreen from './loading-screen.js';
+import SplashScreen from './splash-screen.js';
 
 var isWeb = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
@@ -31,7 +33,7 @@ var isWeb = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.te
         gravity: { y: 1000}
       }
     },
-    scene: [MainMenu, PlatformTesting, Level_1/*, localGameSettings, settingsMenu, controlsMenu, creditsMenu,onlineLobby, localgame*/],
+    scene: [LoadingScreen, SplashScreen, MainMenu, PlatformTesting, Level_1 /*, localGameSettings, settingsMenu, controlsMenu, creditsMenu,onlineLobby, localgame*/],
     antialias: true
   };
 

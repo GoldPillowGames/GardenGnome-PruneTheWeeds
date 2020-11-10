@@ -62,5 +62,6 @@ export default class UsefulMethods{
       return value1 + (value2 - value1) * amount;
   };
 
+  
 
 }
