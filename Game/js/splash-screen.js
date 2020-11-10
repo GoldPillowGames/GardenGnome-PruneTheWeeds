@@ -1,16 +1,20 @@
+import UsefulMethods from '../js/useful-methods.js';
+
 // Clase correspondiente a la escena de splash screen.
 export default class SplashScreen extends Phaser.Scene {
 
   // Constructor de la escena.
-  constructor(){
+  constructor() {
     super('SplashScreen');
+    this.logo;
   }
 
   // Funcion create, que crea los elementos del propio juego.
-  create ()
-  {
-    // Añadimos el logo del equipo (NaNa Team).
-    this.add.image(960/2, 540/2, 'logo');
+  create() {
+    this.width = this.sys.game.config.width;
+    this.height = this.sys.game.config.height;
+
+    this.logo = this.add.image(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'logo');
 
     // Hacemos un fade con la camara.
     var cam = this.cameras.main;
@@ -22,7 +26,7 @@ export default class SplashScreen extends Phaser.Scene {
       scene.scene.start('mainMenu');
     }
 
-    function LoadMenu(scene){
+    function LoadMenu(scene) {
       cam.fadeOut(1000);
       scene.time.addEvent({
         delay: 1000,
@@ -36,4 +40,12 @@ export default class SplashScreen extends Phaser.Scene {
     });
 
   }
+
+  update() {
+    this.width = this.sys.game.config.width;
+    this.height = this.sys.game.config.height;
+    
+    this.logo.setPosition(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this));
+  }
+
 }
