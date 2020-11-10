@@ -71,6 +71,11 @@ export default class level1 extends Phaser.Scene {
   }
 
   create() {
+
+    //let that = this;
+    this.cameras.main.fadeIn(1000);
+    //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
+
     // Se crea el objeto player en la escena.
     this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(75, "y", this), texture: 'Character', frame: 4 , HP: 5});
     this.player.create();

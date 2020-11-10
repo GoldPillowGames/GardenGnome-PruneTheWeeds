@@ -3,8 +3,8 @@ import UsefulMethods from '../js/useful-methods.js';
 export default class Button extends Phaser.Physics.Arcade.Sprite {
     constructor(data) {
         // #region Contructor
-        let { scene, x, y, texture, frame, scale } = data;
-        super(scene, UsefulMethods.RelativePosition(x, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
+        let { scene, x, y, texture, frame, scale} = data;
+        super(scene, UsefulMethods.RelativePosition(x, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture);
         // #endregion
 
         // #region Variables
@@ -232,7 +232,7 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
             yoyo: false,
             repeat: 0,
             onStart: function () { 
-                console.log('onStart'); console.log(arguments); 
+                
             },
             onComplete: function () { 
                 that.playHideButton(0, 300, 60);
