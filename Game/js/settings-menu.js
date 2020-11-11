@@ -34,6 +34,9 @@ export default class SettingsMenu extends Phaser.Scene{
         this.width  = this.sys.game.config.width;
         this.height = this.sys.game.config.height;
 
+        var background = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this),'SettingsBackground');
+        background.setDepth(-100);
+
          // this.lights.enable();
         if(!(this.sys.game.device.os.android || this.sys.game.device.os.iOS || this.sys.game.device.os.iPad || this.sys.game.device.os.iPhone)){
             var light  = this.lights.addLight(0, 0, 100000, 0xe6fcf5, 0.2);
@@ -42,11 +45,11 @@ export default class SettingsMenu extends Phaser.Scene{
                 light.x = pointer.x;
                 light.y = pointer.y;
             });
+            background.setPipeline('Light2D');
         }
         
 
-        var background = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this),'SettingsBackground').setPipeline('Light2D');
-        background.setDepth(-100);
+        
 
         background.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
         background.scaleY = background.scaleX;
