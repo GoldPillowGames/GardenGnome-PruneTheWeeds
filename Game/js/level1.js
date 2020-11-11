@@ -14,6 +14,7 @@ import Enemy from './Enemy.js';
 import Player from './player.js';
 import InputManager from './input-manager.js';
 import UIContainer from './ui-container.js';
+import StreetLight from './street-light.js';
 
 //Escena para testeo de juego de plataformas
 export default class level1 extends Phaser.Scene {
@@ -52,12 +53,13 @@ export default class level1 extends Phaser.Scene {
     this.load.image('Circle-UI', 'assets/test/circle-ui.png');
     this.load.image('Frog', 'assets/test/Rana1.png');
 
-    this.load.image('BaseFloor1', 'assets/Level 1/sueloTileado.png');
+    this.load.image('BaseFloor1', ['assets/Level 1/sueloTileado.png', 'assets/Level 1/sueloTileado_n.png']);
     this.load.image('BaseSky1', 'assets/Level 1/cielo_base2.png');
 
     this.load.image('MetalFence', 'assets/Props/metal_fence.png');
-    this.load.image('WoodFence', 'assets/Props/wood_fence.png');
-    this.load.image('Grass', 'assets/Props/grass.png');
+    this.load.image('WoodFence', ['assets/Props/wood_fence_small.png', 'assets/Props/wood_fence_small_n.png']);
+    this.load.image('Grass', ['assets/Props/grass.png', 'assets/Props/grass_n.png']);
+    this.load.image('StreetLight', 'assets/test/lightplaceholder.png');
 
     this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
       frameWidth: 64,
@@ -68,6 +70,8 @@ export default class level1 extends Phaser.Scene {
       frameWidth: 550,
       frameHeight: 660
     });
+
+    //this.load.multiatlas('CarnivoreFlower2', 'assets/enemies/texture.json');
   }
 
   create() {
@@ -112,10 +116,13 @@ export default class level1 extends Phaser.Scene {
     this.uiContainer.add(this.coolDownText);
     this.uiContainer.add(this.playerHPText);
 
+    var streetLight = new StreetLight({scene:this, x:50, y:90, texture:'StreetLight', frame:4, scale:0.0225});
+    this.lights.enable().setAmbientColor(0xc3c3c3);
+
     this.InitFloor();
     this.createFences();
-    this.createRandomSprites('Grass', 200, -7, -40, 14, 20, 102, 103.3);
-    this.createRandomSprites('Grass', 200, 7, -30, 14, 20, 103.3, 111);
+    this.createRandomSprites('Grass', 200, -7, -40, 14, 20, 102, 103.5);
+    this.createRandomSprites('Grass', 200, 7, -30, 14, 20, 106, 111);
     this.InitPlayer();
     this.InitColliders();
     
@@ -124,9 +131,10 @@ export default class level1 extends Phaser.Scene {
   createFences(){
     var initialPosition = -40;
     var fence = this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence');
-    fence.scaleX = UsefulMethods.RelativeScale(0.065, "x", this);
+    fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
     fence.scaleY = fence.scaleX;
     fence.setDepth(-8);
+    fence.setPipeline('Light2D');
 
     var numberOfFences = 20;
     
@@ -134,8 +142,9 @@ export default class level1 extends Phaser.Scene {
     {
       initialPosition += 12;
       fence = this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence');
-      fence.scaleX = UsefulMethods.RelativeScale(0.065, "x", this);
+      fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
       fence.scaleY = fence.scaleX;
+      fence.setPipeline('Light2D');
       fence.setDepth(-8);
     }
   }
@@ -150,8 +159,9 @@ export default class level1 extends Phaser.Scene {
         UsefulMethods.RelativePosition(nextSpritePositionX, "x", this),
         UsefulMethods.RelativePosition(nextSpritePositionY, "y", this), sprite, 4).setDepth(depth);
       
+      object.setPipeline('Light2D');
 
-      object.scaleX = UsefulMethods.RelativeScale(0.04, "x", this);
+      object.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
       object.scaleY = object.scaleX;
       nextSpritePositionX = nextSpritePositionX + (Math.random() * (maxX - minX) + minX);
       nextSpritePositionY = (Math.random() * (maxY - minY) + minY);
@@ -174,6 +184,15 @@ export default class level1 extends Phaser.Scene {
       frameRate: 6,
       repeat: -1
     });
+
+    // add sprite from sheet
+    // var character_anim = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), this.add.sprite(UsefulMethods.RelativePosition(75, "y", this), 'CarnivoreFlower2', '01'));
+    // character_anim.setPipeline('Light2D');
+
+    // // play animation
+    // var frameNames = this.anims.generateFrameNames('CarnivoreFlower2', { start: 0, end: 8 });
+    // this.anims.create({ key: 'walk', frames: this.anims.generateFrameNames('CarnivoreFlower2', { start: 0, end: 8 }), frameRate: 6, repeat: -1 });
+    // character_anim.anims.play('walk');
 
     
 
@@ -228,6 +247,7 @@ export default class level1 extends Phaser.Scene {
     this.floor.body.setOffset(0, 55);
     this.floor.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     this.floor.scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
+    this.floor.setPipeline('Light2D');
     UsefulMethods.print("Ancho" + this.floor.width);
 
     this.floor1 = this.physics.add.sprite(this.floor.x + this.floor.width*this.floor.scaleX, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4);
@@ -236,6 +256,7 @@ export default class level1 extends Phaser.Scene {
     this.floor1.body.immovable = true;
     this.floor1.body.setOffset(0, 55);
     this.floor1.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
+    this.floor1.setPipeline('Light2D');
     this.floor1.scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
 
     this.floor2 = this.physics.add.sprite(this.floor.x + this.floor.width*2, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4);
@@ -245,6 +266,7 @@ export default class level1 extends Phaser.Scene {
     this.floor2.body.setOffset(0, 55);
     this.floor2.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     this.floor2.scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
+    this.floor2.setPipeline('Light2D');
 
     // this.floor.scaleX = UsefulMethods.RelativeScale(0.1, "x", this);
     // this.floor.scaleY = this.floor.scaleX;

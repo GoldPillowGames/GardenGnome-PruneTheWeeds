@@ -3,7 +3,7 @@ import UsefulMethods from './useful-methods.js';
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     constructor(data) {
         // #region Contructor
-        let { scene, x, y, texture, frame, attackTime, window, stamina, hp , idleAnimation, attackAnimation} = data;
+        let { scene, x, y, texture, frame, attackTime, window, stamina, hp, idleAnimation, attackAnimation } = data;
         super(scene, UsefulMethods.RelativePosition(x, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
         // #endregion
 
@@ -14,9 +14,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             TIRED: 'tired'
         }
 
+        this.x = UsefulMethods.RelativePosition(x, "x", scene);
+        this.y = UsefulMethods.RelativePosition(y, "y", scene)
+
         this.enemyState = this.enemyStates.ATTACKING;
         this.enemyScale = 1;
-        
+
         this.idleAnimation = idleAnimation;
         this.attackAnimation = attackAnimation;
 
@@ -58,7 +61,24 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.enemyState = this.enemyStates.ATTACKING;
             this.attack();
         }
-
+        var that = this;
+            this.scene.tweens.add({
+                targets: that,
+                y: that.y - 22,
+                ease: 'Power1',
+                
+                duration: 85,
+                yoyo: true,
+                repeat: 0,
+                onStart: function () {
+                    
+                },
+                onComplete: function () {
+                    
+                },
+                onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
+                onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+            });
     }
 
     notGetParried() {
@@ -89,6 +109,28 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     getAttacked() {
         this.hp -= 1;
+        if(this.hp > 0)
+        {
+            var that = this;
+            this.scene.tweens.add({
+                targets: that,
+                x: that.x + 15,
+                ease: 'Power1',
+                
+                duration: 65,
+                yoyo: true,
+                repeat: 0,
+                onStart: function () {
+                    that.setTint(0xff002a);
+                },
+                onComplete: function () {
+                    that.setTint(0xffffff);
+                },
+                onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
+                onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+            });
+        }
+       
     }
 
     notGettingAttacked() {
@@ -116,11 +158,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
-    playerHasAttacked(){
+    playerHasAttacked() {
         switch (this.enemyState) {
             case this.enemyStates.TIRED:
                 this.getAttacked();
                 UsefulMethods.print('Recibi ataque');
+
                 if (this.hp == 0) {
                     // Las siguiente dos líneas agruparlas en el CombatController.
                     this.scene.combatHappening = false;
@@ -138,6 +181,41 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     die() {
         this.destroy();
+        // var that = this;
+        //     this.scene.tweens.add({
+        //         targets: that,
+        //         y: that.y - 20,
+        //         ease: 'Power1',
+                
+        //         duration: 85,
+        //         yoyo: true,
+        //         repeat: 0,
+        //         onStart: function () {
+                    
+        //         },
+        //         onComplete: function () {
+        //             var that = this;
+        //     this.scene.tweens.add({
+        //         targets: that,
+        //         y: that.y + 400,
+        //         ease: 'Power1',
+                
+        //         duration: 805,
+        //         yoyo: true,
+        //         repeat: 0,
+        //         onStart: function () {
+                    
+        //         },
+        //         onComplete: function () {
+                    
+        //         },
+        //         onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
+        //         onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+        //     });
+        //         },
+        //         onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
+        //         onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+        //     });
     }
 
     update(delta) {
