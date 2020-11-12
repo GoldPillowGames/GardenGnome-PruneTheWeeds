@@ -15,6 +15,8 @@ export default class SplashScreen extends Phaser.Scene {
     this.height = this.sys.game.config.height;
 
     this.logo = this.add.image(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'logo');
+    console.log(UsefulMethods.RelativeScale(0.1, "x", this) + " " + UsefulMethods.RelativeScale(0.1, "y", this));
+    this.logo.setScale(UsefulMethods.RelativeScale(0.02, "x", this));
 
     // Hacemos un fade con la camara.
     var cam = this.cameras.main;

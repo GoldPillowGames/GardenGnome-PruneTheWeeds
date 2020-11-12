@@ -48,29 +48,6 @@ export default class level1 extends Phaser.Scene {
 
     // #endregion
 
-    this.load.image('Law', 'assets/test/Law.jpg');
-    this.load.image('Floor', 'assets/game-elements/ground.png');
-    this.load.image('Circle-UI', 'assets/test/circle-ui.png');
-    this.load.image('Frog', 'assets/test/Rana1.png');
-
-    this.load.image('BaseFloor1', ['assets/Level 1/sueloTileado.png', 'assets/Level 1/sueloTileado_n.png']);
-    this.load.image('BaseSky1', 'assets/Level 1/cielo_base2.png');
-
-    this.load.image('MetalFence', 'assets/Props/metal_fence.png');
-    this.load.image('WoodFence', ['assets/Props/wood_fence_small.png', 'assets/Props/wood_fence_small_n.png']);
-    this.load.image('Grass', ['assets/Props/grass.png', 'assets/Props/grass_n.png']);
-    this.load.image('StreetLight', 'assets/test/lightplaceholder.png');
-
-    this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
-      frameWidth: 64,
-      frameHeight: 64
-    });
-
-    this.load.spritesheet('CarnivoreFlower' , 'assets/enemies/texture.png',{
-      frameWidth: 550,
-      frameHeight: 660
-    });
-
     //this.load.multiatlas('CarnivoreFlower2', 'assets/enemies/texture.json');
   }
 
@@ -93,6 +70,8 @@ export default class level1 extends Phaser.Scene {
     //Creamos los enemigos
     this.createEnemies();
 
+
+    // DEBUG BORRAR.
     this.testingText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(25, "y", this), this.enemies[0].enemyState, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     //this.testingText.setOrigin(0.5, 0,5);
     this.testingText2 = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(30, "y", this), "Energía: " + this.enemies[0].stamina, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });

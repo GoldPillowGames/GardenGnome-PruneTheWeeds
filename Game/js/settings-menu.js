@@ -17,14 +17,6 @@ export default class SettingsMenu extends Phaser.Scene{
     constructor(){
         super('settingsMenu');
       }
-
-    preload(){
-        this.load.image('SettingsBackground', ['assets/main-menu/settings-background.png', 'assets/main-menu/settings-background_n3.png']);
-        this.load.image('SliderBar', 'assets/main-menu/slider-bar.png');
-        this.load.image('Plus', 'assets/main-menu/plus.png');
-        this.load.image('Minus', 'assets/main-menu/minus.png');
-        this.load.image('ExitButton', 'assets/main-menu/exit.png');
-    }
     
     create(){
         this.cameras.main.fadeIn(550);
