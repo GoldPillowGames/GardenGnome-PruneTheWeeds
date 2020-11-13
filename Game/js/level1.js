@@ -48,6 +48,31 @@ export default class level1 extends Phaser.Scene {
 
     // #endregion
 
+    this.load.image('Law', 'assets/test/Law.jpg');
+    this.load.image('Floor', 'assets/game-elements/ground.png');
+    this.load.image('Circle-UI', 'assets/test/circle-ui.png');
+    this.load.image('Frog', 'assets/test/Rana1.png');
+
+    this.load.image('BaseFloor1', ['assets/Level 1/sueloTileado.png', 'assets/Level 1/sueloTileado_n.png']);
+    this.load.image('BaseSky1', 'assets/Level 1/cielo_base2.png');
+
+    this.load.image('Arrow', 'assets/Props/arrow.png');
+
+    this.load.image('MetalFence', 'assets/Props/metal_fence.png');
+    this.load.image('WoodFence', ['assets/Props/wood_fence_small.png', 'assets/Props/wood_fence_small_n.png']);
+    this.load.image('Grass', ['assets/Props/grass.png', 'assets/Props/grass_n.png']);
+    this.load.image('StreetLight', 'assets/test/lightplaceholder.png');
+
+    this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
+      frameWidth: 64,
+      frameHeight: 64
+    });
+
+    this.load.spritesheet('CarnivoreFlower' , 'assets/enemies/texture.png',{
+      frameWidth: 550,
+      frameHeight: 660
+    });
+
     //this.load.multiatlas('CarnivoreFlower2', 'assets/enemies/texture.json');
   }
 
@@ -185,7 +210,13 @@ export default class level1 extends Phaser.Scene {
       texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 10
     }));
 
-    this.enemies.forEach(element => { element.create(); });
+
+    this.arrow = this.add.sprite(this.enemies[0].x, this.enemies[0].y + UsefulMethods.RelativePosition(5,'y' , this), 'Arrow');
+    this.arrow.scaleX = UsefulMethods.RelativeScale(0.01 , 'x' , this);
+    this.arrow.scaleY = this.arrow.scaleX;
+    this.arrow.setAlpha(0);
+
+    this.enemies.forEach(element => { element.create();});
 
   }
 
