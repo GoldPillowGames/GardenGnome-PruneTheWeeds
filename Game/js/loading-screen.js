@@ -49,6 +49,8 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Hard-Button'    , 'assets/main-menu/hard.png');
         this.load.image('Settings-Menu-Background', 'assets/test/settings-menu-background.png');
 
+        this.load.video('intro', 'assets/videos/intro.mp4', 'canplaythrough', true, false);
+
         // Codigo relativo a la barra de carga.
         this.width = this.sys.game.config.width;
         this.height = this.sys.game.config.height;

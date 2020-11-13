@@ -19,6 +19,12 @@ export default class MainMenu extends Phaser.Scene {
 
     create() {
 
+
+        this.width = this.sys.game.config.width;
+        this.height = this.sys.game.config.height;
+
+        
+
         this.blackBackground = this.add.sprite(0, 0, 'black-background').setInteractive();
         this.blackBackground.displayWidth = 20000;
         this.blackBackground.scaleY = this.blackBackground.scaleX;
@@ -28,8 +34,7 @@ export default class MainMenu extends Phaser.Scene {
         // //Variable auxiliar que guarda la escena actual en ella. Es importante porque en los eventos, si ponemos this, no devuelve la escena,
         // //sino el objeto que ha llamado al evento (eso objeto puede ser un botón, por ejemplo)
         // var that = this;
-        this.width = this.sys.game.config.width;
-        this.height = this.sys.game.config.height;
+        
         this.levelButtonsPosition = 120;
         var that = this;
 
