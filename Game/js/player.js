@@ -46,12 +46,21 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.input.on('pointermove', function (pointer) {
             
             if (this.scene.combatHappening && this.scene.currentEnemy != null && this.scene.inputManager.movementPointerId === pointer.id &&
-            this.canParry && pointer.x >= this.scene.inputManager.initialMouseX &&
+            this.canParry &&
             (new Phaser.Math.Vector2(pointer.x - this.scene.inputManager.initialMouseX, pointer.y - this.scene.inputManager.initialMouseY)).length() >= 40) {
                 UsefulMethods.print("En combate");
 
                 if(this.parrying)
-                    this.scene.currentEnemy.playerHasParried();
+                    this.parryCooldownFunction();
+
+                if(pointer.y - this.scene.inputManager.initialMouseY < 0 && this.scene.arrow.angle == -90){
+                    if(this.parrying)
+                        this.scene.currentEnemy.playerHasParried();
+                }
+                else if(pointer.y - this.scene.inputManager.initialMouseY > 0 && this.scene.arrow.angle == 90){
+                    if(this.parrying)
+                        this.scene.currentEnemy.playerHasParried();
+                }          
             }
 
         }, this);

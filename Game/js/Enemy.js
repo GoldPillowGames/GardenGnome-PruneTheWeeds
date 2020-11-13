@@ -96,12 +96,23 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     attack() {
+        
+        
+
         UsefulMethods.print('attack');
-        if (this.scene != null)
+        if (this.scene != null){
+            this.scene.arrow.setAlpha(0);
+            
+            this.scene.arrow.x = this.x;
             this.stopAttacking = this.scene.time.addEvent({ delay: this.attackTime * 1000, callback: this.goParry, callbackScope: this, loop: false });
+        }
+            
     }
 
     goParry() {
+        this.scene.arrow.setAlpha(1);
+        var random = Math.random() < 0.5 ? -1 : 1;
+        this.scene.arrow.angle = 90 * random;
         UsefulMethods.print('parry');
         this.enemyState = this.enemyStates.PARRY;
         this.stopBeingParried = this.scene.time.addEvent({ delay: this.window * 1000, callback: this.notGetParried, callbackScope: this, loop: false });
@@ -145,8 +156,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     playerHasParried() {
         UsefulMethods.print("Parry");
         switch (this.enemyState) {
-            case this.enemyStates.ATTACKING:
-                this.scene.player.parryCooldownFunction();
+            case this.enemyStates.ATTACKING:                
                 this.scene.player.HP--;
                 break;
             case this.enemyStates.PARRY:
@@ -171,6 +181,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     this.scene.cameraZoom = 0.9;
                     this.scene.cameras.main.setFollowOffset(0);
                     this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 300, 'Sine.easeInOut');
+                    this.scene.arrow.setAlpha(0);
                     this.die();
                 }
                 break;
