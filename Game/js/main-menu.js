@@ -17,6 +17,10 @@ export default class MainMenu extends Phaser.Scene {
         super('mainMenu');
     }
 
+    preload(){
+        this.hardMode = false;
+    }
+
     create() {
 
 
@@ -71,6 +75,7 @@ export default class MainMenu extends Phaser.Scene {
         this.difficultyButton1 = new Button({ scene: this, x: 40, y: 120, texture: 'Easy-Button', frame: 4, scale: 0.0225 });
         this.difficultyButton1.create();
         this.difficultyButton1.pointerUp = function () {
+            that.hardMode = false;
             that.cameras.main.fadeOut(200);
             that.scene.get("mainMenu").time.addEvent({ delay: 210, callback: function () { that.scene.start(levelName); }, callbackScope: this, loop: false });
         }
@@ -78,6 +83,7 @@ export default class MainMenu extends Phaser.Scene {
         this.difficultyButton2 = new Button({ scene: this, x: 60, y: 120, texture: 'Hard-Button', frame: 4, scale: 0.0225 });
         this.difficultyButton2.create();
         this.difficultyButton2.pointerUp = function () {
+            that.hardMode = true;
             that.cameras.main.fadeOut(200);
             that.scene.get("mainMenu").time.addEvent({ delay: 210, callback: function () { that.scene.start(levelName); }, callbackScope: this, loop: false });
         }

@@ -46,6 +46,9 @@ export default class level1 extends Phaser.Scene {
     this.combatHappening = false;
     this.currentEnemy;
 
+    this.firstCombat = true;
+    this.hardMode = this.scene.get("mainMenu").hardMode;
+
     // #endregion
 
     this.load.image('Law', 'assets/test/Law.jpg');
@@ -92,21 +95,28 @@ export default class level1 extends Phaser.Scene {
     this.uiContainer = new UIContainer({ scene: this, x: this.width / 2, y: this.height / 2});
     this.uiContainer.create();
 
+    this.InitFloor();
     //Creamos los enemigos
     this.createEnemies();
-
 
     // DEBUG BORRAR.
     this.testingText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(25, "y", this), this.enemies[0].enemyState, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     //this.testingText.setOrigin(0.5, 0,5);
-    this.testingText2 = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(30, "y", this), "Energía: " + this.enemies[0].stamina, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
+    //this.testingText2 = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(30, "y", this), "Energía: " + this.enemies[0].stamina, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     //this.testingText2.setOrigin(0.5, 0,5);
-    this.testingText3 = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(35, "y", this), "Vida: " + this.enemies[0].hp, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
+    //this.testingText3 = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(35, "y", this), "Vida: " + this.enemies[0].hp, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     //this.testingText3.setOrigin(0.5, 0,5);
     this.coolDownText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(40, "y", this), "Estado del parry: se puede hacer.", { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     //this.coolDownText.setOrigin(0.5, 0,5);
-    this.playerHPText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(-45, "y", this), "Vidas restantes: " + this.player.HP, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'black' });;
+    //this.playerHPText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(-45, "y", this), "Vidas restantes: " + this.player.HP, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'black' });;
     //this.playerHPText.setOrigin(0.5, 0,5);
+
+    this.healthBarWidht = UsefulMethods.RelativeScale(15.6, "x", this);
+    this.healtBarHeight = UsefulMethods.RelativeScale(3.47, "y", this);
+
+    this.healthBar = this.add.rectangle(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(-45, "y", this), this.healthBarWidht, this.healtBarHeight, 0xff5e5e);
+    this.healthBar.setOrigin(0);
+    this.uiContainer.add(this.healthBar);
 
     /*this.testingText.setScrollFactor(0);
     this.testingText2.setScrollFactor(0);
@@ -115,40 +125,44 @@ export default class level1 extends Phaser.Scene {
     this.playerHPText.setScrollFactor(0);*/
 
     this.uiContainer.add(this.testingText);
-    this.uiContainer.add(this.testingText2);
-    this.uiContainer.add(this.testingText3);
+    //this.uiContainer.add(this.testingText2);
+    //this.uiContainer.add(this.testingText3);
     this.uiContainer.add(this.coolDownText);
-    this.uiContainer.add(this.playerHPText);
+    //this.uiContainer.add(this.playerHPText);
 
     var streetLight = new StreetLight({scene:this, x:50, y:90, texture:'StreetLight', frame:4, scale:0.0225});
     this.lights.enable().setAmbientColor(0xc3c3c3);
 
-    this.InitFloor();
+    
     this.createFences();
-    this.createRandomSprites('Grass', 200, -7, -40, 14, 20, 102, 103.5);
-    this.createRandomSprites('Grass', 200, 7, -30, 14, 20, 106, 111);
+    
     this.InitPlayer();
     this.InitColliders();
     
   }
 
+
   createFences(){
+    this.fences = [];
+
     var initialPosition = -40;
-    var fence = this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence');
+    this.fences.push(this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence'));
+    var fence = this.fences[0];
     fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
     fence.scaleY = fence.scaleX;
     fence.setDepth(-8);
-    fence.setPipeline('Light2D');
+    //fence.setPipeline('Light2D');
 
     var numberOfFences = 20;
     
-    for(var i = 0; i < numberOfFences; i++)
+    while(fence.x < this.floors[0].width * this.floors[0].scaleX *3)
     {
       initialPosition += 12;
       fence = this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence');
+      this.fences.push(fence);
       fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
       fence.scaleY = fence.scaleX;
-      fence.setPipeline('Light2D');
+      //fence.setPipeline('Light2D');
       fence.setDepth(-8);
     }
   }
@@ -163,7 +177,7 @@ export default class level1 extends Phaser.Scene {
         UsefulMethods.RelativePosition(nextSpritePositionX, "x", this),
         UsefulMethods.RelativePosition(nextSpritePositionY, "y", this), sprite, 4).setDepth(depth);
       
-      object.setPipeline('Light2D');
+      //object.setPipeline('Light2D');
 
       object.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
       object.scaleY = object.scaleX;
@@ -178,7 +192,7 @@ export default class level1 extends Phaser.Scene {
     this.enemies = [];
 
     this.enemies.push(new Enemy({
-      scene: this, x: 50, y: 75,
+      scene: this, x: (this.floors[0].x + 1000), y: 75,
       texture: 'CarnivoreFlower', frame: 0, attackTime: 2, window: 1, stamina: 1, hp: 1, idleAnimation: 'CarnivoreFlowerIdle', attackAnimation:'CarnivoreFlowerAttack'
     }));
 
@@ -198,20 +212,18 @@ export default class level1 extends Phaser.Scene {
     // this.anims.create({ key: 'walk', frames: this.anims.generateFrameNames('CarnivoreFlower2', { start: 0, end: 8 }), frameRate: 6, repeat: -1 });
     // character_anim.anims.play('walk');
 
-    
-
     this.enemies.push(new Enemy({
-      scene: this, x: 95, y: 75,
-      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 10
+      scene: this, x: (this.floors[1].x + 1000), y: 75,
+      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 5
     }));
 
     this.enemies.push(new Enemy({
-      scene: this, x: 140, y: 75,
-      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 10
+      scene: this, x: (this.floors[2].x + 1000), y: 75,
+      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 5
     }));
 
 
-    this.arrow = this.add.sprite(this.enemies[0].x, this.enemies[0].y + UsefulMethods.RelativePosition(5,'y' , this), 'Arrow');
+    this.arrow = this.add.sprite(this.enemies[0].x, this.enemies[0].y - UsefulMethods.RelativePosition(15,'y' , this), 'Arrow');
     this.arrow.scaleX = UsefulMethods.RelativeScale(0.01 , 'x' , this);
     this.arrow.scaleY = this.arrow.scaleX;
     this.arrow.setAlpha(0);
@@ -239,44 +251,141 @@ export default class level1 extends Phaser.Scene {
     }
   }
 
+  newFloor(){
+    this.skys[this.currentFloor].x= this.skys[0].width * this.nextFloor;
+
+    //this.RepeatElement('BaseSky1', this.skys[0].width, 2, 105, -11);
+
+    var distance = this.floors[this.currentFloor].x + this.floors[0].width * this.floors[0].scaleX-500;
+
+    this.floors[this.currentFloor].x = this.floors[0].width*this.nextFloor* this.floors[0].scaleX;
+
+    var initialPosition = this.floors[this.currentFloor].x;
+
+    var maxDistance = 0;
+    for(var i = 0; i < this.fences.length; i++){
+      if(this.fences[i].x > maxDistance){
+        maxDistance = this.fences[i].x;
+      }
+    }
+    for(var i = 0; i < this.fences.length; i++){
+      if(this.fences[i].x < distance){
+        maxDistance += UsefulMethods.RelativePosition(12, "x", this);
+        this.fences[i].x = maxDistance;
+      }
+    }
+
+    // do
+    // {
+    //   fence = this.add.sprite(initialPosition, UsefulMethods.RelativePosition(91, "y", this), 'WoodFence');
+    //   fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
+    //   fence.scaleY = fence.scaleX;
+    //   //fence.setPipeline('Light2D');
+    //   fence.setDepth(-8);
+    //   initialPosition += UsefulMethods.RelativePosition(12, "x", this);
+    // }while(fence.x + UsefulMethods.RelativePosition(12, "x", this) < (this.floors[this.currentFloor].width * this.floors[this.currentFloor].scaleX + this.floors[this.currentFloor].x));
+
+    // this.nextFloor.setPipeline('Light2D');
+
+    var randomEnemy = Phaser.Math.Between(1, 2);
+    console.log(randomEnemy);
+    switch(randomEnemy){
+      case 1:
+        this.enemies.push(new Enemy({
+          scene: this, x: (this.floors[this.currentFloor].x + 1000), y: 75,
+          texture: 'CarnivoreFlower', frame: 0, attackTime: 2, window: 1, stamina: 1, hp: 1, idleAnimation: 'CarnivoreFlowerIdle', attackAnimation:'CarnivoreFlowerAttack'
+        }));
+        break;
+      case 2:
+        this.enemies.push(new Enemy({
+          scene: this, x: (this.floors[this.currentFloor].x + 1000), y: 75,
+          texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 5
+        }));
+        break;  
+    }
+
+    
+
+    this.physics.add.collider(this.enemies[this.nextFloor], this.floors[this.currentFloor]);
+    this.physics.add.collider(this.enemies[this.nextFloor].collision, this.floors[this.currentFloor]);
+    this.enemies[this.nextFloor].create();
+    
+    var enemy = this.enemies[this.nextFloor];
+    var combat = function () {
+      this.player.canMove = false;
+      this.combatHappening = true;
+      this.currentEnemy = enemy;
+      enemy.attack();
+      enemy.createBars();
+      enemy.collision.destroy();
+      
+      this.cameras.main.setFollowOffset(-this.cameraOffsetInCombat);
+      this.cameras.main.zoomTo(this.cameraZoomInCombat, 300, 'Sine.easeInOut');
+
+      this.newFloor();
+    };
+
+    this.physics.add.overlap(this.player, this.enemies[this.nextFloor].collision, combat, null, this);
+
+
+    this.nextFloor++;
+    this.currentFloor++;
+    if(this.currentFloor == 3){
+      this.currentFloor = 0;
+    }
+
+  }
+
   /**
    * Inicializa la superficie sobre la que el personaje camina (sin hacer)
    */
   InitFloor() {
+    this.floors = [];
+    this.skys = [];
+
     var floorDistance = 2289;
+    this.currentFloor = 0;
+    this.nextFloor = 3;
 
-    this.sky = this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', );
-    this.sky.setDepth(-11);
+    this.skys.push(this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', ));
+    this.skys[0].setDepth(-11);
 
-    this.RepeatElement('BaseSky1', this.sky.width, 5, 105, -11);
+    this.skys.push(this.add.sprite(this.skys[0].width, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', ));
+    this.skys[1].setDepth(-11);
 
-    this.floor = this.physics.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4);
-    this.floor.setDepth(-9);
-    this.floor.body.allowGravity = false;
-    this.floor.body.immovable = true;
-    this.floor.body.setOffset(0, 55);
-    this.floor.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
-    this.floor.scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
-    this.floor.setPipeline('Light2D');
-    UsefulMethods.print("Ancho" + this.floor.width);
+    this.skys.push(this.add.sprite(this.skys[0].width*2, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', ));
+    this.skys[2].setDepth(-11);
 
-    this.floor1 = this.physics.add.sprite(this.floor.x + this.floor.width*this.floor.scaleX, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4);
-    this.floor1.setDepth(-9);
-    this.floor1.body.allowGravity = false;
-    this.floor1.body.immovable = true;
-    this.floor1.body.setOffset(0, 55);
-    this.floor1.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
-    this.floor1.setPipeline('Light2D');
-    this.floor1.scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
+    this.floors.push(this.physics.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4));
+    this.floors[0].setDepth(-9);
+    this.floors[0].body.allowGravity = false;
+    this.floors[0].body.immovable = true;
+    this.floors[0].body.setOffset(0, 55);
+    this.floors[0].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
+    this.floors[0].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
+   // this.floor.setPipeline('Light2D');
+    UsefulMethods.print("Ancho" +  this.floors[0].width);
 
-    this.floor2 = this.physics.add.sprite(this.floor.x + this.floor.width*2, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4);
-    this.floor2.setDepth(-9);
-    this.floor2.body.allowGravity = false;
-    this.floor2.body.immovable = true;
-    this.floor2.body.setOffset(0, 55);
-    this.floor2.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
-    this.floor2.scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
-    this.floor2.setPipeline('Light2D');
+    this.floors.push(this.physics.add.sprite( this.floors[0].x +  this.floors[0].width* this.floors[0].scaleX, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4));
+    this.floors[1].setDepth(-9);
+    this.floors[1].body.allowGravity = false;
+    this.floors[1].body.immovable = true;
+    this.floors[1].body.setOffset(0, 55);
+    this.floors[1].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
+   // this.floor1.setPipeline('Light2D');
+    this.floors[1].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
+
+    this.floors.push(this.physics.add.sprite( this.floors[0].x +  this.floors[0].width* this.floors[0].scaleX*2, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4));
+    this.floors[2].setDepth(-9);
+    this.floors[2].body.allowGravity = false;
+    this.floors[2].body.immovable = true;
+    this.floors[2].body.setOffset(0, 55);
+    this.floors[2].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
+    this.floors[2].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
+    //this.floor2.setPipeline('Light2D');
+
+    this.createRandomSprites('Grass', this.floors[0].width * this.floors[0].scaleX *3, -7, -40, 14, 20, 102, 103.5);
+    this.createRandomSprites('Grass', this.floors[0].width * this.floors[0].scaleX *3, 7, -30, 14, 20, 106, 111);
 
     // this.floor.scaleX = UsefulMethods.RelativeScale(0.1, "x", this);
     // this.floor.scaleY = this.floor.scaleX;
@@ -325,21 +434,24 @@ export default class level1 extends Phaser.Scene {
     this.wall_right = this.walls.create(825, this.height / 2, 'wall');
     this.wall_right.setAlpha(0);
 
-    this.physics.add.collider(this.player, this.floor);
-    this.physics.add.collider(this.player, this.floor1);
-    this.physics.add.collider(this.player, this.floor2);
+    this.physics.add.collider(this.player,  this.floors[0]);
+    this.physics.add.collider(this.player,  this.floors[1]);
+    this.physics.add.collider(this.player,  this.floors[2]);
     this.physics.add.collider(this.player, this.floor3);
 
     // PROVISIONAL. Lo suyo sería:
     this.enemies.forEach(element => {
-      this.physics.add.collider(element, this.floor);
-      this.physics.add.collider(element.collision, this.floor);
 
-      this.physics.add.collider(element, this.floor1);
-      this.physics.add.collider(element.collision, this.floor1);
-
-      this.physics.add.collider(element, this.floor2);
-      this.physics.add.collider(element.collision, this.floor2);
+      this.floors.forEach(element2 => {
+        this.physics.add.collider(element,  element2);
+        this.physics.add.collider(element.collision,  element2);
+  
+        // this.physics.add.collider(element,  this.floors[1]);
+        // this.physics.add.collider(element.collision,  this.floors[1]);
+  
+        // this.physics.add.collider(element,  this.floors[2]);
+        // this.physics.add.collider(element.collision,  this.floors[2]);
+      })   
     });
 
     // this.physics.add.collider(this.enemies[0], this.floor1);
@@ -359,11 +471,16 @@ export default class level1 extends Phaser.Scene {
         that.combatHappening = true;
         that.currentEnemy = element;
         element.attack();
+        element.createBars();
         element.collision.destroy();
         
         that.cameras.main.setFollowOffset(-that.cameraOffsetInCombat);
         that.cameras.main.zoomTo(that.cameraZoomInCombat, 300, 'Sine.easeInOut');
 
+        if(!this.firstCombat){
+          this.newFloor();
+        }
+        this.firstCombat = false;       
         //that.resizeText();
 
       };
@@ -385,12 +502,14 @@ export default class level1 extends Phaser.Scene {
    * Método que se ejecuta constantemente, en el de momento solo están los controles de movimiento.
    */
   update(delta) {
+    UsefulMethods.print(this.hardMode);
+
     //Si currentEnemy existe (lo hace en caso de estar en un combate) se actualizan los textos con sus datos para testear.
     if (this.currentEnemy != null) {
       this.testingText.setText(this.currentEnemy.enemyState);
       this.testingText2.setText("Energia: " + this.currentEnemy.stamina);
       this.testingText3.setText("Vida: " + this.currentEnemy.hp);
-      this.playerHPText.setText("Vidas restantes: " + this.player.HP);
+      //this.playerHPText.setText("Vidas restantes: " + this.player.HP);
       this.coolDownText.setText("CanParry: " + this.player.canParry);
     }
 

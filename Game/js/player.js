@@ -13,9 +13,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             WALKING: 'walking',
         }
         this.playerState = this.playerStates.STOPPED;
-        this.velocity = 180;
+        this.velocity = 360;
         this.direction = 0;
         this.HP = HP;
+        this.maxHP=HP;
         this.canMove = true;
         this.playerScale = 1;
 
@@ -53,13 +54,21 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 if(this.parrying)
                     this.parryCooldownFunction();
 
-                if(pointer.y - this.scene.inputManager.initialMouseY < 0 && this.scene.arrow.angle == -90){
+                if(pointer.y - this.scene.inputManager.initialMouseY < 0 && this.scene.arrow.angle == -90 && Math.abs(pointer.y - this.scene.inputManager.initialMouseY) > Math.abs(pointer.x - this.scene.inputManager.initialMouseX)){
                     if(this.parrying)
                         this.scene.currentEnemy.playerHasParried();
                 }
-                else if(pointer.y - this.scene.inputManager.initialMouseY > 0 && this.scene.arrow.angle == 90){
+                else if(pointer.y - this.scene.inputManager.initialMouseY > 0 && this.scene.arrow.angle == 90 && Math.abs(pointer.y - this.scene.inputManager.initialMouseY) > Math.abs(pointer.x - this.scene.inputManager.initialMouseX)){
                     if(this.parrying)
                         this.scene.currentEnemy.playerHasParried();
+                }else if(this.scene.hardMode){
+                    if(pointer.x - this.scene.inputManager.initialMouseX > 0 && this.scene.arrow.angle == 0 && Math.abs(pointer.x - this.scene.inputManager.initialMouseX) > Math.abs(pointer.y - this.scene.inputManager.initialMouseY)){
+                        if(this.parrying)
+                            this.scene.currentEnemy.playerHasParried();
+                    }else if(pointer.x - this.scene.inputManager.initialMouseX < 0 && this.scene.arrow.angle == -180 && Math.abs(pointer.x - this.scene.inputManager.initialMouseX) > Math.abs(pointer.y - this.scene.inputManager.initialMouseY)){
+                        if(this.parrying)
+                            this.scene.currentEnemy.playerHasParried();
+                    }
                 }          
             }
 
@@ -138,7 +147,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         // Volteo del sprite según dirección.
-        if (this.direction < 0) {
+        if (this.direction < 0 && !this.scene.combatHappening) {
             this.scaleX = -Math.abs(this.scaleX);
         }
         else if (this.direction > 0) {

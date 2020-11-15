@@ -4,7 +4,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     constructor(data) {
         // #region Contructor
         let { scene, x, y, texture, frame, attackTime, window, stamina, hp, idleAnimation, attackAnimation } = data;
-        super(scene, UsefulMethods.RelativePosition(x, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
+        super(scene, x, y, texture, frame);
         // #endregion
 
         // #region Variables
@@ -14,8 +14,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             TIRED: 'tired'
         }
 
-        this.x = UsefulMethods.RelativePosition(x, "x", scene);
-        this.y = UsefulMethods.RelativePosition(y, "y", scene)
+        this.x = x;
+        this.y = y;
 
         this.enemyState = this.enemyStates.ATTACKING;
         this.enemyScale = 1;
@@ -29,9 +29,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.baseStamina = stamina;
         this.stamina = stamina;
         this.hp = hp;
+        this.maxHP = hp;
         // #endregion
 
-        this.collision = this.scene.physics.add.sprite(UsefulMethods.RelativePosition(x - 10, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
+        this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(10, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
         this.collision.setAlpha(0.2);
 
         this.scene.add.existing(this);
@@ -51,8 +52,16 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         //this.anims.play('CarnivoreFlowerIdle');
     }
 
+    createBars(){
+        this.healthBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) + 25, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xff5e5e);
+        this.staminaBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2, this.y - UsefulMethods.RelativePosition(20, "y", this.scene), this.scene.healthBarWidht, this.scene.healtBarHeight, 0x70ff70);
+        this.healthBar.setOrigin(0);
+        this.staminaBar.setOrigin(0);
+    }
+
     getParried() {
         this.stamina -= 1;
+        this.staminaBar.scaleX = this.stamina / this.baseStamina;
         if (this.stamina == 0) {
             this.enemyState = this.enemyStates.TIRED;
             this.beingTired();
@@ -84,6 +93,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     notGetParried() {
         UsefulMethods.print("NotGetParried");
         if (this.enemyState == this.enemyStates.PARRY) {
+            this.scene.player.HP--;
+            this.scene.healthBar.scaleX = (this.scene.player.HP/this.scene.player.maxHP);
             this.enemyState = this.enemyStates.ATTACKING;
             UsefulMethods.print("back to parrry");
             this.attack();
@@ -103,7 +114,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (this.scene != null){
             this.scene.arrow.setAlpha(0);
             
-            this.scene.arrow.x = this.x;
+            this.scene.arrow.x = (this.x + this.scene.player.x) / 2;
+            //this.scene.arrow.y = this.y - UsefulMethods.RelativePosition(15, "y", this.scene);
+            this.scene.arrow.y = this.y;
             this.stopAttacking = this.scene.time.addEvent({ delay: this.attackTime * 1000, callback: this.goParry, callbackScope: this, loop: false });
         }
             
@@ -111,7 +124,24 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     goParry() {
         this.scene.arrow.setAlpha(1);
-        var random = Math.random() < 0.5 ? -1 : 1;
+
+        if(!this.scene.hardMode){
+            var random = Math.random() < 0.5 ? -1 : 1;
+        }else{
+            var random = Math.random();
+
+
+            if(random<0.25)
+                random = 0;
+            else if(random >= 0.25 && random<0.5)
+                 random = -1;
+            else if(random >= 0.5 && random< 0.75)
+                random = 1;
+            else if(random >=0.75)
+                random = 2;           
+        }
+        
+
         this.scene.arrow.angle = 90 * random;
         UsefulMethods.print('parry');
         this.enemyState = this.enemyStates.PARRY;
@@ -120,6 +150,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     getAttacked() {
         this.hp -= 1;
+        this.healthBar.scaleX = this.hp / this.maxHP;
         if(this.hp > 0)
         {
             var that = this;
@@ -149,6 +180,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (this.enemyState == this.enemyStates.TIRED) {
             this.enemyState = this.enemyStates.ATTACKING;
             this.stamina = this.baseStamina;
+            this.staminaBar.scaleX = 1;
             this.attack();
         }
     }
@@ -191,6 +223,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     die() {
+        this.staminaBar.destroy();
+        this.healthBar.destroy();
         this.destroy();
         // var that = this;
         //     this.scene.tweens.add({
