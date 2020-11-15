@@ -137,6 +137,8 @@ export default class MainMenu extends Phaser.Scene {
         this.creditsButton.create();
         this.creditsButton.pointerUp = function () {
             // Credits
+            that.cameras.main.fadeOut(225);
+            that.scene.get("mainMenu").time.addEvent({ delay: 510, callback: function () { that.scene.start("creditsMenu"); }, callbackScope: this, loop: false });
         }
         mainButtons = [this.playButton, this.settingsButton, this.creditsButton];
         //#endregion

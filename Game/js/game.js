@@ -14,7 +14,8 @@ import MainMenu from './main-menu.js';
 import Level_1 from './level1.js';
 import LoadingScreen from './loading-screen.js';
 import SplashScreen from './splash-screen.js';
-import SettingsMenu from './settings-menu.js'
+import SettingsMenu from './settings-menu.js';
+import CreditsMenu from './credits-menu.js';
 
 var isWeb = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
@@ -34,7 +35,7 @@ var isWeb = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.te
         gravity: { y: 1000}
       }
     },
-    scene: [LoadingScreen, SplashScreen, MainMenu, PlatformTesting, Level_1, SettingsMenu /*, localGameSettings, settingsMenu, controlsMenu, creditsMenu,onlineLobby, localgame*/],
+    scene: [LoadingScreen, SplashScreen, MainMenu, CreditsMenu, PlatformTesting, Level_1, SettingsMenu /*, localGameSettings, settingsMenu, controlsMenu, creditsMenu,onlineLobby, localgame*/],
     antialias: true
   };
 
