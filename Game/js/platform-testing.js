@@ -10,7 +10,7 @@
  */
 
 import UsefulMethods from '../js/useful-methods.js';
-import Enemy from './Enemy.js';
+import Enemy from './enemy.js';
 import Player from './player.js';
 
 //Escena para testeo de juego de plataformas

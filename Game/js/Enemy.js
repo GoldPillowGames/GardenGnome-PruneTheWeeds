@@ -11,7 +11,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.enemyStates = {
             ATTACKING: 'attacking',
             PARRY: 'parry',
-            TIRED: 'tired'
+            TIRED: 'tired',
         }
 
         this.x = x;
@@ -31,7 +31,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.hp = hp;
         this.maxHP = hp;
         // #endregion
-
+        this.beenParried = false;
         this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(10, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
         this.collision.setAlpha(0.2);
 
@@ -40,7 +40,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     create() {
-        this.displayWidth = UsefulMethods.RelativeScale(10, "x", this.scene);
+        this.displayWidth = UsefulMethods.RelativeScale(35, "x", this.scene);
         this.scaleY = this.scaleX;
         this.enemyScale = this.scaleX;
 
@@ -49,10 +49,15 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.collision.displayWidth = UsefulMethods.RelativeScale(10, "x", this.scene);
         this.collision.scaleY = this.collision.scaleX;
 
+        
+
         //this.anims.play('CarnivoreFlowerIdle');
     }
 
     createBars(){
+
+        //Fondo negro de las barras que sean 2 rectangulos en vez de uno
+
         this.healthBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) - this.scene.healtBarHeight * 1.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xff5e5e);
         this.healthBar.setDepth(5);
 
@@ -79,6 +84,15 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.whiteStaminaBar.setDepth(4);
     }
 
+    waiting(){
+        this.scene.arrow.setAlpha(0);
+        this.anims.play(this.idleAnimation);
+        UsefulMethods.print("waiting");
+        if(this.scene != null)
+            this.scene.time.addEvent({ delay: (Math.random() * 0.75 + 1.5) * 1000, callback: this.attack, callbackScope: this, loop: false });
+    }
+
+
     getParried() {
         this.stamina -= 1;
         this.staminaBar.scaleX = this.stamina / this.baseStamina;
@@ -87,8 +101,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.beingTired();
         }
         else {
-            this.enemyState = this.enemyStates.ATTACKING;
-            this.attack();
+            // this.enemyState = this.enemyStates.ATTACKING;
+            // this.attack();
         }
         var that = this;
             this.scene.tweens.add({
@@ -111,33 +125,35 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     notGetParried() {
-        UsefulMethods.print("NotGetParried");
         if (this.enemyState == this.enemyStates.PARRY) {
-            this.scene.player.HP--;
-            this.scene.healthBar.scaleX = (this.scene.player.HP/this.scene.player.maxHP);
+
+            if(!this.beenParried){
+                this.scene.player.HP--;
+                this.scene.healthBar.scaleX = (this.scene.player.HP/this.scene.player.maxHP);
+            }
             this.enemyState = this.enemyStates.ATTACKING;
-            UsefulMethods.print("back to parrry");
-            this.attack();
+            this.waiting();
         }
     }
 
     beingTired() {
+        this.anims.play(this.idleAnimation);
         UsefulMethods.print('tired');
-        this.BackAttack = this.scene.time.addEvent({ delay: this.window * 1000, callback: this.notGettingAttacked, callbackScope: this, loop: false });
+        this.scene.time.addEvent({ delay: 1000, callback: this.notGettingAttacked, callbackScope: this, loop: false });
     }
 
     attack() {
-        
-        
+        this.beenParried = false;
 
         UsefulMethods.print('attack');
         if (this.scene != null){
+            this.anims.play(this.attackAnimation);
             this.scene.arrow.setAlpha(0);
             
             this.scene.arrow.x = (this.x + this.scene.player.x) / 2;
             //this.scene.arrow.y = this.y - UsefulMethods.RelativePosition(15, "y", this.scene);
-            this.scene.arrow.y = this.y;
-            this.stopAttacking = this.scene.time.addEvent({ delay: this.attackTime * 1000, callback: this.goParry, callbackScope: this, loop: false });
+            this.scene.arrow.y = this.y + UsefulMethods.RelativePosition(25,"y", this.scene);
+            this.scene.time.addEvent({ delay: this.attackTime * 1000, callback: this.goParry, callbackScope: this, loop: false });
         }
             
     }
@@ -198,6 +214,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     notGettingAttacked() {
 
         if (this.enemyState == this.enemyStates.TIRED) {
+            UsefulMethods.print("From tired to attack");
             this.enemyState = this.enemyStates.ATTACKING;
             this.stamina = this.baseStamina;
             this.staminaBar.scaleX = 1;
@@ -212,8 +229,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 this.scene.player.HP--;
                 break;
             case this.enemyStates.PARRY:
-                this.scene.player.parrying = false;
-                this.getParried();
+                if(!this.beenParried){
+                    this.getParried();
+                    this.beenParried = true;
+                }
+                this.scene.player.parrying = false;        
                 break;
             default:
                 break;
