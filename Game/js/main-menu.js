@@ -17,8 +17,61 @@ export default class MainMenu extends Phaser.Scene {
         super('mainMenu');
     }
 
-    preload(){
+    preload() {
         this.hardMode = false;
+    }
+
+    RepeatElement(element, distance, times, yCoord, depth) {
+        for (var i = 0; i < times; i++) {
+            this.repeatedElement = this.add.sprite(0 + distance * i, UsefulMethods.RelativePosition(yCoord, "y", this), element,);
+            this.repeatedElement.setDepth(depth);
+        }
+    }
+
+    createRandomSprites(sprites, maxDistance, depth, initX, minX, maxX, minY, maxY) {
+        var nextSpritePositionX = initX;
+        var nextSpritePositionY = minY;
+
+        while (nextSpritePositionX < UsefulMethods.RelativePosition(maxDistance, 'x', this)) {
+            var object = this.add.sprite(
+                UsefulMethods.RelativePosition(nextSpritePositionX, "x", this),
+                UsefulMethods.RelativePosition(nextSpritePositionY, "y", this),
+                Math.random() <= 0.8 ? sprites[0] : sprites[(Math.floor((1 + Math.random() * (sprites.length - 1))))], 4).setDepth(depth);
+
+            object.setOrigin(0.5, 1);
+            //object.setPipeline('Light2D');
+
+            object.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
+            object.scaleY = object.scaleX;
+            nextSpritePositionX = nextSpritePositionX + (Math.random() * (maxX - minX) + minX);
+            nextSpritePositionY = (Math.random() * (maxY - minY) + minY);
+        }
+    }
+
+    createFences() {
+        this.fences = [];
+
+        var initialPosition = -40;
+        this.fences.push(this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'WoodFence'));
+        var fence = this.fences[0];
+        fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
+        fence.scaleY = fence.scaleX;
+        fence.setDepth(-8);
+        //fence.setPipeline('Light2D');
+
+        var numberOfFences = 20;
+        var currentFences = 0;
+
+        while (currentFences < numberOfFences) {
+            initialPosition += 12;
+            fence = this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'WoodFence');
+            this.fences.push(fence);
+            fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
+            fence.scaleY = fence.scaleX;
+            //fence.setPipeline('Light2D');
+            fence.setDepth(6);
+            currentFences++;
+        }
     }
 
     create() {
@@ -27,7 +80,10 @@ export default class MainMenu extends Phaser.Scene {
         this.width = this.sys.game.config.width;
         this.height = this.sys.game.config.height;
 
-        
+        this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], 100, 7, -40, 14, 20, 65, 72);
+        this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], 100, 7, -30, 14, 20, 65, 72);
+        this.createFences();
+        //this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], 100, 7, -30, 14, 20, 110, 118);
 
         this.blackBackground = this.add.sprite(0, 0, 'black-background').setInteractive();
         this.blackBackground.displayWidth = 20000;
@@ -38,12 +94,15 @@ export default class MainMenu extends Phaser.Scene {
         // //Variable auxiliar que guarda la escena actual en ella. Es importante porque en los eventos, si ponemos this, no devuelve la escena,
         // //sino el objeto que ha llamado al evento (eso objeto puede ser un botón, por ejemplo)
         // var that = this;
-        
+
         this.levelButtonsPosition = 120;
         var that = this;
 
         this.cameras.main.fadeIn(550);
 
+        this.add.sprite(UsefulMethods.RelativePosition(20, "x", this), UsefulMethods.RelativePosition(70, "y", this), 'BaseSky1', 4).setAlpha(0.92);
+
+        this.add.sprite(UsefulMethods.RelativePosition(25, "x", this), UsefulMethods.RelativePosition(92, "y", this), 'BaseFloor1', 4).setAlpha(0.92);
         // this.SettingsButtonsContainer = this.add.sprite(this.width/3, this.height/1.32,'').setInteractive();
         // this.SettingsButtonsContainer.alpha = 0;
         // this.SettingsButtonsContainer.setDepth(0);
@@ -64,12 +123,18 @@ export default class MainMenu extends Phaser.Scene {
         let mainButtons;
         //#endregion
 
-        var text = this.add.text(UsefulMethods.RelativePosition(50, 'x', this), UsefulMethods.RelativePosition(42, 'y', this), '', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        var text = this.add.text(UsefulMethods.RelativePosition(50, 'x', this), UsefulMethods.RelativePosition(40, 'y', this), '', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
         text.setStyle({
             color: '#ffffff',
-            align: 'center'
+            fontFamily: 'amazingkids_font',
+            align: 'center',
+            fontSize: '35px',
+            color: '#e6fcf5',
+            stroke: '#0e302f',
+            strokeThickness: 10
         });
         text.setOrigin(0.5);
+        text.setDepth(100);
 
         //#region Botones de selección de dificultad
         this.difficultyButton1 = new Button({ scene: this, x: 40, y: 120, texture: 'Easy-Button', frame: 4, scale: 0.0225 });

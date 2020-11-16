@@ -62,7 +62,7 @@ export default class level1 extends Phaser.Scene {
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
 
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(75, "y", this), texture: 'Character', frame: 4 , HP: 5});
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(100, "y", this), texture: 'Character', frame: 4 , HP: 5});
     this.player.create();
     
     this.inputManager = new InputManager(this);
@@ -76,13 +76,13 @@ export default class level1 extends Phaser.Scene {
     this.createEnemies();
 
     // DEBUG BORRAR.
-    this.testingText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(25, "y", this), this.enemies[0].enemyState, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
+    this.testingText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(25, "y", this), "", { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     //this.testingText.setOrigin(0.5, 0,5);
     //this.testingText2 = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(30, "y", this), "Energía: " + this.enemies[0].stamina, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     //this.testingText2.setOrigin(0.5, 0,5);
     //this.testingText3 = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(35, "y", this), "Vida: " + this.enemies[0].hp, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     //this.testingText3.setOrigin(0.5, 0,5);
-    this.coolDownText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(40, "y", this), "Estado del parry: se puede hacer.", { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
+    this.coolDownText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(40, "y", this), "", { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     //this.coolDownText.setOrigin(0.5, 0,5);
     //this.playerHPText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(-45, "y", this), "Vidas restantes: " + this.player.HP, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'black' });;
     //this.playerHPText.setOrigin(0.5, 0,5);
@@ -119,8 +119,8 @@ export default class level1 extends Phaser.Scene {
     this.uiContainer.add(this.coolDownText);
     //this.uiContainer.add(this.playerHPText);
 
-    var streetLight = new StreetLight({scene:this, x:50, y:90, texture:'StreetLight', frame:4, scale:0.0225});
-    this.lights.enable().setAmbientColor(0xc3c3c3);
+    // var streetLight = new StreetLight({scene:this, x:50, y:90, texture:'StreetLight', frame:4, scale:0.0225});
+    // this.lights.enable().setAmbientColor(0xc3c3c3);
 
     
     this.createFences();
@@ -448,7 +448,7 @@ UsefulMethods.print("newFLooe");
 
     this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], this.floors[0].width * this.floors[0].scaleX, -7, -40, 14, 20, 106, 108);
     this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], this.floors[0].width * this.floors[0].scaleX, 7, -30, 14, 20, 110, 118);
-    console.log(UsefulMethods.RelativePosition(this.floors[0].width * this.floors[0].scaleX, 'x', this));
+    UsefulMethods.print(UsefulMethods.RelativePosition(this.floors[0].width * this.floors[0].scaleX, 'x', this));
 
     // this.floor.scaleX = UsefulMethods.RelativeScale(0.1, "x", this);
     // this.floor.scaleY = this.floor.scaleX;
@@ -569,11 +569,11 @@ UsefulMethods.print("newFLooe");
     //Si currentEnemy existe (lo hace en caso de estar en un combate) se actualizan los textos con sus datos para testear.
     if (this.currentEnemy != null) {
       this.currentEnemy.update(delta);
-      this.testingText.setText(this.currentEnemy.enemyState);
+      //this.testingText.setText(this.currentEnemy.enemyState);
       //this.testingText2.setText("Energia: " + this.currentEnemy.stamina);
       //this.testingText3.setText("Vida: " + this.currentEnemy.hp);
       //this.playerHPText.setText("Vidas restantes: " + this.player.HP);
-      this.coolDownText.setText("CanParry: " + this.player.canParry);
+      //this.coolDownText.setText("CanParry: " + this.player.canParry);
     }
 
     this.uiContainer.update();
