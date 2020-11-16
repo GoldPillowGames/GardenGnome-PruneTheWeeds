@@ -158,12 +158,12 @@ export default class level1 extends Phaser.Scene {
     var nextSpritePositionX = initX;
     var nextSpritePositionY = minY;
 
-    while(nextSpritePositionX < maxDistance)
+    while(nextSpritePositionX < UsefulMethods.RelativePosition(maxDistance, 'x', this))
     {
       var object = this.add.sprite(
         UsefulMethods.RelativePosition(nextSpritePositionX, "x", this),
         UsefulMethods.RelativePosition(nextSpritePositionY, "y", this),
-        Math.random() <= 0.5 ? sprites[0] : sprites[(Math.floor((1 + Math.random() * (sprites.length - 1))))], 4).setDepth(depth);
+        Math.random() <= 0.8 ? sprites[0] : sprites[(Math.floor((1 + Math.random() * (sprites.length - 1))))], 4).setDepth(depth);
       
         object.setOrigin(0.5, 1);
       //object.setPipeline('Light2D');
@@ -444,8 +444,9 @@ export default class level1 extends Phaser.Scene {
     this.floors[2].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
     //this.floor2.setPipeline('Light2D');
 
-    this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], this.floors[0].width * this.floors[0].scaleX *3, -7, -40, 14, 20, 106, 108);
-    this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], this.floors[0].width * this.floors[0].scaleX *3, 7, -30, 14, 20, 110, 118);
+    this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], this.floors[0].width * this.floors[0].scaleX, -7, -40, 14, 20, 106, 108);
+    this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], this.floors[0].width * this.floors[0].scaleX, 7, -30, 14, 20, 110, 118);
+    console.log(UsefulMethods.RelativePosition(this.floors[0].width * this.floors[0].scaleX, 'x', this));
 
     // this.floor.scaleX = UsefulMethods.RelativeScale(0.1, "x", this);
     // this.floor.scaleY = this.floor.scaleX;
