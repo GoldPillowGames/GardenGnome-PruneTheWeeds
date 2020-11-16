@@ -50,33 +50,6 @@ export default class level1 extends Phaser.Scene {
     this.hardMode = this.scene.get("mainMenu").hardMode;
 
     // #endregion
-
-    this.load.image('Law', 'assets/test/Law.jpg');
-    this.load.image('Floor', 'assets/game-elements/ground.png');
-    this.load.image('Circle-UI', 'assets/test/circle-ui.png');
-    this.load.image('Frog', 'assets/test/Rana1.png');
-
-    this.load.image('BaseFloor1', ['assets/Level 1/sueloTileado.png', 'assets/Level 1/sueloTileado_n.png']);
-    this.load.image('BaseSky1', 'assets/Level 1/cielo_base2.png');
-
-    this.load.image('Arrow', 'assets/Props/arrow.png');
-
-    this.load.image('MetalFence', 'assets/Props/metal_fence.png');
-    this.load.image('WoodFence', ['assets/Props/wood_fence_small.png', 'assets/Props/wood_fence_small_n.png']);
-    this.load.image('Grass', ['assets/Props/grass.png', 'assets/Props/grass_n.png']);
-    this.load.image('StreetLight', 'assets/test/lightplaceholder.png');
-
-    this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
-      frameWidth: 64,
-      frameHeight: 64
-    });
-
-    this.load.spritesheet('CarnivoreFlower' , 'assets/enemies/texture.png',{
-      frameWidth: 550,
-      frameHeight: 660
-    });
-
-    //this.load.multiatlas('CarnivoreFlower2', 'assets/enemies/texture.json');
   }
 
   create() {
@@ -88,7 +61,7 @@ export default class level1 extends Phaser.Scene {
     // Se crea el objeto player en la escena.
     this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(75, "y", this), texture: 'Character', frame: 4 , HP: 5});
     this.player.create();
-
+    
     this.inputManager = new InputManager(this);
     this.inputManager.create();
     this.SetupCamera();
@@ -151,7 +124,6 @@ export default class level1 extends Phaser.Scene {
     
     this.InitPlayer();
     this.InitColliders();
-    
   }
   
   createFences(){
@@ -179,7 +151,7 @@ export default class level1 extends Phaser.Scene {
     }
   }
 
-  createRandomSprites(sprite, maxDistance, depth, initX, minX, maxX, minY, maxY) {
+  createRandomSprites(sprites, maxDistance, depth, initX, minX, maxX, minY, maxY) {
     var nextSpritePositionX = initX;
     var nextSpritePositionY = minY;
 
@@ -187,8 +159,10 @@ export default class level1 extends Phaser.Scene {
     {
       var object = this.add.sprite(
         UsefulMethods.RelativePosition(nextSpritePositionX, "x", this),
-        UsefulMethods.RelativePosition(nextSpritePositionY, "y", this), sprite, 4).setDepth(depth);
+        UsefulMethods.RelativePosition(nextSpritePositionY, "y", this),
+        Math.random() <= 0.5 ? sprites[0] : sprites[(Math.floor((1 + Math.random() * (sprites.length - 1))))], 4).setDepth(depth);
       
+        object.setOrigin(0.5, 1);
       //object.setPipeline('Light2D');
 
       object.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
@@ -396,8 +370,8 @@ export default class level1 extends Phaser.Scene {
     this.floors[2].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
     //this.floor2.setPipeline('Light2D');
 
-    this.createRandomSprites('Grass', this.floors[0].width * this.floors[0].scaleX *3, -7, -40, 14, 20, 102, 103.5);
-    this.createRandomSprites('Grass', this.floors[0].width * this.floors[0].scaleX *3, 7, -30, 14, 20, 106, 111);
+    this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], this.floors[0].width * this.floors[0].scaleX *3, -7, -40, 14, 20, 106, 108);
+    this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], this.floors[0].width * this.floors[0].scaleX *3, 7, -30, 14, 20, 110, 118);
 
     // this.floor.scaleX = UsefulMethods.RelativeScale(0.1, "x", this);
     // this.floor.scaleY = this.floor.scaleX;

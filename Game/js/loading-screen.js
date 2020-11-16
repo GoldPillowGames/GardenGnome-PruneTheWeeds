@@ -15,6 +15,7 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Floor', 'assets/game-elements/ground.png');
         this.load.image('Circle-UI', 'assets/test/circle-ui.png');
         this.load.image('Frog', 'assets/test/Rana1.png');
+        this.load.image('Arrow', 'assets/Props/arrow.png');
 
         this.load.image('BaseFloor1', ['assets/Level 1/sueloTileado.png', 'assets/Level 1/sueloTileado_n.png']);
         this.load.image('BaseSky1', 'assets/Level 1/cielo_base2.png');
@@ -22,6 +23,10 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('MetalFence', 'assets/Props/metal_fence.png');
         this.load.image('WoodFence', ['assets/Props/wood_fence_small.png', 'assets/Props/wood_fence_small_n.png']);
         this.load.image('Grass', ['assets/Props/grass.png', 'assets/Props/grass_n.png']);
+        this.load.image('Shovel1', ['assets/Props/shovel1.png', 'assets/Props/shovel1_n.png']);
+        this.load.image('Shovel2', ['assets/Props/shovel2.png', 'assets/Props/shovel2_n.png']);
+        this.load.image('Shovel3', ['assets/Props/shovel3.png', 'assets/Props/shovel3_n.png']);
+        this.load.image('Rake', ['assets/Props/rake.png', 'assets/Props/rake_n.png']);
         this.load.image('StreetLight', 'assets/test/lightplaceholder.png');
 
         this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
