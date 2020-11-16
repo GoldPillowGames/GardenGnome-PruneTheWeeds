@@ -184,11 +184,11 @@ export default class level1 extends Phaser.Scene {
     this.enemies = [];
 
     this.enemies.push(new Enemy({
-      scene: this, x: (this.floors[0].x + 1000), y: 75,
+      scene: this, x: (this.floors[0].x + (this.floors[0].width) * (this.floors[0].scaleX) * 0.5), y: 75,
       texture: 'IdlePlant', 
       frame: 0, 
-      attackTime: 0.85, 
-      window: 0.65, 
+      attackTime: 0.9, 
+      window: 0.6, 
       stamina: 2,
       hp: 3, 
       idleAnimation: 'PlantIdleAnim', 
@@ -212,11 +212,11 @@ export default class level1 extends Phaser.Scene {
     // character_anim.anims.play('walk');
 
     this.enemies.push(new Enemy({
-      scene: this, x: (this.floors[1].x + 1000), y: 75,
+      scene: this, x: (this.floors[1].x + (this.floors[1].width) * (this.floors[1].scaleX) * 0.5), y: 75,
       texture: 'IdleSnail', 
       frame: 0, 
-      attackTime: 0.85, 
-      window: 0.65, 
+      attackTime: 0.9, 
+      window: 0.6, 
       stamina: 2, 
       hp: 5, 
       idleAnimation: 'SnailIdleAnim', 
@@ -224,8 +224,8 @@ export default class level1 extends Phaser.Scene {
     }));
 
     this.enemies.push(new Enemy({
-      scene: this, x: (this.floors[2].x + 1000), y: 75,
-      texture: 'IdleMushroom', frame: 0, attackTime: 0.85, window: 0.65, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim'
+      scene: this, x: (this.floors[2].x + (this.floors[2].width) * (this.floors[2].scaleX) * 0.5), y: 75,
+      texture: 'IdleMushroom', frame: 0, attackTime: 0.9, window: 0.6, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim'
     }));
 
 
@@ -259,7 +259,9 @@ export default class level1 extends Phaser.Scene {
   }
 
   newFloor(){
-    this.skys[this.currentFloor].x= this.skys[0].width * this.nextFloor;
+UsefulMethods.print("newFLooe");
+
+    this.skys[this.currentFloor].x= this.skys[0].width * this.skys[0].scaleX * this.nextFloor;
 
     //this.RepeatElement('BaseSky1', this.skys[0].width, 2, 105, -11);
 
@@ -299,11 +301,11 @@ export default class level1 extends Phaser.Scene {
     switch(randomEnemy){
       case 1:
         this.enemies.push(new Enemy({
-          scene: this, x: (this.floors[this.currentFloor].x + 1000), y: 75,
+          scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleSnail', 
           frame: 0, 
-          attackTime: 0.85, 
-          window: 0.65, 
+          attackTime: 0.9, 
+          window: 0.6, 
           stamina: 2, 
           hp: 5, 
           idleAnimation: 'SnailIdleAnim', 
@@ -312,11 +314,11 @@ export default class level1 extends Phaser.Scene {
         break;
       case 2:
         this.enemies.push(new Enemy({
-          scene: this, x: (this.floors[this.currentFloor].x + 1000), y: 75,
+          scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleCactus', 
           frame: 0, 
-          attackTime: 0.85, 
-          window: 0.65, 
+          attackTime: 0.9, 
+          window: 0.6, 
           stamina: 2, 
           hp: 5, 
           idleAnimation: 'CactusIdleAnim', 
@@ -325,11 +327,11 @@ export default class level1 extends Phaser.Scene {
         break;  
       case 3: 
         this.enemies.push(new Enemy({
-          scene: this, x: (this.floors[this.currentFloor].x + 1000), y: 75,
+          scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleMushroom', 
           frame: 0, 
-          attackTime: 0.85, 
-          window: 0.65, 
+          attackTime: 0.9, 
+          window: 0.6, 
           stamina: 2, 
           hp: 5, 
           idleAnimation: 'MushroomIdleAnim', 
@@ -338,11 +340,11 @@ export default class level1 extends Phaser.Scene {
         break;
       case 4:
         this.enemies.push(new Enemy({
-          scene: this, x: (this.floors[this.currentFloor].x + 1000), y: 75,
+          scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdlePlant', 
           frame: 0, 
-          attackTime: 0.85, 
-          window: 0.65, 
+          attackTime: 0.9, 
+          window: 0.6, 
           stamina: 2, 
           hp: 5, 
           idleAnimation: 'PlantIdleAnim', 
@@ -351,7 +353,7 @@ export default class level1 extends Phaser.Scene {
         break;
       case 5:
         this.enemies.push(new Enemy({
-          scene: this, x: (this.floors[this.currentFloor].x + 1000), y: 75,
+          scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleFrog', 
           frame: 0, 
           attackTime: 0.7, 

@@ -32,15 +32,29 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.maxHP = hp;
         // #endregion
         this.beenParried = false;
-        this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(10, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
-        this.collision.setAlpha(0.2);
+
+        switch(texture){
+            case 'IdlePlant':
+                UsefulMethods.print("planta");
+                this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(1, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
+                break;
+            case 'IdleMushroom':
+                this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(3.5, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
+                break;   
+            default:
+                this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(7.5, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
+                break;     
+        }
+
+        //this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(10, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
+        this.collision.setAlpha(0);
 
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
     }
 
     create() {
-        this.displayWidth = UsefulMethods.RelativeScale(35, "x", this.scene);
+        this.displayWidth = UsefulMethods.RelativeScale(30, "x", this.scene);
         this.scaleY = this.scaleX;
         this.enemyScale = this.scaleX;
 
