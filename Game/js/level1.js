@@ -10,7 +10,7 @@
  */
 
 import UsefulMethods from './useful-methods.js';
-import Enemy from './Enemy.js';
+import Enemy from './enemy.js';
 import Player from './player.js';
 import InputManager from './input-manager.js';
 import UIContainer from './ui-container.js';
@@ -52,8 +52,11 @@ export default class level1 extends Phaser.Scene {
     // #endregion
   }
 
-  create() {
+    
 
+ 
+
+  create() {
     //let that = this;
     this.cameras.main.fadeIn(1000);
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
@@ -175,11 +178,21 @@ export default class level1 extends Phaser.Scene {
 
   //Método para crear a los enemigos.
   createEnemies() {
+
+ 
+
     this.enemies = [];
 
     this.enemies.push(new Enemy({
       scene: this, x: (this.floors[0].x + 1000), y: 75,
-      texture: 'CarnivoreFlower', frame: 0, attackTime: 2, window: 1, stamina: 1, hp: 1, idleAnimation: 'CarnivoreFlowerIdle', attackAnimation:'CarnivoreFlowerAttack'
+      texture: 'IdlePlant', 
+      frame: 0, 
+      attackTime: 0.85, 
+      window: 0.65, 
+      stamina: 2,
+      hp: 3, 
+      idleAnimation: 'PlantIdleAnim', 
+      attackAnimation: 'PlantAttackAnim'
     }));
 
     this.anims.create({
@@ -200,12 +213,19 @@ export default class level1 extends Phaser.Scene {
 
     this.enemies.push(new Enemy({
       scene: this, x: (this.floors[1].x + 1000), y: 75,
-      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 5
+      texture: 'IdleSnail', 
+      frame: 0, 
+      attackTime: 0.85, 
+      window: 0.65, 
+      stamina: 2, 
+      hp: 5, 
+      idleAnimation: 'SnailIdleAnim', 
+      attackAnimation: 'SnailAttackAnim'
     }));
 
     this.enemies.push(new Enemy({
       scene: this, x: (this.floors[2].x + 1000), y: 75,
-      texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 5
+      texture: 'IdleMushroom', frame: 0, attackTime: 0.85, window: 0.65, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim'
     }));
 
 
@@ -213,6 +233,7 @@ export default class level1 extends Phaser.Scene {
     this.arrow.scaleX = UsefulMethods.RelativeScale(0.01 , 'x' , this);
     this.arrow.scaleY = this.arrow.scaleX;
     this.arrow.setAlpha(0);
+    this.arrow.setDepth(15);
 
     this.enemies.forEach(element => { element.create();});
 
@@ -273,21 +294,74 @@ export default class level1 extends Phaser.Scene {
 
     // this.nextFloor.setPipeline('Light2D');
 
-    var randomEnemy = Phaser.Math.Between(1, 2);
+    var randomEnemy = Phaser.Math.Between(1, 5);
     console.log(randomEnemy);
     switch(randomEnemy){
       case 1:
         this.enemies.push(new Enemy({
           scene: this, x: (this.floors[this.currentFloor].x + 1000), y: 75,
-          texture: 'CarnivoreFlower', frame: 0, attackTime: 2, window: 1, stamina: 1, hp: 1, idleAnimation: 'CarnivoreFlowerIdle', attackAnimation:'CarnivoreFlowerAttack'
+          texture: 'IdleSnail', 
+          frame: 0, 
+          attackTime: 0.85, 
+          window: 0.65, 
+          stamina: 2, 
+          hp: 5, 
+          idleAnimation: 'SnailIdleAnim', 
+          attackAnimation: 'SnailAttackAnim'
         }));
         break;
       case 2:
         this.enemies.push(new Enemy({
           scene: this, x: (this.floors[this.currentFloor].x + 1000), y: 75,
-          texture: 'Frog', frame: 0, attackTime: 2, window: 1, stamina: 2, hp: 5
+          texture: 'IdleCactus', 
+          frame: 0, 
+          attackTime: 0.85, 
+          window: 0.65, 
+          stamina: 2, 
+          hp: 5, 
+          idleAnimation: 'CactusIdleAnim', 
+          attackAnimation: 'CactusAttackAnim'
         }));
         break;  
+      case 3: 
+        this.enemies.push(new Enemy({
+          scene: this, x: (this.floors[this.currentFloor].x + 1000), y: 75,
+          texture: 'IdleMushroom', 
+          frame: 0, 
+          attackTime: 0.85, 
+          window: 0.65, 
+          stamina: 2, 
+          hp: 5, 
+          idleAnimation: 'MushroomIdleAnim', 
+          attackAnimation: 'MushroomAttackAnim'
+        })); 
+        break;
+      case 4:
+        this.enemies.push(new Enemy({
+          scene: this, x: (this.floors[this.currentFloor].x + 1000), y: 75,
+          texture: 'IdlePlant', 
+          frame: 0, 
+          attackTime: 0.85, 
+          window: 0.65, 
+          stamina: 2, 
+          hp: 5, 
+          idleAnimation: 'PlantIdleAnim', 
+          attackAnimation: 'PlantAttackAnim'
+        }));  
+        break;
+      case 5:
+        this.enemies.push(new Enemy({
+          scene: this, x: (this.floors[this.currentFloor].x + 1000), y: 75,
+          texture: 'IdleFrog', 
+          frame: 0, 
+          attackTime: 0.7, 
+          window: 0.6, 
+          stamina: 2, 
+          hp: 5, 
+          idleAnimation: 'FrogIdleAnim', 
+          attackAnimation: 'FrogAttackAnim'
+        }));  
+        break;
     }
 
     
@@ -488,7 +562,6 @@ export default class level1 extends Phaser.Scene {
    * Método que se ejecuta constantemente, en el de momento solo están los controles de movimiento.
    */
   update(delta) {
-    UsefulMethods.print(this.hardMode);
 
     //Si currentEnemy existe (lo hace en caso de estar en un combate) se actualizan los textos con sus datos para testear.
     if (this.currentEnemy != null) {

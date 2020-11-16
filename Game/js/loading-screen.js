@@ -34,10 +34,8 @@ export default class LoadingScreen extends Phaser.Scene {
             frameHeight: 64
         });
 
-        this.load.spritesheet('CarnivoreFlower', 'assets/enemies/texture.png', {
-            frameWidth: 550,
-            frameHeight: 660
-        });
+        
+
 
         this.load.image('SettingsBackground', ['assets/main-menu/settings-background.png', 'assets/main-menu/settings-background_n3.png']);
         this.load.image('SliderBar', 'assets/main-menu/slider-bar.png');
@@ -53,6 +51,8 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Easy-Button'    , 'assets/main-menu/easy.png');
         this.load.image('Hard-Button'    , 'assets/main-menu/hard.png');
         this.load.image('Settings-Menu-Background', 'assets/test/settings-menu-background.png');
+
+        this.loadAssetsEnemies();
 
         this.load.video('intro', 'assets/videos/intro.mp4', 'canplaythrough', true, false);
 
@@ -136,7 +136,72 @@ export default class LoadingScreen extends Phaser.Scene {
 
     }
     
+    loadAssetsEnemies(){
+        this.load.spritesheet('CarnivoreFlower', 'assets/enemies/texture.png', {
+          frameWidth: 550,
+          frameHeight: 660
+      });
+  
+  
+      this.load.spritesheet('IdleCactus' , 'assets/enemies/cactusidle.png',{
+          frameWidth: 640,
+          frameHeight: 360
+      });
+  
+  
+        this.load.spritesheet('AttackCactus' , 'assets/enemies/cactusattack.png',{
+          frameWidth: 640,
+          frameHeight: 360
+      });
+  
+      this.load.spritesheet('IdleFrog' , 'assets/enemies/frogidle.png',{
+          frameWidth: 640,
+          frameHeight: 360
+      });
+  
+  
+        this.load.spritesheet('AttackFrog' , 'assets/enemies/frogattacklittle.png',{
+          frameWidth: 640,
+          frameHeight: 360
+      });
+  
+  
+      this.load.spritesheet('IdleMushroom' , 'assets/enemies/mushroomidle.png',{
+          frameWidth: 640,
+          frameHeight: 360
+      });
+  
+  
+        this.load.spritesheet('AttackMushroom' , 'assets/enemies/mushroomattack.png',{
+          frameWidth: 640,
+          frameHeight: 360
+      });
+
+      this.load.spritesheet('IdleSnail' , 'assets/enemies/snailidle.png',{
+        frameWidth: 640,
+        frameHeight: 360
+    });
+
+
+      this.load.spritesheet('AttackSnail' , 'assets/enemies/snailattack.png',{
+        frameWidth: 640,
+        frameHeight: 360
+    });
+
+    this.load.spritesheet('IdlePlant' , 'assets/enemies/plantidle.png',{
+        frameWidth: 640,
+        frameHeight: 360
+    });
+
+
+      this.load.spritesheet('AttackPlant' , 'assets/enemies/plantattack.png',{
+        frameWidth: 640,
+        frameHeight: 360
+    });
+      }
+
     create() {
+        this.createAnimationsEnemies();
         
         var that = this;
 
@@ -151,4 +216,82 @@ export default class LoadingScreen extends Phaser.Scene {
             }
         });
     }
+
+    createAnimationsEnemies(){
+        this.anims.create({
+          key: 'FrogIdleAnim',
+          frames: this.anims.generateFrameNumbers('IdleFrog', { start: 0, end: 6 }),
+          frameRate: 9,
+          repeat: -1
+        });
+      
+      
+      this.anims.create({
+          key: 'FrogAttackAnim',
+          frames: this.anims.generateFrameNumbers('AttackFrog', { start: 0, end: 9 }),
+          frameRate: 7,
+          repeat: -1
+        });
+    
+      this.anims.create({
+          key: 'CactusIdleAnim',
+          frames: this.anims.generateFrameNumbers('IdleCactus', { start: 0, end: 5 }),
+          frameRate: 9,
+          repeat: -1
+        });
+    
+    
+      this.anims.create({
+          key: 'MushroomAttackAnim',
+          frames: this.anims.generateFrameNumbers('AttackMushroom', { start: 0, end: 11 }),
+          frameRate: 8,
+          repeat: -1
+        });
+    
+        this.anims.create({
+          key: 'MushroomIdleAnim',
+          frames: this.anims.generateFrameNumbers('IdleMushroom', { start: 0, end: 7 }),
+          frameRate: 9,
+          repeat: -1
+        });
+    
+    
+      this.anims.create({
+          key: 'CactusAttackAnim',
+          frames: this.anims.generateFrameNumbers('AttackCactus', { start: 0, end: 11 }),
+          frameRate: 8,
+          repeat: -1
+        });
+
+        this.anims.create({
+            key: 'SnailIdleAnim',
+            frames: this.anims.generateFrameNumbers('IdleSnail', { start: 0, end: 7 }),
+            frameRate: 9,
+            repeat: -1
+          });
+      
+      
+        this.anims.create({
+            key: 'SnailAttackAnim',
+            frames: this.anims.generateFrameNumbers('AttackSnail', { start: 0, end: 12 }),
+            frameRate: 8,
+            repeat: -1
+          });
+
+          this.anims.create({
+            key: 'PlantIdleAnim',
+            frames: this.anims.generateFrameNumbers('IdlePlant', { start: 0, end: 5 }),
+            frameRate: 9,
+            repeat: -1
+          });
+      
+      
+        this.anims.create({
+            key: 'PlantAttackAnim',
+            frames: this.anims.generateFrameNumbers('AttackPlant', { start: 0, end: 11 }),
+            frameRate: 8,
+            repeat: -1
+          });
+    
+      }
 }
