@@ -53,10 +53,30 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     createBars(){
-        this.healthBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) + 25, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xff5e5e);
-        this.staminaBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2, this.y - UsefulMethods.RelativePosition(20, "y", this.scene), this.scene.healthBarWidht, this.scene.healtBarHeight, 0x70ff70);
+        this.healthBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) - this.scene.healtBarHeight * 1.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xff5e5e);
+        this.healthBar.setDepth(5);
+
+        this.healthBarBackground = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2 - this.scene.healthBarWidht * 0.035, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) - this.scene.healtBarHeight * 1.28 , this.scene.healthBarWidht * 1.07, this.scene.healtBarHeight + this.scene.healthBarWidht * 0.07, 0x0c0c0c);
+        this.healthBarBackground.setOrigin(0);
+        this.healthBarBackground.setDepth(3);
+
+        this.whiteHealthBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) - this.scene.healtBarHeight * 1.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xFFFFFF);
+        this.whiteHealthBar.setOrigin(0);
+        this.whiteHealthBar.setDepth(4);
+
+        this.staminaBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) + this.scene.healtBarHeight * 0.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0x70ff70);
+        this.staminaBar.setDepth(5);
+
+        this.staminaBarBackground = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2 - this.scene.healthBarWidht * 0.035, this.y - UsefulMethods.RelativePosition(20, "y", this.scene), this.scene.healthBarWidht * 1.07, this.scene.healtBarHeight + this.scene.healthBarWidht * 0.035, 0x0c0c0c);
+        this.staminaBarBackground.setOrigin(0);
+        this.staminaBarBackground.setDepth(3);
+
         this.healthBar.setOrigin(0);
         this.staminaBar.setOrigin(0);
+
+        this.whiteStaminaBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) + this.scene.healtBarHeight * 0.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xFFFFFF);
+        this.whiteStaminaBar.setOrigin(0);
+        this.whiteStaminaBar.setDepth(4);
     }
 
     getParried() {
@@ -225,6 +245,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     die() {
         this.staminaBar.destroy();
         this.healthBar.destroy();
+        this.healthBarBackground.destroy();
+        this.staminaBarBackground.destroy();
+        this.whiteHealthBar.destroy();
+        this.whiteStaminaBar.destroy();
         this.destroy();
         // var that = this;
         //     this.scene.tweens.add({
@@ -264,6 +288,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(delta) {
-
+        this.whiteHealthBar.scaleX = UsefulMethods.lerp(this.whiteHealthBar.scaleX, this.healthBar.scaleX, 0.15);
+        this.whiteStaminaBar.scaleX = UsefulMethods.lerp(this.whiteStaminaBar.scaleX, this.staminaBar.scaleX, 0.15);
     }
 }

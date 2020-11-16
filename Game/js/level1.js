@@ -114,9 +114,22 @@ export default class level1 extends Phaser.Scene {
     this.healthBarWidht = UsefulMethods.RelativeScale(15.6, "x", this);
     this.healtBarHeight = UsefulMethods.RelativeScale(3.47, "y", this);
 
+    this.healthBarBackground = this.add.rectangle(UsefulMethods.RelativePosition(-47, "x", this) - this.healthBarWidht * 0.035, UsefulMethods.RelativePosition(-45, "y", this) - this.healthBarWidht * 0.035, this.healthBarWidht * 1.07, this.healtBarHeight + this.healthBarWidht * 0.07, 0x0c0c0c);
+    this.healthBarBackground.setOrigin(0);
+    this.healthBarBackground.setDepth(4);
+
     this.healthBar = this.add.rectangle(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(-45, "y", this), this.healthBarWidht, this.healtBarHeight, 0xff5e5e);
+    this.whiteHealthBar = this.add.rectangle(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(-45, "y", this), this.healthBarWidht, this.healtBarHeight, 0xFFFFFF);
     this.healthBar.setOrigin(0);
+    this.healthBar.setDepth(15);
+    this.whiteHealthBar.setOrigin(0);
+    this.whiteHealthBar.setDepth(14);
+
+    this.uiContainer.add(this.healthBarBackground);
+    this.uiContainer.add(this.whiteHealthBar);
     this.uiContainer.add(this.healthBar);
+   
+    
 
     /*this.testingText.setScrollFactor(0);
     this.testingText2.setScrollFactor(0);
@@ -140,8 +153,7 @@ export default class level1 extends Phaser.Scene {
     this.InitColliders();
     
   }
-
-
+  
   createFences(){
     this.fences = [];
 
@@ -506,15 +518,17 @@ export default class level1 extends Phaser.Scene {
 
     //Si currentEnemy existe (lo hace en caso de estar en un combate) se actualizan los textos con sus datos para testear.
     if (this.currentEnemy != null) {
+      this.currentEnemy.update(delta);
       this.testingText.setText(this.currentEnemy.enemyState);
-      this.testingText2.setText("Energia: " + this.currentEnemy.stamina);
-      this.testingText3.setText("Vida: " + this.currentEnemy.hp);
+      //this.testingText2.setText("Energia: " + this.currentEnemy.stamina);
+      //this.testingText3.setText("Vida: " + this.currentEnemy.hp);
       //this.playerHPText.setText("Vidas restantes: " + this.player.HP);
       this.coolDownText.setText("CanParry: " + this.player.canParry);
     }
 
     this.uiContainer.update();
 
+    this.whiteHealthBar.scaleX = UsefulMethods.lerp(this.whiteHealthBar.scaleX, this.healthBar.scaleX, 0.15);
     // #region Teclas y movimiento
     this.player.update(delta);
   }
