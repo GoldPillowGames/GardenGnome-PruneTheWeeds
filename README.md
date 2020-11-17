@@ -33,9 +33,9 @@ Tipo: Free to play
 
 ### Influencias 
 
-**1. Redungeon**
-Medio: Videojuego 
-Motivo: El estilo visual en formato pixel art. 
-**2. Sekiro: Shadows Die Twice**
-Medio: Videojuego 
-Motivo: La mecánica del parry como elemento clave en el sistema de combate. 
+#### Redungeon
+- **Medio:** Videojuego 
+- **Motivo:** El estilo visual en formato pixel art. 
+#### Sekiro: Shadows Die Twice
+- **Medio:** Videojuego 
+- **Motivo:** La mecánica del parry como elemento clave en el sistema de combate. 
