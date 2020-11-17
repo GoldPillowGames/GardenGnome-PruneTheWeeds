@@ -66,8 +66,8 @@ La sensación de mejora constante a nivel personal ya que la vida y el daño del
 El jugador hará progresar al personaje en scroll lateral mediante las teclas A y D en PC, y el deslizamiento del dedo sobre cualquier punto de la pantalla en dispositivos móviles.<br/>
 ![image](https://user-images.githubusercontent.com/55363746/99445136-7776d900-291d-11eb-932c-b00a463434a3.png)
 #### Contrataque
-Durante el combate, los enemigos tienen patrones de ataque definidos, a los cuales el jugador deberá responder deslizando el dedo o el ratón sobre la pantalla al momento de recibir dicho ataque. Si el jugador logra hacer esto correctamente, no recibirá ningún daño y hará que el enemigo vea desgastado su aguante (representado como la barra amarilla bajo la vida). 
-[Imagen 2]
+Durante el combate, los enemigos tienen patrones de ataque definidos, a los cuales el jugador deberá responder deslizando el dedo o el ratón sobre la pantalla al momento de recibir dicho ataque. Si el jugador logra hacer esto correctamente, no recibirá ningún daño y hará que el enemigo vea desgastado su aguante (representado como la barra amarilla bajo la vida).<br/>
+![i2](https://user-images.githubusercontent.com/55363746/99445303-a8570e00-291d-11eb-8a4c-7c7fea981aa5.png)
 [Imagen 3]
 #### Ataque
 Si en un enfrentamiento, el enemigo gasta todo su aguante, el jugador cuenta con un tiempo variante en función del tipo de enemigo para atacarle. En esta situación debe hacer click (o presionar en la pantalla en dispositivos móviles) múltiples veces sobre el rival para reducirle la cantidad de puntos de vida hasta que este recupere su aguante o muera.
