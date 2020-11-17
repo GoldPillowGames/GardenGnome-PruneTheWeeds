@@ -41,6 +41,7 @@ export default class level1 extends Phaser.Scene {
     this.cameraZoom = 0.9;
 
     this.cameraZoomInCombat = 1.1;
+    this.cameraZoomWhenKilling = 1.3;
     this.cameraOffsetInCombat = 100;
 
     this.combatHappening = false;
@@ -62,7 +63,7 @@ export default class level1 extends Phaser.Scene {
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
 
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(75, "y", this), texture: 'WalkingGnome', frame: 0 , HP: 5});
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(97, "y", this), texture: 'WalkingGnome', frame: 0 , HP: 5});
     this.player.create();
     this.player.body.setOffset(0, -20);
 
@@ -92,26 +93,27 @@ export default class level1 extends Phaser.Scene {
     this.healthBarWidht = UsefulMethods.RelativeScale(15.6, "x", this);
     this.healtBarHeight = UsefulMethods.RelativeScale(3.47, "y", this);
 
-    this.healthBarBackground = this.add.rectangle(UsefulMethods.RelativePosition(-47, "x", this) - this.healthBarWidht * 0.035, UsefulMethods.RelativePosition(-45, "y", this) - this.healthBarWidht * 0.035, this.healthBarWidht * 1.07, this.healtBarHeight + this.healthBarWidht * 0.07, 0x0c0c0c);
+    this.healthBarBackground = this.add.rectangle(UsefulMethods.RelativePosition(-44, "x", this) - this.healthBarWidht * 0.035, UsefulMethods.RelativePosition(-42, "y", this) - this.healthBarWidht * 0.035, this.healthBarWidht * 1.07, this.healtBarHeight + this.healthBarWidht * 0.07, 0x0c0c0c);
     this.healthBarBackground.setOrigin(0);
     this.healthBarBackground.setDepth(4);
 
-    this.healthBar = this.add.rectangle(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(-45, "y", this), this.healthBarWidht, this.healtBarHeight, 0xff5e5e);
-    this.whiteHealthBar = this.add.rectangle(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(-45, "y", this), this.healthBarWidht, this.healtBarHeight, 0xFFFFFF);
+    this.healthBar = this.add.rectangle(UsefulMethods.RelativePosition(-44, "x", this), UsefulMethods.RelativePosition(-42, "y", this), this.healthBarWidht, this.healtBarHeight, 0xff5e5e);
+    this.whiteHealthBar = this.add.rectangle(UsefulMethods.RelativePosition(-44, "x", this), UsefulMethods.RelativePosition(-42, "y", this), this.healthBarWidht, this.healtBarHeight, 0xFFFFFF);
     this.healthBar.setOrigin(0);
     this.healthBar.setDepth(15);
     this.whiteHealthBar.setOrigin(0);
     this.whiteHealthBar.setDepth(14);
 
-    this.gnomeHead = this.add.sprite(this.healthBar.x + this.healthBarWidht*1.25, this.healthBar.y + UsefulMethods.RelativePosition(5, "y", this), 'GnomeHead');
+    this.gnomeHead = this.add.sprite(this.healthBar.x - UsefulMethods.RelativePosition(2, "x", this), this.healthBar.y + UsefulMethods.RelativePosition(1, "y", this), 'GnomeHead');
 
     this.gnomeHead.scaleX = this.player.scaleX/2;
     this.gnomeHead.scaleY = this.player.scaleY/2;
-
-    this.uiContainer.add(this.gnomeHead);
+    this.gnomeHead.setDepth(16);
+    
     this.uiContainer.add(this.healthBarBackground);
     this.uiContainer.add(this.whiteHealthBar);
     this.uiContainer.add(this.healthBar);
+    this.uiContainer.add(this.gnomeHead);
    
     
 
@@ -253,9 +255,9 @@ export default class level1 extends Phaser.Scene {
   SetupCamera() {
     // Ambos zooms sirven
     // this.cameras.main.zoom = 0.5;
-    this.cameras.main.zoomTo(this.cameraZoom, 300, 'Sine.easeInOut');
+    this.cameras.main.zoomTo(this.cameraZoom, 0);
     // La cámara sigue al jugador
-    this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
+    this.cameras.main.startFollow(this.player, true);
   }
 
 
@@ -386,7 +388,8 @@ export default class level1 extends Phaser.Scene {
       enemy.attack();
       enemy.createBars();
       enemy.collision.destroy();
-      
+
+      this.cameras.main.setLerp(0.09, 0.09);
       this.cameras.main.setFollowOffset(-this.cameraOffsetInCombat);
       this.cameras.main.zoomTo(this.cameraZoomInCombat, 300, 'Sine.easeInOut');
 
@@ -547,6 +550,7 @@ export default class level1 extends Phaser.Scene {
         element.createBars();
         element.collision.destroy();
         
+        this.cameras.main.setLerp(0.09, 0.09);
         that.cameras.main.setFollowOffset(-that.cameraOffsetInCombat);
         that.cameras.main.zoomTo(that.cameraZoomInCombat, 300, 'Sine.easeInOut');
 

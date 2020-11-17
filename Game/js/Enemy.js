@@ -36,6 +36,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.firstAttack = true;
         this.isDying = false;
         this.isAboutToDie = false;
+        this.slowMotion = 1;
 
         switch (texture) {
             case 'IdlePlant':
@@ -62,6 +63,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.scaleY = this.scaleX;
         this.enemyScale = this.scaleX;
 
+        this.setOrigin(this.originX, 1);
+
         this.anims.play(this.idleAnimation);
 
         this.collision.displayWidth = UsefulMethods.RelativeScale(10, "x", this.scene);
@@ -76,32 +79,32 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         //Fondo negro de las barras que sea un rectangulo en vez de 2
 
-        this.healthBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht / 2 + this.width * this.scaleX * 0.25, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) - this.scene.healtBarHeight * 1.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xff5e5e);
+        this.healthBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht / 2 + this.width * this.scaleX * 0.25, this.y - UsefulMethods.RelativePosition(40, "y", this.scene) - this.scene.healtBarHeight * 1.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xff5e5e);
         this.healthBar.setDepth(5);
 
-        this.healthBarBackground = this.scene.add.rectangle(this.x - this.scene.healthBarWidht / 2 - this.scene.healthBarWidht * 0.035 + this.width * this.scaleX * 0.25, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) - this.scene.healtBarHeight * 1.28, this.scene.healthBarWidht * 1.07, this.scene.healtBarHeight + this.scene.healthBarWidht * 0.07, 0x0c0c0c);
+        this.healthBarBackground = this.scene.add.rectangle(this.x - this.scene.healthBarWidht / 2 - this.scene.healthBarWidht * 0.035 + this.width * this.scaleX * 0.25, this.y - UsefulMethods.RelativePosition(40, "y", this.scene) - this.scene.healtBarHeight * 1.28, this.scene.healthBarWidht * 1.07, this.scene.healtBarHeight + this.scene.healthBarWidht * 0.07, 0x0c0c0c);
         this.healthBarBackground.setOrigin(0);
         this.healthBarBackground.setDepth(3);
 
-        this.whiteHealthBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht / 2 + this.width * this.scaleX * 0.25, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) - this.scene.healtBarHeight * 1.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xFFFFFF);
+        this.whiteHealthBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht / 2 + this.width * this.scaleX * 0.25, this.y - UsefulMethods.RelativePosition(40, "y", this.scene) - this.scene.healtBarHeight * 1.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xFFFFFF);
         this.whiteHealthBar.setOrigin(0);
         this.whiteHealthBar.setDepth(4);
 
-        this.staminaBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht / 2 + this.width * this.scaleX * 0.25, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) + this.scene.healtBarHeight * 0.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0x70ff70);
+        this.staminaBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht / 2 + this.width * this.scaleX * 0.25, this.y - UsefulMethods.RelativePosition(40, "y", this.scene) + this.scene.healtBarHeight * 0.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0x70ff70);
         this.staminaBar.setDepth(5);
 
-        this.staminaBarBackground = this.scene.add.rectangle(this.x - this.scene.healthBarWidht / 2 - this.scene.healthBarWidht * 0.035 + this.width * this.scaleX * 0.25, this.y - UsefulMethods.RelativePosition(20, "y", this.scene), this.scene.healthBarWidht * 1.07, this.scene.healtBarHeight + this.scene.healthBarWidht * 0.035, 0x0c0c0c);
+        this.staminaBarBackground = this.scene.add.rectangle(this.x - this.scene.healthBarWidht / 2 - this.scene.healthBarWidht * 0.035 + this.width * this.scaleX * 0.25, this.y - UsefulMethods.RelativePosition(40, "y", this.scene), this.scene.healthBarWidht * 1.07, this.scene.healtBarHeight + this.scene.healthBarWidht * 0.035, 0x0c0c0c);
         this.staminaBarBackground.setOrigin(0);
         this.staminaBarBackground.setDepth(3);
 
         this.healthBar.setOrigin(0);
         this.staminaBar.setOrigin(0);
 
-        this.whiteStaminaBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht / 2 + this.width * this.scaleX * 0.25, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) + this.scene.healtBarHeight * 0.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xFFFFFF);
+        this.whiteStaminaBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht / 2 + this.width * this.scaleX * 0.25, this.y - UsefulMethods.RelativePosition(40, "y", this.scene) + this.scene.healtBarHeight * 0.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xFFFFFF);
         this.whiteStaminaBar.setOrigin(0);
         this.whiteStaminaBar.setDepth(4);
 
-        this.scene.arrow.x = (this.healthBar.x + this.scene.healthBarWidht / 2);
+        this.scene.arrow.x = (this.healthBar.x - this.scene.arrow.displayWidth / 2 - UsefulMethods.RelativePosition(1, 'x', this.scene));
     }
 
     waiting() {
@@ -190,7 +193,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
 
             //this.scene.arrow.y = this.y - UsefulMethods.RelativePosition(15, "y", this.scene);
-            this.scene.arrow.y = this.y - UsefulMethods.RelativePosition(30, "y", this.scene) - this.scene.healtBarHeight * 1.07;
+            this.scene.arrow.y = this.y - UsefulMethods.RelativePosition(40, "y", this.scene)// - this.scene.healtBarHeight * 1.07;
             this.scene.time.addEvent({ delay: this.attackTime * 1000, callback: this.goParry, callbackScope: this, loop: false });
         }
 
@@ -295,29 +298,42 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             case this.enemyStates.TIRED:
                 this.getAttacked();
 
-                if (this.firstAttack) {
-                    this.firstAttack = false;
-                    this.scene.player.anims.play('GnomeAttackAnim');
-                };
-
                 UsefulMethods.print('Recibi ataque');
 
-                if (this.hp == 0) {
+
+                if (this.hp != 0) {
+                    /*if (this.firstAttack) {
+                        this.firstAttack = false;*/
+                    this.scene.player.anims.play('GnomeAttackAnim');
+                    //};
+                }
+                else {
+                    this.scene.player.anims.play('GnomeAttackAnimLast');
+                    this.scene.cameras.main.zoomTo(this.scene.cameraZoomWhenKilling, 399, 'Expo.easeOut');
+
                     this.isDying = true;
+                    this.scene.player.anims.pause();
                     this.scene.combatHappening = false;
                     this.scene.arrow.setAlpha(0);
 
-                    var slowMotion = 0.01;
-                    this.scene.tweens.timeScale = slowMotion;
-                    this.scene.physics.world.timeScale = slowMotion;
-                    this.scene.anims.globalTimeScale = slowMotion;
+                    this.slowMotion = 0.1;
 
                     this.scene.time.addEvent({
-                        delay: 500,
+                        delay: 150,
                         callback: () => {
-                            this.scene.tweens.timeScale = 1;
-                            this.scene.physics.world.timeScale = 1;
-                            this.scene.anims.globalTimeScale = 1;
+                            this.scene.player.anims.resume();
+                        }
+                    });
+
+                    this.scene.time.addEvent({
+                        delay: 400,
+                        callback: () => {
+                            this.slowMotion = 1;
+                            this.scene.cameraZoom = 0.9;
+                            this.scene.cameras.main.setLerp(0, 0);
+                            this.scene.cameras.main.setFollowOffset(0);
+                            this.scene.cameras.main.startFollow(this.scene.player, true);
+                            this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 500, 'Expo.easeOut');
                         }
                     });
 
@@ -331,14 +347,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     die() {
         this.isAboutToDie = true;
 
-        this.scene.tweens.timeScale = 1;
-        this.scene.physics.world.timeScale = 1;
-        this.scene.anims.globalTimeScale = 1;
-
         this.scene.player.canMove = true;
-        this.scene.cameraZoom = 0.9;
-        this.scene.cameras.main.setFollowOffset(0);
-        this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 300, 'Sine.easeInOut');
 
 
 
@@ -393,10 +402,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (this.isAboutToDie)
             return;
 
-        this.whiteHealthBar.scaleX = UsefulMethods.lerp(this.whiteHealthBar.scaleX, this.healthBar.scaleX, 0.1 * this.scene.anims.globalTimeScale);
-        this.whiteStaminaBar.scaleX = UsefulMethods.lerp(this.whiteStaminaBar.scaleX, this.staminaBar.scaleX, 0.1 * this.scene.anims.globalTimeScale);
+        this.whiteHealthBar.scaleX = UsefulMethods.lerp(this.whiteHealthBar.scaleX, this.healthBar.scaleX, 0.08 * this.slowMotion);
+        this.whiteStaminaBar.scaleX = UsefulMethods.lerp(this.whiteStaminaBar.scaleX, this.staminaBar.scaleX, 0.08 * this.slowMotion);
 
-        if (this.whiteHealthBar.scaleX < 0.01)
+        if (this.whiteHealthBar.scaleX < 0.05 && this.isDying)
             this.die();
     }
 }

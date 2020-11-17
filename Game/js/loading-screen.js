@@ -311,7 +311,14 @@ export default class LoadingScreen extends Phaser.Scene {
             key: 'GnomeAttackAnim',
             frames: this.anims.generateFrameNumbers('AttackingGnome', { start: 0, end: 2 }),
             frameRate: 9,
-            repeat: 1
+            repeat: 0
+          });
+
+          this.anims.create({
+            key: 'GnomeAttackAnimLast',
+            frames: this.anims.generateFrameNumbers('AttackingGnome', { start: 1, end: 2 }),
+            frameRate: 9,
+            repeat: 0
           });
 
           this.anims.create({
