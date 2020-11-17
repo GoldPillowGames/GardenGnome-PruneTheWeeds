@@ -101,7 +101,7 @@ El videojuego contará con un estilo cartoon con figuras y paletas de colores pa
 ### Menú principal
 En el menú de inicio se encontrará como background el personaje principal caminando sobre un terreno verde que nunca termina y montañas de fondo (teniendo en cuenta el faralaje para que sea notoria la profundidad de las capas). 
 
-A su vez, en el frontground se encuentran 3 botones, siendo el del medio el de jugar, el de la izquierda el de marcadores y el de la derecha el de ajustes. 
+A su vez, en el frontground se encuentran 3 botones, siendo el del medio el de jugar, el de la izquierda el de ajustes y el de la derecha el de créditos y contacto.
 
 El título se ubica en la parte superior con una leve animación de escalado ejecutándose en bucle. 
 
