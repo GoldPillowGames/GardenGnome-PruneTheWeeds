@@ -11,6 +11,7 @@
 
 import UsefulMethods from './useful-methods.js';
 import Enemy from './enemy.js';
+import Button from './button.js';
 import Player from './player.js';
 import InputManager from './input-manager.js';
 import UIContainer from './ui-container.js';
@@ -62,6 +63,15 @@ export default class level1 extends Phaser.Scene {
     this.cameras.main.fadeIn(1000);
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
 
+    this.darkBackground = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'DarkBackground');
+    this.darkBackground.setOrigin(0.5);
+    this.darkBackground.setDepth(1000);
+    this.darkBackground.setAlpha(0);
+    this.darkBackground.setScrollFactor(0);
+    this.darkBackground.active = false;
+    this.darkBackground.scaleX = UsefulMethods.RelativeScale(100, "x", this);
+    this.darkBackground.scaleY = UsefulMethods.RelativeScale(100, "y", this);
+
     // Se crea el objeto player en la escena.
     this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(97, "y", this), texture: 'WalkingGnome', frame: 0 , HP: 5});
     this.player.create();
@@ -72,9 +82,87 @@ export default class level1 extends Phaser.Scene {
     this.inputManager.create();
     this.SetupCamera();
     this.uiContainer = new UIContainer({ scene: this, x: this.width / 2, y: this.height / 2});
+    
     this.uiContainer.create();
 
     this.InitFloor();
+
+    var that = this;
+
+    this.exitButton = new Button({ scene: this, x: 100, y: 3.8,  texture: 'Exit', frame: 0, scale: 0.0125});
+    this.exitButton.create();
+    this.exitButton.setScrollFactor(0);
+    this.exitButton.touchableArea.setScrollFactor(0);
+
+    this.confButton = new Button({ scene: this, x: 66.66, y: 66.66,  texture: 'Tick', frame: 0, scale: 0.025});
+    this.confButton.create();
+    this.confButton.setScrollFactor(0);
+    this.confButton.touchableArea.setScrollFactor(0);
+    this.confButton.setAlpha(0);
+    this.confButton.touchableArea.setAlpha(0)
+
+    this.confButton.pointerUp = function(){
+      UsefulMethods.print("Pointerup1");
+      that.scene.get("Level_1").time.addEvent({ delay: 210, callback: function () { that.scene.start('mainMenu'); }, callbackScope: this, loop: false });
+   
+    }
+
+    this.exitText = this.add.text(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(33.33, "y", this), "Are you sure you want to return?", { fontFamily: '"amazingkids_font"', fontSize: 48, color: 'white' });
+    this.exitText.setDepth(1100);
+    this.exitText.setScrollFactor(0);
+    this.exitText.setOrigin(0.5);
+
+    this.denyButton = new Button({ scene: this, x: 33.33, y: 66.66,  texture: 'Cross', frame: 0, scale: 0.025});
+    this.denyButton.create();
+    this.denyButton.setScrollFactor(0);
+    this.denyButton.touchableArea.setScrollFactor(0);
+    this.denyButton.setAlpha(0);
+    this.denyButton.touchableArea.setAlpha(0)
+
+    //this.confirmButton.setAlpha(100);
+    //that.confirmButton.removeInteractive();
+
+    //this.denyButton.setAlpha(100);
+    //that.denyButton.removeInteractive();
+  
+
+    this.denyButton.pointerUp = function () {
+      that.darkBackground.active = false;
+          that.darkBackground.setAlpha(0);
+          that.player.canMove = true;
+
+          that.confButton.setAlpha(0);
+          that.confButton.touchableArea.setAlpha(0);
+          that.denyButton.setAlpha(0);
+          that.denyButton.touchableArea.setAlpha(0);
+    }
+
+    this.exitButton.pointerUp = function () {
+      UsefulMethods.print("Pointerup3");
+        if(!that.darkBackground.active){
+          that.darkBackground.active = true;
+          that.darkBackground.setAlpha(100);
+          that.player.canMove = false;
+
+          that.confButton.setAlpha(100);
+          that.confButton.touchableArea.setAlpha(0.1);
+          that.denyButton.setAlpha(100);
+          that.denyButton.touchableArea.setAlpha(0.1);
+
+        }else{
+          that.darkBackground.active = false;
+          that.darkBackground.setAlpha(0);
+          that.player.canMove = true;
+
+          that.confButton.setAlpha(0);
+          that.confButton.touchableArea.setAlpha(0);
+          that.denyButton.setAlpha(0);
+          that.denyButton.touchableArea.setAlpha(0);
+        }
+        
+    }
+    
+
     //Creamos los enemigos
     this.createEnemies();
 

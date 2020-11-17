@@ -16,6 +16,8 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Circle-UI', 'assets/test/circle-ui.png');
         this.load.image('Frog', 'assets/test/Rana1.png');
         this.load.image('Arrow', 'assets/props/arrow.png');
+        this.load.image('Cross', 'assets/props/cross.png');
+        this.load.image('Tick', 'assets/props/tick.png');
 
         this.load.image('BaseFloor1', ['assets/Level 1/sueloTileado.png', 'assets/Level 1/sueloTileado_n.png']);
         this.load.image('BaseSky1', 'assets/Level 1/cielo_base2.png');
@@ -28,6 +30,9 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Shovel3', ['assets/props/shovel3.png', 'assets/props/shovel3_n.png']);
         this.load.image('Rake', ['assets/props/rake.png', 'assets/props/rake_n.png']);
         this.load.image('StreetLight', 'assets/test/lightplaceholder.png');
+        this.load.image('DarkBackground', 'assets/end-game-background.png');
+        this.load.image('LogoJuego', 'assets/main-menu/logo.png');
+
 
         this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
             frameWidth: 64,
@@ -50,6 +55,8 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Hard-Button'    , 'assets/main-menu/hard.png');
         this.load.image('Settings-Menu-Background', 'assets/test/settings-menu-background.png');
         this.load.image('GnomeHead' , 'assets/character/gnomehead.png');
+
+        this.load.image('Exit' , 'assets/props/exit.png');
 
         this.loadAssetsEnemies();
 

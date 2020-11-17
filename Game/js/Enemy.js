@@ -30,6 +30,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.stamina = stamina;
         this.hp = hp;
         this.maxHP = hp;
+
         // #endregion
         this.beenParried = false;
 

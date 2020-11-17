@@ -41,7 +41,8 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
         this.touchableArea.scaleX = this.scaleX;
         this.touchableArea.scaleY = this.scaleX;
 
-        this.setDepth(1990);
+        this.setDepth(10000);
+        this.touchableArea.setDepth(10000);
         this.alpha = 1;
         this.scaleY = this.scaleX;
         this.originalScale = this.scaleY;
