@@ -10,7 +10,7 @@ Navegador: Google Chrome, Mozilla Firefox
 Tipo: Free to play 
 // Documento de monetización
 ### Alcance del proyecto 
-####Tiempo y coste
+#### Tiempo y coste
 - Coste principal: 101 € 
 - Tiempo: 7 semanas 
 #### Equipo
