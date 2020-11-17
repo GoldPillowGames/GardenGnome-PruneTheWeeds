@@ -36,7 +36,7 @@ export default class MainMenu extends Phaser.Scene {
             var object = this.add.sprite(
                 UsefulMethods.RelativePosition(nextSpritePositionX, "x", this),
                 UsefulMethods.RelativePosition(nextSpritePositionY, "y", this),
-                Math.random() <= 0.8 ? sprites[0] : sprites[(Math.floor((1 + Math.random() * (sprites.length - 1))))], 4).setDepth(depth);
+                Math.random() <= 0.8 ? sprites[0] : sprites[(Math.floor((1 + Math.random() * (sprites.length - 1))))]).setDepth(depth);
 
             object.setOrigin(0.5, 1);
             //object.setPipeline('Light2D');
@@ -100,9 +100,9 @@ export default class MainMenu extends Phaser.Scene {
 
         this.cameras.main.fadeIn(550);
 
-        this.add.sprite(UsefulMethods.RelativePosition(20, "x", this), UsefulMethods.RelativePosition(70, "y", this), 'BaseSky1', 4).setAlpha(0.92);
+        this.add.sprite(UsefulMethods.RelativePosition(20, "x", this), UsefulMethods.RelativePosition(70, "y", this), 'BaseSky1').setAlpha(0.92);
 
-        this.add.sprite(UsefulMethods.RelativePosition(25, "x", this), UsefulMethods.RelativePosition(92, "y", this), 'BaseFloor1', 4).setAlpha(0.92);
+        this.add.sprite(UsefulMethods.RelativePosition(25, "x", this), UsefulMethods.RelativePosition(92, "y", this), 'BaseFloor1').setAlpha(0.92);
         // this.SettingsButtonsContainer = this.add.sprite(this.width/3, this.height/1.32,'').setInteractive();
         // this.SettingsButtonsContainer.alpha = 0;
         // this.SettingsButtonsContainer.setDepth(0);

@@ -163,7 +163,7 @@ export default class level1 extends Phaser.Scene {
       var object = this.add.sprite(
         UsefulMethods.RelativePosition(nextSpritePositionX, "x", this),
         UsefulMethods.RelativePosition(nextSpritePositionY, "y", this),
-        Math.random() <= 0.8 ? sprites[0] : sprites[(Math.floor((1 + Math.random() * (sprites.length - 1))))], 4).setDepth(depth);
+        Math.random() <= 0.8 ? sprites[0] : sprites[(Math.floor((1 + Math.random() * (sprites.length - 1))))]).setDepth(depth);
       
         object.setOrigin(0.5, 1);
       //object.setPipeline('Light2D');
@@ -190,7 +190,7 @@ export default class level1 extends Phaser.Scene {
       attackTime: 0.9, 
       window: 0.6, 
       stamina: 2,
-      hp: 20, 
+      hp: 2, 
       idleAnimation: 'PlantIdleAnim', 
       attackAnimation: 'PlantAttackAnim'
     }));
@@ -259,7 +259,6 @@ export default class level1 extends Phaser.Scene {
   }
 
   newFloor(){
-UsefulMethods.print("newFLooe");
 
     this.skys[this.currentFloor].x= this.skys[0].width * this.skys[0].scaleX * this.nextFloor;
 
@@ -297,7 +296,6 @@ UsefulMethods.print("newFLooe");
     // this.nextFloor.setPipeline('Light2D');
 
     var randomEnemy = Phaser.Math.Between(1, 5);
-    console.log(randomEnemy);
     switch(randomEnemy){
       case 1:
         this.enemies.push(new Enemy({
@@ -424,7 +422,7 @@ UsefulMethods.print("newFLooe");
     this.skys[2].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     //this.skys[2].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
 
-    this.floors.push(this.physics.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4));
+    this.floors.push(this.physics.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1'));
     this.floors[0].setDepth(-9);
     this.floors[0].body.allowGravity = false;
     this.floors[0].body.immovable = true;
@@ -432,9 +430,8 @@ UsefulMethods.print("newFLooe");
     this.floors[0].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     this.floors[0].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
    // this.floor.setPipeline('Light2D');
-    UsefulMethods.print("Ancho" +  this.floors[0].width);
 
-    this.floors.push(this.physics.add.sprite( this.floors[0].x +  this.floors[0].width* this.floors[0].scaleX, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4));
+    this.floors.push(this.physics.add.sprite( this.floors[0].x +  this.floors[0].width* this.floors[0].scaleX, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1'));
     this.floors[1].setDepth(-9);
     this.floors[1].body.allowGravity = false;
     this.floors[1].body.immovable = true;
@@ -443,7 +440,7 @@ UsefulMethods.print("newFLooe");
    // this.floor1.setPipeline('Light2D');
     this.floors[1].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
 
-    this.floors.push(this.physics.add.sprite( this.floors[0].x +  this.floors[0].width* this.floors[0].scaleX*2, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4));
+    this.floors.push(this.physics.add.sprite( this.floors[0].x +  this.floors[0].width* this.floors[0].scaleX*2, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1'));
     this.floors[2].setDepth(-9);
     this.floors[2].body.allowGravity = false;
     this.floors[2].body.immovable = true;
@@ -454,12 +451,11 @@ UsefulMethods.print("newFLooe");
 
     this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], this.floors[0].width * this.floors[0].scaleX, -7, -40, 14, 20, 106, 108);
     this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], this.floors[0].width * this.floors[0].scaleX, 7, -30, 14, 20, 110, 118);
-    UsefulMethods.print(UsefulMethods.RelativePosition(this.floors[0].width * this.floors[0].scaleX, 'x', this));
 
     // this.floor.scaleX = UsefulMethods.RelativeScale(0.1, "x", this);
     // this.floor.scaleY = this.floor.scaleX;
 
-    // this.floor1 = this.physics.add.sprite(UsefulMethods.RelativePosition(45, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'Floor', 4);
+    // this.floor1 = this.physics.add.sprite(UsefulMethods.RelativePosition(45, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'Floor');
     // this.floor1.body.allowGravity = false;
     // this.floor1.body.immovable = true;
 

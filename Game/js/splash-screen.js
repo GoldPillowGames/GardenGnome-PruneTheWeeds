@@ -17,7 +17,6 @@ export default class SplashScreen extends Phaser.Scene {
     this.isPlayingIntro = false;
 
     this.logo = this.add.image(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'logo');
-    console.log(UsefulMethods.RelativeScale(0.1, "x", this) + " " + UsefulMethods.RelativeScale(0.1, "y", this));
     this.logo.setScale(UsefulMethods.RelativeScale(0.02, "x", this));
 
     this.input.on('pointerdown', function (pointer) {
