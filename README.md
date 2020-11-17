@@ -29,4 +29,13 @@ Tipo: Free to play
 | Elvira Gutiérrez Bartolomé  | 1. Photoshop | 20€ |
 | Germán López Gutiérrez  | 1. Gimp | 0€ |
 | Fernando Martín Espina  | 1. Gimp | 0€ |
-|  | Coste Total  | 101€ |
+|  | **Coste Total**  | 101€ |
+
+### Influencias 
+
+**1. Redungeon**
+Medio: Videojuego 
+Motivo: El estilo visual en formato pixel art. 
+**2. Sekiro: Shadows Die Twice**
+Medio: Videojuego 
+Motivo: La mecánica del parry como elemento clave en el sistema de combate. 
