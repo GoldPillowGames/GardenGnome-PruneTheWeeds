@@ -7,8 +7,7 @@ Arcade, aventura y acción.
 ### Plataformas objetivo 
 Navegador: Google Chrome, Mozilla Firefox 
 ### Modelo de monetización  
-Tipo: Free to play 
-// Documento de monetización
+Tipo: Free to play
 ### Alcance del proyecto 
 #### Tiempo y coste
 - Coste principal: 101 € 
@@ -21,3 +20,8 @@ Tipo: Free to play
 | Ignacio Atance Loras | Level Designer, Programador |
 | Jorge Sánchez Sánchez | Arte 2D |
 | Fernando Martín Espina | Game Designer, Programador |
+
+#### Licencias y Hardware
+| Nombre | Software / Licencia | Coste Total
+| ----------- | ----------- | ----------- |
+| Germán López Gutiérrez | Gimp | 21 |
