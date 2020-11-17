@@ -234,26 +234,24 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.hp -= 1;
         this.healthBar.scaleX = this.hp / this.maxHP;
-        if (true) {
-            var that = this;
-            this.scene.tweens.add({
-                targets: that,
-                x: that.x + 15,
-                ease: 'Power1',
+        var that = this;
+        this.scene.tweens.add({
+            targets: that,
+            x: that.x + 15,
+            ease: 'Power1',
 
-                duration: 65,
-                yoyo: true,
-                repeat: 0,
-                onStart: function () {
-                    that.setTint(0xff002a);
-                },
-                onComplete: function () {
-                    that.setTint(0xffffff);
-                },
-                onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
-                onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
-            });
-        }
+            duration: 65,
+            yoyo: true,
+            repeat: 0,
+            onStart: function () {
+                that.setTint(0xff002a);
+            },
+            onComplete: function () {
+                that.setTint(0xffffff);
+            },
+            onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
+            onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+        });
 
     }
 
@@ -308,6 +306,25 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     //};
                 }
                 else {
+                    var that = this;
+                    this.scene.tweens.add({
+                        targets: that,
+                        alpha: { value: 0, duration: 50, ease: 'Linear' },
+                        repeat: 0,
+                    });
+                    this.scene.tweens.add({
+                        targets: [
+                            that.staminaBar,
+                            that.healthBar,
+                            that.healthBarBackground,
+                            that.staminaBarBackground,
+                            that.whiteHealthBar,
+                            that.whiteStaminaBar
+                        ],
+                        alpha: { value: 0, duration: 50, ease: 'Linear' },
+                        repeat: 0,
+                    });
+
                     this.scene.player.anims.play('GnomeAttackAnimLast');
                     this.scene.cameras.main.zoomTo(this.scene.cameraZoomWhenKilling, 399, 'Expo.easeOut');
 
@@ -317,6 +334,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     this.scene.arrow.setAlpha(0);
 
                     this.slowMotion = 0.1;
+                    this.scene.tweens.timeScale = this.slowMotion;
 
                     this.scene.time.addEvent({
                         delay: 150,
@@ -348,6 +366,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.isAboutToDie = true;
 
         this.scene.player.canMove = true;
+        this.scene.tweens.timeScale = 1;
 
 
 
