@@ -7,9 +7,12 @@ export default class InputManager {
         this.DButton = this.scene.input.keyboard.addKey('D');
         this.AButton = this.scene.input.keyboard.addKey('A');
         this.WButton = this.scene.input.keyboard.addKey('W');
+
         this.rightButton = this.scene.input.keyboard.addKey('right');
         this.leftButton = this.scene.input.keyboard.addKey('left');
-        this.upButton = this.scene.input.keyboard.addKey('space');
+        this.upButton = this.scene.input.keyboard.addKey('up');
+        this.downButton = this.scene.input.keyboard.addKey('down');
+        this.spaceButton = this.scene.input.keyboard.addKey('space');
 
         this.isMouseMoving = false;
         this.movementPointerId = 0;

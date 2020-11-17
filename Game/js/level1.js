@@ -62,8 +62,10 @@ export default class level1 extends Phaser.Scene {
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
 
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(75, "y", this), texture: 'WalkingGnome', frame: 4 , HP: 5});
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(75, "y", this), texture: 'WalkingGnome', frame: 0 , HP: 5});
     this.player.create();
+    this.player.body.setOffset(0, -20);
+
     
     this.inputManager = new InputManager(this);
     this.inputManager.create();
@@ -101,6 +103,12 @@ export default class level1 extends Phaser.Scene {
     this.whiteHealthBar.setOrigin(0);
     this.whiteHealthBar.setDepth(14);
 
+    this.gnomeHead = this.add.sprite(this.healthBar.x + this.healthBarWidht*1.25, this.healthBar.y + UsefulMethods.RelativePosition(5, "y", this), 'GnomeHead');
+
+    this.gnomeHead.scaleX = this.player.scaleX/2;
+    this.gnomeHead.scaleY = this.player.scaleY/2;
+
+    this.uiContainer.add(this.gnomeHead);
     this.uiContainer.add(this.healthBarBackground);
     this.uiContainer.add(this.whiteHealthBar);
     this.uiContainer.add(this.healthBar);
