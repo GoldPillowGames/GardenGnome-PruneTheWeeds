@@ -111,6 +111,7 @@ export default class level1 extends Phaser.Scene {
     this.exitText.setDepth(1100);
     this.exitText.setScrollFactor(0);
     this.exitText.setOrigin(0.5);
+    this.exitText.setVisible(false);
 
     this.denyButton = new Button({ scene: this, x: 33.33, y: 66.66,  texture: 'Cross', frame: 0, scale: 0.025});
     this.denyButton.create();
@@ -135,6 +136,7 @@ export default class level1 extends Phaser.Scene {
           that.confButton.touchableArea.setAlpha(0);
           that.denyButton.setAlpha(0);
           that.denyButton.touchableArea.setAlpha(0);
+          that.exitText.setVisible(false);
     }
 
     this.exitButton.pointerUp = function () {
@@ -149,6 +151,8 @@ export default class level1 extends Phaser.Scene {
           that.denyButton.setAlpha(100);
           that.denyButton.touchableArea.setAlpha(0.1);
 
+          that.exitText.setVisible(true);
+
         }else{
           that.darkBackground.active = false;
           that.darkBackground.setAlpha(0);
@@ -158,6 +162,8 @@ export default class level1 extends Phaser.Scene {
           that.confButton.touchableArea.setAlpha(0);
           that.denyButton.setAlpha(0);
           that.denyButton.touchableArea.setAlpha(0);
+
+          that.exitText.setVisible(false);
         }
         
     }
@@ -471,8 +477,10 @@ export default class level1 extends Phaser.Scene {
     var enemy = this.enemies[this.nextFloor];
     var combat = function () {
       this.player.canMove = false;
-      this.combatHappening = true;
+      
       this.currentEnemy = enemy;
+      this.combatHappening = true;
+
       enemy.attack();
       enemy.createBars();
       enemy.collision.destroy();
@@ -632,8 +640,10 @@ export default class level1 extends Phaser.Scene {
     this.enemies.forEach(element => {
       var combat = function () {
         that.player.canMove = false;
-        that.combatHappening = true;
+        
         that.currentEnemy = element;
+        that.combatHappening = true;
+        
         element.attack();
         element.createBars();
         element.collision.destroy();

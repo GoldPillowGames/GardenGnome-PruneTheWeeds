@@ -107,10 +107,17 @@ export default class InputManager {
         this.scene.input.on('pointermove', function (pointer) {
             // Comprobamos si el id del puntero es el mismo que inició el movimiento
             if (that.movementPointerId === pointer.id) {
+                
                 var module = UsefulMethods.vectorModule(pointer.x - that.initialMouseX, pointer.y - that.initialMouseY);
                 //var module = Math.sqrt(Math.pow(pointer.x - this.initialMouseX, 2) + Math.pow(pointer.y - this.initialMouseY, 2));
-                var xMax = Math.abs((pointer.x - that.initialMouseX) / module) * that.maxMouseDistance;
-                var yMax = Math.abs((pointer.y - that.initialMouseY) / module) * that.maxMouseDistance;
+
+                if(this.scene.combatHappening && this.scene.currentEnemy.enemyState == this.scene.currentEnemy.enemyStates.TIRED){
+                    var xMax = 0;
+                    var yMax = 0;
+                }else{
+                    var xMax = Math.abs((pointer.x - that.initialMouseX) / module) * that.maxMouseDistance;
+                    var yMax = Math.abs((pointer.y - that.initialMouseY) / module) * that.maxMouseDistance;
+                }
 
                 that.circle_UI.x = Phaser.Math.Clamp(pointer.x, that.initialMouseX - xMax, that.initialMouseX + xMax);
                 that.circle_UI.y = Phaser.Math.Clamp(pointer.y, that.initialMouseY - yMax, that.initialMouseY + yMax);

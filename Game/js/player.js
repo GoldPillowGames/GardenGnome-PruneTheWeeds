@@ -118,9 +118,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                     if (pointer.x - this.scene.inputManager.initialMouseX > 0) {
                         that.direction = 1;
                     }
-                    // else if (pointer.x - this.scene.inputManager.initialMouseX < 0) {
-                    //     that.direction = -1;
-                    // }
+                    else if (pointer.x - this.scene.inputManager.initialMouseX < 0) {
+                         that.direction = -1;
+                    }
                 }
             }
         });
@@ -180,6 +180,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if(this.HP <= 0){
             this.die();
         }
+        if(this.direction == -1)
+            this.direction =0;
         // Se aplica la velocidad de movimiento al sprite
         var calculatedSpeed = this.canMove ? (this.direction * this.velocity) : 0;
 
