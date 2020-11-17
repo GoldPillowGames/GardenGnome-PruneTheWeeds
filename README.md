@@ -24,4 +24,5 @@ Tipo: Free to play
 #### Licencias y Hardware
 | Nombre | Software / Licencia | Coste Total
 | ----------- | ----------- | ----------- |
-| Germán López Gutiérrez | Gimp | 21 |
+| Ignacio Atance Loras  | 1. Clip Studio Paint | 21 |
+| Jorge Sánchez Sánchez  | 1. Clip Studio Paint 2. Aseprite | 60 |
