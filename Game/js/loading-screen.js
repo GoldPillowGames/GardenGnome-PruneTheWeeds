@@ -49,6 +49,7 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Easy-Button'    , 'assets/main-menu/easy.png');
         this.load.image('Hard-Button'    , 'assets/main-menu/hard.png');
         this.load.image('Settings-Menu-Background', 'assets/test/settings-menu-background.png');
+        this.load.image('GnomeHead' , 'assets/character/gnomehead.png');
 
         this.loadAssetsEnemies();
 
@@ -202,7 +203,7 @@ export default class LoadingScreen extends Phaser.Scene {
         frameHeight:430
     });
     
-    this.load.spritesheet('AttackingGnome', 'assets/character/gnomeattacking.png',{
+    this.load.spritesheet('AttackingGnome', 'assets/character/gnomeattackingshort.png',{
         frameWidth: 455,
         frameHeight:430
     });
@@ -256,7 +257,7 @@ export default class LoadingScreen extends Phaser.Scene {
       this.anims.create({
           key: 'MushroomAttackAnim',
           frames: this.anims.generateFrameNumbers('AttackMushroom', { start: 0, end: 11 }),
-          frameRate: 8,
+          frameRate: 12,
           repeat: -1
         });
     
@@ -286,7 +287,7 @@ export default class LoadingScreen extends Phaser.Scene {
         this.anims.create({
             key: 'SnailAttackAnim',
             frames: this.anims.generateFrameNumbers('AttackSnail', { start: 0, end: 12 }),
-            frameRate: 8,
+            frameRate: 10,
             repeat: -1
           });
 
@@ -301,15 +302,15 @@ export default class LoadingScreen extends Phaser.Scene {
         this.anims.create({
             key: 'PlantAttackAnim',
             frames: this.anims.generateFrameNumbers('AttackPlant', { start: 0, end: 11 }),
-            frameRate: 8,
+            frameRate: 12,
             repeat: -1
           });
 
 
           this.anims.create({
             key: 'GnomeAttackAnim',
-            frames: this.anims.generateFrameNumbers('AttackingGnome', { start: 0, end: 4 }),
-            frameRate: 8,
+            frames: this.anims.generateFrameNumbers('AttackingGnome', { start: 0, end: 2 }),
+            frameRate: 9,
             repeat: 1
           });
 

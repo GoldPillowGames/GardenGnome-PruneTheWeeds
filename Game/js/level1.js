@@ -62,8 +62,10 @@ export default class level1 extends Phaser.Scene {
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
 
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(75, "y", this), texture: 'WalkingGnome', frame: 4 , HP: 5});
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(75, "y", this), texture: 'WalkingGnome', frame: 0 , HP: 5});
     this.player.create();
+    this.player.body.setOffset(0, -20);
+
     
     this.inputManager = new InputManager(this);
     this.inputManager.create();
@@ -101,6 +103,12 @@ export default class level1 extends Phaser.Scene {
     this.whiteHealthBar.setOrigin(0);
     this.whiteHealthBar.setDepth(14);
 
+    this.gnomeHead = this.add.sprite(this.healthBar.x + this.healthBarWidht*1.25, this.healthBar.y + UsefulMethods.RelativePosition(5, "y", this), 'GnomeHead');
+
+    this.gnomeHead.scaleX = this.player.scaleX/2;
+    this.gnomeHead.scaleY = this.player.scaleY/2;
+
+    this.uiContainer.add(this.gnomeHead);
     this.uiContainer.add(this.healthBarBackground);
     this.uiContainer.add(this.whiteHealthBar);
     this.uiContainer.add(this.healthBar);
@@ -187,8 +195,8 @@ export default class level1 extends Phaser.Scene {
       scene: this, x: (this.floors[0].x + (this.floors[0].width) * (this.floors[0].scaleX) * 0.5), y: 75,
       texture: 'IdlePlant', 
       frame: 0, 
-      attackTime: 0.9, 
-      window: 0.6, 
+      attackTime: 0.55, 
+      window: 0.45, 
       stamina: 2,
       hp: 2, 
       idleAnimation: 'PlantIdleAnim', 
@@ -215,8 +223,8 @@ export default class level1 extends Phaser.Scene {
       scene: this, x: (this.floors[1].x + (this.floors[1].width) * (this.floors[1].scaleX) * 0.5), y: 75,
       texture: 'IdleSnail', 
       frame: 0, 
-      attackTime: 0.9, 
-      window: 0.6, 
+      attackTime: 0.85, 
+      window: 0.45, 
       stamina: 2, 
       hp: 5, 
       idleAnimation: 'SnailIdleAnim', 
@@ -225,7 +233,7 @@ export default class level1 extends Phaser.Scene {
 
     this.enemies.push(new Enemy({
       scene: this, x: (this.floors[2].x + (this.floors[2].width) * (this.floors[2].scaleX) * 0.5), y: 75,
-      texture: 'IdleMushroom', frame: 0, attackTime: 0.9, window: 0.6, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim'
+      texture: 'IdleMushroom', frame: 0, attackTime: 0.55, window: 0.45, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim'
     }));
 
 
@@ -302,10 +310,10 @@ export default class level1 extends Phaser.Scene {
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleSnail', 
           frame: 0, 
-          attackTime: 0.9, 
-          window: 0.6, 
-          stamina: 2, 
-          hp: 5, 
+          attackTime: 0.85, 
+          window: 0.45, 
+          stamina: Phaser.Math.Between(2, 4), 
+          hp: Phaser.Math.Between(8, 15), 
           idleAnimation: 'SnailIdleAnim', 
           attackAnimation: 'SnailAttackAnim'
         }));
@@ -315,10 +323,10 @@ export default class level1 extends Phaser.Scene {
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleCactus', 
           frame: 0, 
-          attackTime: 0.9, 
-          window: 0.6, 
-          stamina: 2, 
-          hp: 5, 
+          attackTime: 1.05, 
+          window: 0.45, 
+          stamina: Phaser.Math.Between(4, 7), 
+          hp: Phaser.Math.Between(3, 6), 
           idleAnimation: 'CactusIdleAnim', 
           attackAnimation: 'CactusAttackAnim'
         }));
@@ -328,10 +336,10 @@ export default class level1 extends Phaser.Scene {
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleMushroom', 
           frame: 0, 
-          attackTime: 0.9, 
-          window: 0.6, 
-          stamina: 2, 
-          hp: 5, 
+          attackTime: 0.55, 
+          window: 0.45, 
+          stamina: Phaser.Math.Between(2, 3), 
+          hp: Phaser.Math.Between(4, 8), 
           idleAnimation: 'MushroomIdleAnim', 
           attackAnimation: 'MushroomAttackAnim'
         })); 
@@ -341,10 +349,10 @@ export default class level1 extends Phaser.Scene {
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdlePlant', 
           frame: 0, 
-          attackTime: 0.9, 
-          window: 0.6, 
-          stamina: 2, 
-          hp: 5, 
+          attackTime: 0.55, 
+          window: 0.45, 
+          stamina: Phaser.Math.Between(1, 3), 
+          hp: Phaser.Math.Between(10, 14), 
           idleAnimation: 'PlantIdleAnim', 
           attackAnimation: 'PlantAttackAnim'
         }));  
@@ -354,10 +362,10 @@ export default class level1 extends Phaser.Scene {
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleFrog', 
           frame: 0, 
-          attackTime: 0.7, 
-          window: 0.6, 
-          stamina: 2, 
-          hp: 5, 
+          attackTime: 0.8, 
+          window: 0.5, 
+          stamina: Phaser.Math.Between(1, 2), 
+          hp: Phaser.Math.Between(12, 20), 
           idleAnimation: 'FrogIdleAnim', 
           attackAnimation: 'FrogAttackAnim'
         }));  

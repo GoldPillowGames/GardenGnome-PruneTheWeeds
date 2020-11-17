@@ -114,7 +114,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (this.scene != null) {
             this.firstAttack = true;
             //this.scene.player.anims.play('GnomeStopAnim');
-            this.scene.time.addEvent({ delay: (Math.random() * 0.75 + 1.5) * 1000, callback: this.attack, callbackScope: this, loop: false });
+            this.scene.time.addEvent({ delay: (Math.random() * 0.75 + 0.5) * 1000, callback: this.attack, callbackScope: this, loop: false });
         }
     }
 
