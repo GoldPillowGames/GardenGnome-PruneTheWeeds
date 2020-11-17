@@ -29,4 +29,4 @@ Tipo: Free to play
 | Elvira Gutiérrez Bartolomé  | 1. Photoshop | 20€ |
 | Germán López Gutiérrez  | 1. Gimp | 0€ |
 | Fernando Martín Espina  | 1. Gimp | 0€ |
-| Coste Total  | 101€ |
+|  | Coste Total  | 101€ |
