@@ -15,18 +15,18 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Floor', 'assets/game-elements/ground.png');
         this.load.image('Circle-UI', 'assets/test/circle-ui.png');
         this.load.image('Frog', 'assets/test/Rana1.png');
-        this.load.image('Arrow', 'assets/Props/arrow.png');
+        this.load.image('Arrow', 'assets/props/arrow.png');
 
         this.load.image('BaseFloor1', ['assets/Level 1/sueloTileado.png', 'assets/Level 1/sueloTileado_n.png']);
         this.load.image('BaseSky1', 'assets/Level 1/cielo_base2.png');
 
-        this.load.image('MetalFence', 'assets/Props/metal_fence.png');
-        this.load.image('WoodFence', ['assets/Props/wood_fence_small.png', 'assets/Props/wood_fence_small_n.png']);
-        this.load.image('Grass', ['assets/Props/grass.png', 'assets/Props/grass_n.png']);
-        this.load.image('Shovel1', ['assets/Props/shovel1.png', 'assets/Props/shovel1_n.png']);
-        this.load.image('Shovel2', ['assets/Props/shovel2.png', 'assets/Props/shovel2_n.png']);
-        this.load.image('Shovel3', ['assets/Props/shovel3.png', 'assets/Props/shovel3_n.png']);
-        this.load.image('Rake', ['assets/Props/rake.png', 'assets/Props/rake_n.png']);
+        this.load.image('MetalFence', 'assets/props/metal_fence.png');
+        this.load.image('WoodFence', ['assets/props/wood_fence_small.png', 'assets/props/wood_fence_small_n.png']);
+        this.load.image('Grass', ['assets/props/grass.png', 'assets/props/grass_n.png']);
+        this.load.image('Shovel1', ['assets/props/shovel1.png', 'assets/props/shovel1_n.png']);
+        this.load.image('Shovel2', ['assets/props/shovel2.png', 'assets/props/shovel2_n.png']);
+        this.load.image('Shovel3', ['assets/props/shovel3.png', 'assets/props/shovel3_n.png']);
+        this.load.image('Rake', ['assets/props/rake.png', 'assets/props/rake_n.png']);
         this.load.image('StreetLight', 'assets/test/lightplaceholder.png');
 
         this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
@@ -196,7 +196,21 @@ export default class LoadingScreen extends Phaser.Scene {
         frameWidth: 640,
         frameHeight: 360
     });
-      }
+
+    this.load.spritesheet('WalkingGnome', 'assets/character/gnomewalking.png',{
+        frameWidth: 455,
+        frameHeight:430
+    });
+    
+    this.load.spritesheet('AttackingGnome', 'assets/character/gnomeattacking.png',{
+        frameWidth: 455,
+        frameHeight:430
+    });
+
+    this.load.spritesheet('ParryUpGnome', 'assets/character/gnomeparryup.png', {frameWidth: 455, frameHeight: 430});
+    this.load.spritesheet('ParryDownGnome', 'assets/character/gnomeparrydown.png', {frameWidth: 455, frameHeight: 430});
+
+    }
 
     create() {
         this.createAnimationsEnemies();
@@ -287,6 +301,39 @@ export default class LoadingScreen extends Phaser.Scene {
         this.anims.create({
             key: 'PlantAttackAnim',
             frames: this.anims.generateFrameNumbers('AttackPlant', { start: 0, end: 11 }),
+            frameRate: 8,
+            repeat: -1
+          });
+
+
+          this.anims.create({
+            key: 'GnomeAttackAnim',
+            frames: this.anims.generateFrameNumbers('AttackingGnome', { start: 0, end: 4 }),
+            frameRate: 8,
+            repeat: 1
+          });
+
+          this.anims.create({
+            key: 'GnomeParryUp',
+            frames: [ { key: 'ParryUpGnome', frame: 0 } ],
+            frameRate: 20
+        });
+
+        this.anims.create({
+            key: 'GnomeParryDown',
+            frames: [ { key: 'ParryDownGnome', frame: 0 } ],
+            frameRate: 20
+        });
+
+          this.anims.create({
+            key: 'GnomeWalkAnim',
+            frames: this.anims.generateFrameNumbers('WalkingGnome', { start: 0, end: 9 }),
+            frameRate: 16,
+            repeat: -1
+          });
+          this.anims.create({
+            key: 'GnomeStopAnim',
+            frames: this.anims.generateFrameNumbers('WalkingGnome', { start: 0, end: 0 }),
             frameRate: 8,
             repeat: -1
           });

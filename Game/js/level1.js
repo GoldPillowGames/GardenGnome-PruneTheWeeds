@@ -62,7 +62,7 @@ export default class level1 extends Phaser.Scene {
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
 
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(100, "y", this), texture: 'Character', frame: 4 , HP: 5});
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(75, "y", this), texture: 'WalkingGnome', frame: 4 , HP: 5});
     this.player.create();
     
     this.inputManager = new InputManager(this);
@@ -190,7 +190,7 @@ export default class level1 extends Phaser.Scene {
       attackTime: 0.9, 
       window: 0.6, 
       stamina: 2,
-      hp: 3, 
+      hp: 20, 
       idleAnimation: 'PlantIdleAnim', 
       attackAnimation: 'PlantAttackAnim'
     }));
@@ -411,18 +411,24 @@ UsefulMethods.print("newFLooe");
 
     this.skys.push(this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', ));
     this.skys[0].setDepth(-11);
+    this.skys[0].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
+    //this.skys[0].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
 
-    this.skys.push(this.add.sprite(this.skys[0].width, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', ));
+    this.skys.push(this.add.sprite(this.skys[0].width * this.skys[0].scaleX, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', ));
     this.skys[1].setDepth(-11);
+    this.skys[1].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
+    //this.skys[1].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
 
-    this.skys.push(this.add.sprite(this.skys[0].width*2, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', ));
+    this.skys.push(this.add.sprite(this.skys[0].width*2*this.skys[0].scaleX, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', ));
     this.skys[2].setDepth(-11);
+    this.skys[2].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
+    //this.skys[2].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
 
     this.floors.push(this.physics.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1', 4));
     this.floors[0].setDepth(-9);
     this.floors[0].body.allowGravity = false;
     this.floors[0].body.immovable = true;
-    this.floors[0].body.setOffset(0, 55);
+    this.floors[0].body.setOffset(0, 80);
     this.floors[0].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     this.floors[0].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
    // this.floor.setPipeline('Light2D');
@@ -432,7 +438,7 @@ UsefulMethods.print("newFLooe");
     this.floors[1].setDepth(-9);
     this.floors[1].body.allowGravity = false;
     this.floors[1].body.immovable = true;
-    this.floors[1].body.setOffset(0, 55);
+    this.floors[1].body.setOffset(0, 80);
     this.floors[1].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
    // this.floor1.setPipeline('Light2D');
     this.floors[1].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
@@ -441,7 +447,7 @@ UsefulMethods.print("newFLooe");
     this.floors[2].setDepth(-9);
     this.floors[2].body.allowGravity = false;
     this.floors[2].body.immovable = true;
-    this.floors[2].body.setOffset(0, 55);
+    this.floors[2].body.setOffset(0, 80);
     this.floors[2].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     this.floors[2].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
     //this.floor2.setPipeline('Light2D');
@@ -565,6 +571,7 @@ UsefulMethods.print("newFLooe");
    * Método que se ejecuta constantemente, en el de momento solo están los controles de movimiento.
    */
   update(delta) {
+    this.testingText.setText("Score: " + this.player.score);
 
     //Si currentEnemy existe (lo hace en caso de estar en un combate) se actualizan los textos con sus datos para testear.
     if (this.currentEnemy != null) {

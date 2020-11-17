@@ -25,6 +25,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.canParry = true;
         this.parryCooldown = 1;
 
+        this.score = 0;
+
         this.scene = scene;
         // #endregion
 
@@ -35,10 +37,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     parryCooldownFunction() {
         this.canParry = false;
+        this.scene.player.anims.play('GnomeParryUp');
         this.scene.time.addEvent({ delay: this.parryCooldown * 1000, callback: this.canParryAgain, callbackScope: this, loop: false });
     }
 
     canParryAgain() {
+        this.anims.play('GnomeStopAnim');
         this.canParry = true;
     }
 
@@ -55,19 +59,27 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                     this.parryCooldownFunction();
 
                 if(pointer.y - this.scene.inputManager.initialMouseY < 0 && this.scene.arrow.angle == -90 && Math.abs(pointer.y - this.scene.inputManager.initialMouseY) > Math.abs(pointer.x - this.scene.inputManager.initialMouseX)){
-                    if(this.parrying)
+                    if(this.parrying){
                         this.scene.currentEnemy.playerHasParried();
+                        this.anims.play('GnomeParryUp');
+                    }
                 }
                 else if(pointer.y - this.scene.inputManager.initialMouseY > 0 && this.scene.arrow.angle == 90 && Math.abs(pointer.y - this.scene.inputManager.initialMouseY) > Math.abs(pointer.x - this.scene.inputManager.initialMouseX)){
-                    if(this.parrying)
+                    if(this.parrying){
                         this.scene.currentEnemy.playerHasParried();
+                        this.anims.play('GnomeParryDown');
+                    }
                 }else if(this.scene.hardMode){
                     if(pointer.x - this.scene.inputManager.initialMouseX > 0 && this.scene.arrow.angle == 0 && Math.abs(pointer.x - this.scene.inputManager.initialMouseX) > Math.abs(pointer.y - this.scene.inputManager.initialMouseY)){
-                        if(this.parrying)
+                        if(this.parrying){
                             this.scene.currentEnemy.playerHasParried();
+                            this.anims.play('GnomeParryUp');
+                        }
                     }else if(pointer.x - this.scene.inputManager.initialMouseX < 0 && this.scene.arrow.angle == -180 && Math.abs(pointer.x - this.scene.inputManager.initialMouseX) > Math.abs(pointer.y - this.scene.inputManager.initialMouseY)){
-                        if(this.parrying)
+                        if(this.parrying){
                             this.scene.currentEnemy.playerHasParried();
+                            this.anims.play('GnomeParryDown');
+                        }
                     }
                 }          
             }
@@ -77,6 +89,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene.input.on('pointerdown', function (pointer) {
             if(this.scene.currentEnemy != null){
                 this.parrying = true;
+                
                 this.scene.currentEnemy.playerHasAttacked();
             }
         }, this);
@@ -87,7 +100,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     create() {
-        this.displayWidth = UsefulMethods.RelativeScale(10, "x", this.scene);
+        this.displayWidth = UsefulMethods.RelativeScale(20, "x", this.scene);
         this.scaleY = this.scaleX;
         this.playerScale = this.scaleX;
 
@@ -121,11 +134,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(delta) {
+
+        // if(this.direction != 0 && !this.scene.combatHappening){
+        //     this.anims.play('GnomeWalkAnim');
+        //     this.playerState = this.playerStates.WALKING;
+        // }
+
         if ((this.direction != 0) && this.playerState === this.playerStates.STOPPED && this.canMove) {
-            this.anims.play('walk');
+            this.anims.play('GnomeWalkAnim');
             this.playerState = this.playerStates.WALKING;
         } else if (this.playerState === this.playerStates.WALKING && this.direction === 0) {
-            this.anims.play('stopped');
+            this.anims.play('GnomeStopAnim');
             this.playerState = this.playerStates.STOPPED;
         }
 

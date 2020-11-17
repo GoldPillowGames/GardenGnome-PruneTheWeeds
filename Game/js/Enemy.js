@@ -33,6 +33,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         // #endregion
         this.beenParried = false;
 
+        this.firstAttack = true;
+
         switch(texture){
             case 'IdlePlant':
                 UsefulMethods.print("planta");
@@ -70,40 +72,46 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     createBars(){
 
-        //Fondo negro de las barras que sean 2 rectangulos en vez de uno
+        //Fondo negro de las barras que sea un rectangulo en vez de 2
 
-        this.healthBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) - this.scene.healtBarHeight * 1.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xff5e5e);
+        this.healthBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2 + this.width*this.scaleX*0.25, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) - this.scene.healtBarHeight * 1.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xff5e5e);
         this.healthBar.setDepth(5);
 
-        this.healthBarBackground = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2 - this.scene.healthBarWidht * 0.035, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) - this.scene.healtBarHeight * 1.28 , this.scene.healthBarWidht * 1.07, this.scene.healtBarHeight + this.scene.healthBarWidht * 0.07, 0x0c0c0c);
+        this.healthBarBackground = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2 - this.scene.healthBarWidht * 0.035  + this.width*this.scaleX*0.25, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) - this.scene.healtBarHeight * 1.28 , this.scene.healthBarWidht * 1.07, this.scene.healtBarHeight + this.scene.healthBarWidht * 0.07, 0x0c0c0c);
         this.healthBarBackground.setOrigin(0);
         this.healthBarBackground.setDepth(3);
 
-        this.whiteHealthBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) - this.scene.healtBarHeight * 1.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xFFFFFF);
+        this.whiteHealthBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2  + this.width*this.scaleX*0.25, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) - this.scene.healtBarHeight * 1.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xFFFFFF);
         this.whiteHealthBar.setOrigin(0);
         this.whiteHealthBar.setDepth(4);
 
-        this.staminaBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) + this.scene.healtBarHeight * 0.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0x70ff70);
+        this.staminaBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2  + this.width*this.scaleX*0.25, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) + this.scene.healtBarHeight * 0.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0x70ff70);
         this.staminaBar.setDepth(5);
 
-        this.staminaBarBackground = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2 - this.scene.healthBarWidht * 0.035, this.y - UsefulMethods.RelativePosition(20, "y", this.scene), this.scene.healthBarWidht * 1.07, this.scene.healtBarHeight + this.scene.healthBarWidht * 0.035, 0x0c0c0c);
+        this.staminaBarBackground = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2 - this.scene.healthBarWidht * 0.035  + this.width*this.scaleX*0.25, this.y - UsefulMethods.RelativePosition(20, "y", this.scene), this.scene.healthBarWidht * 1.07, this.scene.healtBarHeight + this.scene.healthBarWidht * 0.035, 0x0c0c0c);
         this.staminaBarBackground.setOrigin(0);
         this.staminaBarBackground.setDepth(3);
 
         this.healthBar.setOrigin(0);
         this.staminaBar.setOrigin(0);
 
-        this.whiteStaminaBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) + this.scene.healtBarHeight * 0.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xFFFFFF);
+        this.whiteStaminaBar = this.scene.add.rectangle(this.x - this.scene.healthBarWidht/2  + this.width*this.scaleX*0.25, this.y - UsefulMethods.RelativePosition(20, "y", this.scene) + this.scene.healtBarHeight * 0.07, this.scene.healthBarWidht, this.scene.healtBarHeight, 0xFFFFFF);
         this.whiteStaminaBar.setOrigin(0);
         this.whiteStaminaBar.setDepth(4);
+
+        this.scene.arrow.x = (this.healthBar.x + this.scene.healthBarWidht/2);
     }
 
     waiting(){
+        
         this.scene.arrow.setAlpha(0);
         this.anims.play(this.idleAnimation);
         UsefulMethods.print("waiting");
-        if(this.scene != null)
+        if(this.scene != null){
+            this.firstAttack = true;
+            //this.scene.player.anims.play('GnomeStopAnim');
             this.scene.time.addEvent({ delay: (Math.random() * 0.75 + 1.5) * 1000, callback: this.attack, callbackScope: this, loop: false });
+        }
     }
 
 
@@ -164,9 +172,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.anims.play(this.attackAnimation);
             this.scene.arrow.setAlpha(0);
             
-            this.scene.arrow.x = (this.x + this.scene.player.x) / 2;
+            
             //this.scene.arrow.y = this.y - UsefulMethods.RelativePosition(15, "y", this.scene);
-            this.scene.arrow.y = this.y + UsefulMethods.RelativePosition(25,"y", this.scene);
+            this.scene.arrow.y = this.y - UsefulMethods.RelativePosition(30, "y", this.scene) - this.scene.healtBarHeight * 1.07;
             this.scene.time.addEvent({ delay: this.attackTime * 1000, callback: this.goParry, callbackScope: this, loop: false });
         }
             
@@ -258,6 +266,12 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         switch (this.enemyState) {
             case this.enemyStates.TIRED:
                 this.getAttacked();
+
+                if(this.firstAttack){
+                    this.firstAttack = false;
+                    this.scene.player.anims.play('GnomeAttackAnim');
+                };
+                
                 UsefulMethods.print('Recibi ataque');
 
                 if (this.hp == 0) {
@@ -271,12 +285,14 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     this.die();
                 }
                 break;
-            default:
+            default:               
                 break;
         }
     }
 
     die() {
+        this.scene.player.score += this.maxHP*10; 
+
         this.staminaBar.destroy();
         this.healthBar.destroy();
         this.healthBarBackground.destroy();
