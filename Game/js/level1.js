@@ -195,8 +195,8 @@ export default class level1 extends Phaser.Scene {
       scene: this, x: (this.floors[0].x + (this.floors[0].width) * (this.floors[0].scaleX) * 0.5), y: 75,
       texture: 'IdlePlant', 
       frame: 0, 
-      attackTime: 0.9, 
-      window: 0.6, 
+      attackTime: 0.55, 
+      window: 0.45, 
       stamina: 2,
       hp: 20, 
       idleAnimation: 'PlantIdleAnim', 
@@ -223,8 +223,8 @@ export default class level1 extends Phaser.Scene {
       scene: this, x: (this.floors[1].x + (this.floors[1].width) * (this.floors[1].scaleX) * 0.5), y: 75,
       texture: 'IdleSnail', 
       frame: 0, 
-      attackTime: 0.9, 
-      window: 0.6, 
+      attackTime: 0.85, 
+      window: 0.45, 
       stamina: 2, 
       hp: 5, 
       idleAnimation: 'SnailIdleAnim', 
@@ -233,7 +233,7 @@ export default class level1 extends Phaser.Scene {
 
     this.enemies.push(new Enemy({
       scene: this, x: (this.floors[2].x + (this.floors[2].width) * (this.floors[2].scaleX) * 0.5), y: 75,
-      texture: 'IdleMushroom', frame: 0, attackTime: 0.9, window: 0.6, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim'
+      texture: 'IdleMushroom', frame: 0, attackTime: 0.55, window: 0.45, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim'
     }));
 
 
@@ -312,10 +312,10 @@ UsefulMethods.print("newFLooe");
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleSnail', 
           frame: 0, 
-          attackTime: 0.9, 
-          window: 0.6, 
-          stamina: 2, 
-          hp: 5, 
+          attackTime: 0.85, 
+          window: 0.45, 
+          stamina: Phaser.Math.Between(2, 4), 
+          hp: Phaser.Math.Between(8, 15), 
           idleAnimation: 'SnailIdleAnim', 
           attackAnimation: 'SnailAttackAnim'
         }));
@@ -325,10 +325,10 @@ UsefulMethods.print("newFLooe");
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleCactus', 
           frame: 0, 
-          attackTime: 0.9, 
-          window: 0.6, 
-          stamina: 2, 
-          hp: 5, 
+          attackTime: 1.05, 
+          window: 0.45, 
+          stamina: Phaser.Math.Between(4, 7), 
+          hp: Phaser.Math.Between(3, 6), 
           idleAnimation: 'CactusIdleAnim', 
           attackAnimation: 'CactusAttackAnim'
         }));
@@ -338,10 +338,10 @@ UsefulMethods.print("newFLooe");
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleMushroom', 
           frame: 0, 
-          attackTime: 0.9, 
-          window: 0.6, 
-          stamina: 2, 
-          hp: 5, 
+          attackTime: 0.55, 
+          window: 0.45, 
+          stamina: Phaser.Math.Between(2, 3), 
+          hp: Phaser.Math.Between(4, 8), 
           idleAnimation: 'MushroomIdleAnim', 
           attackAnimation: 'MushroomAttackAnim'
         })); 
@@ -351,10 +351,10 @@ UsefulMethods.print("newFLooe");
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdlePlant', 
           frame: 0, 
-          attackTime: 0.9, 
-          window: 0.6, 
-          stamina: 2, 
-          hp: 5, 
+          attackTime: 0.55, 
+          window: 0.45, 
+          stamina: Phaser.Math.Between(1, 3), 
+          hp: Phaser.Math.Between(10, 14), 
           idleAnimation: 'PlantIdleAnim', 
           attackAnimation: 'PlantAttackAnim'
         }));  
@@ -364,10 +364,10 @@ UsefulMethods.print("newFLooe");
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleFrog', 
           frame: 0, 
-          attackTime: 0.7, 
-          window: 0.6, 
-          stamina: 2, 
-          hp: 5, 
+          attackTime: 0.8, 
+          window: 0.5, 
+          stamina: Phaser.Math.Between(1, 2), 
+          hp: Phaser.Math.Between(12, 20), 
           idleAnimation: 'FrogIdleAnim', 
           attackAnimation: 'FrogAttackAnim'
         }));  

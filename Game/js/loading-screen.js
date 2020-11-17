@@ -257,7 +257,7 @@ export default class LoadingScreen extends Phaser.Scene {
       this.anims.create({
           key: 'MushroomAttackAnim',
           frames: this.anims.generateFrameNumbers('AttackMushroom', { start: 0, end: 11 }),
-          frameRate: 8,
+          frameRate: 12,
           repeat: -1
         });
     
@@ -287,7 +287,7 @@ export default class LoadingScreen extends Phaser.Scene {
         this.anims.create({
             key: 'SnailAttackAnim',
             frames: this.anims.generateFrameNumbers('AttackSnail', { start: 0, end: 12 }),
-            frameRate: 8,
+            frameRate: 10,
             repeat: -1
           });
 
@@ -302,7 +302,7 @@ export default class LoadingScreen extends Phaser.Scene {
         this.anims.create({
             key: 'PlantAttackAnim',
             frames: this.anims.generateFrameNumbers('AttackPlant', { start: 0, end: 11 }),
-            frameRate: 8,
+            frameRate: 12,
             repeat: -1
           });
 
