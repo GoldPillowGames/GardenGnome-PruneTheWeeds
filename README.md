@@ -89,12 +89,12 @@ El caracol tiene un ataque que consiste en el lanzamiento de un rayo por su vara
 El videojuego contará con un estilo cartoon con figuras y paletas de colores pastel similares al de juegos como Rogue Legacy o Redungeon, con diseños amigables para el jugador casual. La temática de los diseños se centrará en un estilo “Guerra en el jardín” donde tendremos que enfrentarnos tanto a plantas como animales que se nos crucen en nuestro camino al objetivo.
 ### Referencias Visuales 
 #### Referencias generales
-[Imagen 5]
-[Imagen 6]
+![i5](https://user-images.githubusercontent.com/55363746/99445858-6ed2d280-291e-11eb-9fed-f61666a7609d.jpg)
+![i6](https://user-images.githubusercontent.com/55363746/99445859-6ed2d280-291e-11eb-8bdf-3ece0165fc41.jpg)
 #### Referencias específicas
-[Imagen 7]
-[Imagen 8]
-[Imagen 9]
+![i7](https://user-images.githubusercontent.com/55363746/99445852-6d090f00-291e-11eb-963e-a1d5b97740ee.jpg)
+![i8](https://user-images.githubusercontent.com/55363746/99445854-6da1a580-291e-11eb-8e52-31414ef21838.jpg)
+![i9](https://user-images.githubusercontent.com/55363746/99445855-6e3a3c00-291e-11eb-9455-b020e462d0b9.png)
 
 ## Interfaz de Usuario
 ### HUD
