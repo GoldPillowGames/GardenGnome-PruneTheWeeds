@@ -60,13 +60,6 @@ export default class LoadingScreen extends Phaser.Scene {
         this.height = this.sys.game.config.height;
         var that = this;
 
-        let background = this.add.graphics({
-            fillStyle: {
-                color: 0x404040
-            }
-        });
-        background.fillRect(0, 0, that.width, that.height);
-
         let loadingBar = this.add.graphics({
             lineStyle: {
                 width: 3,

@@ -33,6 +33,23 @@ export default class UsefulMethods{
       return result;
     }
 
+    static UnrelativePosition(value, axis, scene) 
+    {
+      var result = 0;
+      switch(axis)
+      {
+        case "x":
+          result = 100 * value/scene.width;
+          break;
+        case "y":
+          result = 100 * value/scene.height;
+          break;
+        default:
+          break;
+      }
+      return result;
+    }
+
     static RelativeScale(value, axis, scene)
     {
       var result = 0;

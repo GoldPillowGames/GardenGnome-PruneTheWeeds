@@ -326,6 +326,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     });
 
                     this.scene.player.anims.play('GnomeAttackAnimLast');
+                    this.scene.cameras.main.rotateTo(this.scene.cameraRotationWhenKilling, true, 399, 'Expo.easeOut');
                     this.scene.cameras.main.zoomTo(this.scene.cameraZoomWhenKilling, 399, 'Expo.easeOut');
 
                     this.isDying = true;
@@ -351,6 +352,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                             this.scene.cameras.main.setLerp(0, 0);
                             this.scene.cameras.main.setFollowOffset(0);
                             this.scene.cameras.main.startFollow(this.scene.player, true);
+                            this.scene.cameras.main.rotateTo(0, true, 500, 'Expo.easeOut');
                             this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 500, 'Expo.easeOut');
                         }
                     });
@@ -424,7 +426,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.whiteHealthBar.scaleX = UsefulMethods.lerp(this.whiteHealthBar.scaleX, this.healthBar.scaleX, 0.08 * this.slowMotion);
         this.whiteStaminaBar.scaleX = UsefulMethods.lerp(this.whiteStaminaBar.scaleX, this.staminaBar.scaleX, 0.08 * this.slowMotion);
 
-        if (this.whiteHealthBar.scaleX < 0.05 && this.isDying)
+        if (this.whiteHealthBar.scaleX < 0.05 && this.isDying && this.slowMotion == 1)
             this.die();
     }
 }

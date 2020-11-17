@@ -103,6 +103,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.displayWidth = UsefulMethods.RelativeScale(20, "x", this.scene);
         this.scaleY = this.scaleX;
         this.playerScale = this.scaleX;
+        this.setDepth(0);
 
         this.createParryControls();
 
