@@ -63,18 +63,14 @@ La sensación de mejora constante a nivel personal ya que la vida y el daño del
 
 ### Mecánicas principales
 #### Avance Lateral
-El jugador hará progresar al personaje en scroll lateral mediante las teclas A y D en PC, y el deslizamiento del dedo sobre cualquier punto de la pantalla en dispositivos móviles.<br/>
----
+El jugador hará progresar al personaje en scroll lateral mediante las teclas A y D en PC, y el deslizamiento del dedo sobre cualquier punto de la pantalla en dispositivos móviles.<br/><br/>
 ![i1](https://user-images.githubusercontent.com/55363746/99445458-da687000-291d-11eb-9e4b-4596c00a17e2.png)
 #### Contrataque
-Durante el combate, los enemigos tienen patrones de ataque definidos, a los cuales el jugador deberá responder deslizando el dedo o el ratón sobre la pantalla al momento de recibir dicho ataque. Si el jugador logra hacer esto correctamente, no recibirá ningún daño y hará que el enemigo vea desgastado su aguante (representado como la barra amarilla bajo la vida).<br/>
----
+Durante el combate, los enemigos tienen patrones de ataque definidos, a los cuales el jugador deberá responder deslizando el dedo o el ratón sobre la pantalla al momento de recibir dicho ataque. Si el jugador logra hacer esto correctamente, no recibirá ningún daño y hará que el enemigo vea desgastado su aguante (representado como la barra amarilla bajo la vida).<br/><br/>
 ![i2](https://user-images.githubusercontent.com/55363746/99445303-a8570e00-291d-11eb-8a4c-7c7fea981aa5.png)<br/>
----
 ![i3](https://user-images.githubusercontent.com/55363746/99445459-db010680-291d-11eb-9bc5-62dcc31a9e86.png)
----
 #### Ataque
-Si en un enfrentamiento, el enemigo gasta todo su aguante, el jugador cuenta con un tiempo variante en función del tipo de enemigo para atacarle. En esta situación debe hacer click (o presionar en la pantalla en dispositivos móviles) múltiples veces sobre el rival para reducirle la cantidad de puntos de vida hasta que este recupere su aguante o muera.<br/>
+Si en un enfrentamiento, el enemigo gasta todo su aguante, el jugador cuenta con un tiempo variante en función del tipo de enemigo para atacarle. En esta situación debe hacer click (o presionar en la pantalla en dispositivos móviles) múltiples veces sobre el rival para reducirle la cantidad de puntos de vida hasta que este recupere su aguante o muera.<br/><br/>
 ![i4](https://user-images.githubusercontent.com/55363746/99445463-db010680-291d-11eb-8334-0e22fd28e022.png)
 ### Enemigos
 #### Rana
