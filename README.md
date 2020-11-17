@@ -14,7 +14,10 @@ Tipo: Free to play
 - Coste principal: 101 € 
 - Tiempo: 7 semanas 
 #### Equipo
-| Syntax | Description |
-| ----------- | ----------- |
 | Nombre | Roles |
+| ----------- | ----------- |
 | Germán López Gutiérrez | Game Designer, Programador |
+| Elvira Gutiérrez Bartolomé  | Arte 2D |
+| Ignacio Atance Loras | Level Designer, Programador |
+| Jorge Sánchez Sánchez | Arte 2D |
+| Fernando Martín Espina | Game Designer, Programador |
