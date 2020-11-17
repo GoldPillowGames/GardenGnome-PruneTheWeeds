@@ -25,4 +25,4 @@ Tipo: Free to play
 | Nombre | Software / Licencia | Coste Total
 | ----------- | ----------- | ----------- |
 | Ignacio Atance Loras  | 1. Clip Studio Paint | 21 |
-| Jorge Sánchez Sánchez  | 1. Clip Studio Paint 2. Aseprite | 60 |
+| Jorge Sánchez Sánchez  | 1. Clip Studio Paint<br/> 2. Aseprite | 60 |
