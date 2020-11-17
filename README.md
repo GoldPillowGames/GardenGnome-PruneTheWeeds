@@ -94,7 +94,6 @@ El videojuego contará con un estilo cartoon con figuras y paletas de colores pa
 #### Referencias específicas
 ![i7](https://user-images.githubusercontent.com/55363746/99445852-6d090f00-291e-11eb-963e-a1d5b97740ee.jpg)
 ![i8](https://user-images.githubusercontent.com/55363746/99445854-6da1a580-291e-11eb-8e52-31414ef21838.jpg)
-![i9](https://user-images.githubusercontent.com/55363746/99445855-6e3a3c00-291e-11eb-9455-b020e462d0b9.png)
 
 ## Interfaz de Usuario
 ### HUD
