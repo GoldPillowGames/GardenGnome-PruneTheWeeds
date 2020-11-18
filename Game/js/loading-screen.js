@@ -46,6 +46,7 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('StreetLight', 'assets/test/lightplaceholder.png');
         this.load.image('DarkBackground', 'assets/end-game-background.png');
         this.load.image('LogoJuego', 'assets/main-menu/logo.png');
+        this.load.image('gnome-dead', ['assets/character/gnome-dead.png', 'assets/character/gnome-dead_n.png']);
 
         
 

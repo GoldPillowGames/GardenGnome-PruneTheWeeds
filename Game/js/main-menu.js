@@ -244,7 +244,7 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     PlayTitle1Tween() {
-        this.title1 = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(24, "y", this), 'LogoJuego');
+        this.title1 = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(25.25, "y", this), 'LogoJuego');
         this.title1.displayWidth = UsefulMethods.RelativeScale(40, "x", this);
         this.title1.scaleY = this.title1.scaleX;
         this.title1.setDepth(100);

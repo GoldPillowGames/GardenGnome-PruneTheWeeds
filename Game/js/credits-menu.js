@@ -89,6 +89,31 @@ export default class CreditsMenu extends Phaser.Scene{
         credits_german.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
         credits_german.scaleY = text.scaleX;
 
+        credits_fernando.setOrigin(0);
+        credits_fernando.setDepth(100);
+        credits_fernando.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        credits_fernando.scaleY = text.scaleX;
+
+        credits_ignacio.setOrigin(0);
+        credits_ignacio.setDepth(100);
+        credits_ignacio.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        credits_ignacio.scaleY = text.scaleX;
+
+        credits_elvira.setOrigin(0);
+        credits_elvira.setDepth(100);
+        credits_elvira.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        credits_elvira.scaleY = text.scaleX;
+
+        credits_jorge.setOrigin(0);
+        credits_jorge.setDepth(100);
+        credits_jorge.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        credits_jorge.scaleY = text.scaleX;
+
+        credits_contact.setOrigin(0);
+        credits_contact.setDepth(100);
+        credits_contact.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        credits_contact.scaleY = text.scaleX;
+
         this.exitButton = new Button({scene:this, x:9.5, y:86, texture:'ExitButton', frame:4, scale:-0.018});
         this.exitButton.create();
         this.exitButton.pointerUp = function(){
