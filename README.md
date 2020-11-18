@@ -197,33 +197,45 @@ Escena donde los programadores harán cualquier tipo de prueba necesaria, antes 
 
 ### Personaje principal  
 
-Andar. 
-Atacar con hacha. 
-Parry superior. 
-Parry inferior. 
-Muerte. 
+[i9]Andar. 
+[i10]Atacar con hacha. 
+[i11]Parry superior. 
+[i12]Parry inferior. 
+[i13]Muerte. 
 
 ### NPC hostil 1 - Rana 
 
-Idle 
-Ataque 
+[i14]Idle 
+[i15]Ataque 
 
 ### NPC hostil 2 - Champiñón 
 
-Idle 
-Ataque 
+[i16]Idle 
+[i17]Ataque 
 
 ### NPC hostil 3 - Cactus 
 
-Idle 
-Ataque 
+[i18]Idle 
+[i19]Ataque 
 
 ### NPC hostil 4 - Planta 
 
-Idle 
-Ataque 
+[i20]Idle 
+[i21]Ataque 
 
-### NPC hostil 5 - Caracol 
+[i22]### NPC hostil 5 - Caracol 
 
-Idle 
-Ataque 
+[i23]Idle 
+[i24]Ataque
+
+## Calendario
+| Hito | Fecha |
+| ----------- | ----------- |
+| Inicio del proyecto | 09/10/2020 |
+| Definición de la paleta de colores | 19/10/2020 |
+| Assets comunes y de los escenarios | 29/10/2020 |
+| Animaciones de enemigos parametrizadas | 10/11/2020 |
+| Juego infinito, dificulad, y barras de vida | 15/11/2020 |
+| Spritesheets del personaje | 16/11/2020 |
+| Importación de los assets al proyecto de Phaser | 16/11/2020 |
+| Fin del proyecto | 19/11/2020 |
