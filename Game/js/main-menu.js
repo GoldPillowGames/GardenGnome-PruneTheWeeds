@@ -116,6 +116,8 @@ export default class MainMenu extends Phaser.Scene {
 
         var floor = this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(92, "y", this), 'BaseFloor1').setAlpha(0.92);
         floor.setOrigin(0, floor.originY);
+        floor.scaleX = UsefulMethods.RelativeScale(0.082, "x", this);
+        floor.scaleY = UsefulMethods.RelativeScale(0.14, "y", this);
 
         this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width, -7, Math.abs(floor.x), 6, 16, 65, 72);
         this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width, 7, Math.abs(floor.x), 6, 16, 65, 72);
