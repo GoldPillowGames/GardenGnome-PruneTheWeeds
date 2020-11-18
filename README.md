@@ -107,11 +107,9 @@ El título se ubica en la parte superior con una leve animación de escalado eje
 
 En cuanto a la transición inicial, esta comienza con un fade in de 200 milisegundos de duración a la par que los tres botones de la mitad inferior de la pantalla ascienden mientras rotan levemente en un ángulo de 45º hasta colocarse en sus respectivos lugares. 
 
-[imagen 9]
+![Imagen1](https://user-images.githubusercontent.com/44704611/99540952-80fd5100-29b0-11eb-8721-4f968d43d4cc.png)
 
 Si se pulsa el botón de jugar (el del centro), los 3 botones desaparecerán con una animación, para aparecer otros 2 botones. Aquí el jugador podrá elegir entre uno de los 2 escenarios disponibles para jugar. Cuando esto suceda, de nuevo desaparecerán los botones y aparecerán otros nuevos para elegir la dificultad. Será entonces cuando el jugador elija la dificultad, se producirá un fade out de 200 milisegundos, y empezará la partida. 
-
-[Imagen 10]
 
 ## Assets necesarios
 
