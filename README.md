@@ -132,6 +132,19 @@ Se trataría de un gnomo de jardín armado con un hacha similar al estilo de los
 Diseño de una rana, un caracol mago, un cactus en una maceta, una seta que escupe, y una planta carnívora.
 
 ### Sonido
+#### Música
+
+- **Música de menú.**
+- **Música de combate.**
+- **Música para caminar por el escenario.**
+
+#### Efectos de sónidos:
+
+- **Sonido para los botones.** 
+- **Sonido de impacto entre el hacha y los monstruos.**
+- **Sonido del hacha parando un ataque enemigo.**
+- **Sonido de derrota del gnomo.**
+- **Sonido para los monstruos.**
 
 ### Código
 
@@ -151,11 +164,11 @@ Nada más empezar, crea al jugador, el escenario, los 3 primeros enemigos y todo
 
 Se configura el enemigo con los datos que se le hayan pasado en el constructor (vida, resistencia, animaciones, tiempo de ataque y de contraataque...). Funciona como una máquina de estados, ya que el enemigo puede estar en 3 estados distintos, pasando de uno a otro cada cierto tiempo, o tras un suceso. Si se encuentra “atacando”, no puede perder vida ni resistencia o ser contraatacado. Si está en estado “parry” si podrá ser contraatacado, perdiendo resistencia, pero no vida, y si se le acaba la resistencia, pasará a estado “cansado” y podrá perder vida por los ataques del jugador.
 
-#### Scripts de los botones 
+#### Script de los botones 
 
 Gestiona todo el comportamiento y las animaciones de los botones. Se posiciona y escala en función de los parámetros recibidos en el constructor. Se configura siempre para estar en una capa visible por el jugador, y para moverse junto a la cámara de la escena en la que se encuentra. La función que se ejecuta cuando se pulsa el botón se define una vez instanciada la clase, de forma que cada instancia.  
 
-#### Scripts del menú principal 
+#### Script del menú principal 
 
 Gestiona el comportamiento de los botones del menú, y la decoración del mismo. Al principio aparecen 3 botones, uno para ir al menú de créditos, otro para ir al menú de opciones y otro para jugar. Este último hará aparecer 2 nuevos botones, uno por escenario, y tras elegir aparecerán 2 botones para elegir la dificultad. 
 
@@ -163,55 +176,55 @@ Gestiona el comportamiento de los botones del menú, y la decoración del mismo.
 
 Se encarga de recibir y gestionar todas las entradas, bien sean a través del teclado y el ratón, o bien sea a través de la pantalla táctil del teléfono. 
 
-#### Scripts de la escena de Game Over 
+#### Script de la escena de Game Over 
 
 Muestra la puntuación obtenida durante la partida, y permite volver a jugar, o volver al menú de inicio. 
 
-#### Scripts de funciones
+#### Script de funciones
 
 Contiene funciones genéricas útiles para los programadores en cualquier otro script.  
 
-#### Scripts del slider
+#### Script del slider
 
 Sirve para crear barras deslizantes que se mueven de un lado a otro con el ratón.
 
-#### Scripts de la escena de configuración 
+#### Script de la escena de configuración 
 
 Permite al jugador modificar el volumen global, el de la música o el de los efectos de sonido. También hay un botón para volver al menú principal. 
 
-#### Scripts de la escena de créditos 
+#### Script de la escena de créditos 
 
 Muestra los autores del proyecto, un correo para contactar con el equipo, y un botón para volver al menú principal. 
 
-#### Scripts para mostrar el logo 
+#### Script para mostrar el logo 
 
 Muestra una pequeña animación del logo del equipo desarrollador, antes de pasar al menú principal. 
 
-#### Scripts de la pantalla de carga
+#### Script de la pantalla de carga
 
 Gestiona la carga de todo el material necesario para el juego (tanto visual como sonoro). Una vez ha sido cargado, se pide al jugador que pulse, para comenzar. Mientras se produce la carga, se muestra una animación donde se ven a los personajes del juego.
 
-#### Scripts de la clase “Contenedor de elementos de interfaz” 
+#### Script de la clase “Contenedor de elementos de interfaz” 
 
-Se trata de un contenedor, al que se pueden añadir distintos elementos de la interfaz, para que todos se comporten de la misma manera (avancen con la cámara y se escalen si la cámara hace zoom).
+Se trata de un contenedor, al que se pueden añadir distintos elementos de la interfaz, para que todos se comporten de la misma manera (avancen con la cámara y se escalen si la cámara hace zoom). 
 
-#### Scripts de la luz 
-
-Gestionan el comportamiento de objetos que emiten luz. 
-
-#### Scripts de la escena de pruebas 
+#### Script de la escena de pruebas 
 
 Escena donde los programadores harán cualquier tipo de prueba necesaria, antes de añadirse al juego final. 
+
+#### Script para el gestor de audio
+
+Contiene 2 funciones, para reproducir música y audio respectivamente. También se encarga de que los sonidos y la música se reproduzcan con el volumen correspondiente. 
 
 ## Animación
 
 ### Personaje principal  
 
-- **Andar.** 
-- **Atacar con hacha.** 
-- **Parry superior.** 
-- **Parry inferior.** 
-- **Muerte.** 
+- **Andar** 
+- **Atacar con hacha** 
+- **Parry superior** 
+- **Parry inferior** 
+- **Muerte** 
 
 ### NPC hostil 1 - Rana 
 
