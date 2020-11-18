@@ -23,7 +23,7 @@ export default class GameOver extends Phaser.Scene {
     var background = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'SettingsBackground');
     background.setDepth(-100);
     background.setAlpha(0.3);
-    var gnome = this.add.image(UsefulMethods.RelativePosition(27.5, "x", this), UsefulMethods.RelativePosition(45, "y", this), 'gnome-dead', 4);
+    var gnome = this.add.image(UsefulMethods.RelativePosition(27.5, "x", this), UsefulMethods.RelativePosition(45, "y", this), 'gnome-dead');
     gnome.scaleX = UsefulMethods.RelativeScale(0.062, "x", this);
     gnome.scaleY = gnome.scaleX;
     

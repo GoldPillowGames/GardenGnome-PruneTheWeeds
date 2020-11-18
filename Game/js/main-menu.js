@@ -176,7 +176,7 @@ export default class MainMenu extends Phaser.Scene {
         //#endregion
 
         //#region Botones de selección de nivel
-        this.level1Button = new Button({ scene: this, x: 30, y: 120, texture: 'Credits-Button', frame: 4, scale: 0.0225 });
+        this.level1Button = new Button({ scene: this, x: 40, y: 120, texture: 'Level-1', frame: 4, scale: 0.0225 });
         this.level1Button.create();
         this.level1Button.pointerUp = function () {
             text.setText("Select a Difficulty Level");
@@ -185,7 +185,7 @@ export default class MainMenu extends Phaser.Scene {
             this.playPressedButtonArray(levelButtons);
         }
 
-        this.level2Button = new Button({ scene: this, x: 50, y: 120, texture: 'Credits-Button', frame: 4, scale: 0.0225 });
+        this.level2Button = new Button({ scene: this, x: 60, y: 120, texture: 'Level-2', frame: 4, scale: 0.0225 });
         this.level2Button.create();
         this.level2Button.pointerUp = function () {
             text.setText("Select a Difficulty Level");
@@ -194,17 +194,17 @@ export default class MainMenu extends Phaser.Scene {
             this.playPressedButtonArray(levelButtons);
         }
 
-        this.level3Button = new Button({ scene: this, x: 70, y: 120, texture: 'Credits-Button', frame: 4, scale: 0.0225 });
-        this.level3Button.create();
-        this.level3Button.pointerUp = function () {
-            text.setText("Select a Difficulty Level");
-            // Level 1
-            // that.scene.get("mainMenu").time.addEvent({delay: 210, callback: function(){that.scene.start('platformTesting');}, callbackScope:this, loop:false});
-            that.ShowButtons(difficultyButtons);
-            levelName = 'platformTesting';
-            this.playPressedButtonArray(levelButtons);
-        }
-        levelButtons = [this.level1Button, this.level2Button, this.level3Button];
+        // this.level3Button = new Button({ scene: this, x: 70, y: 120, texture: 'Credits-Button', frame: 4, scale: 0.0225 });
+        // this.level3Button.create();
+        // this.level3Button.pointerUp = function () {
+        //     text.setText("Select a Difficulty Level");
+        //     // Level 1
+        //     // that.scene.get("mainMenu").time.addEvent({delay: 210, callback: function(){that.scene.start('platformTesting');}, callbackScope:this, loop:false});
+        //     that.ShowButtons(difficultyButtons);
+        //     levelName = 'platformTesting';
+        //     this.playPressedButtonArray(levelButtons);
+        // }
+        levelButtons = [this.level1Button, this.level2Button];
         //#endregion
 
         //#region Botones del menú principal
@@ -237,7 +237,7 @@ export default class MainMenu extends Phaser.Scene {
         mainButtons = [this.playButton, this.settingsButton, this.creditsButton];
         //#endregion
 
-        this.buttons = [this.level1Button, this.level2Button, this.level3Button, this.playButton, this.settingsButton, this.creditsButton, this.difficultyButton1, this.difficultyButton2];
+        this.buttons = [this.level1Button, this.level2Button, this.playButton, this.settingsButton, this.creditsButton, this.difficultyButton1, this.difficultyButton2];
     }
 
 
