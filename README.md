@@ -197,36 +197,36 @@ Escena donde los programadores harán cualquier tipo de prueba necesaria, antes 
 
 ### Personaje principal  
 
-[i9]Andar. 
-[i10]Atacar con hacha. 
-[i11]Parry superior. 
-[i12]Parry inferior. 
-[i13]Muerte. 
+- **Andar.** 
+- **Atacar con hacha.** 
+- **Parry superior.** 
+- **Parry inferior.** 
+- **Muerte.** 
 
 ### NPC hostil 1 - Rana 
 
-[i14]Idle 
-[i15]Ataque 
+- **Idle** 
+- **Ataque** 
 
 ### NPC hostil 2 - Champiñón 
 
-[i16]Idle 
-[i17]Ataque 
+- **Idle** 
+- **Ataque**
 
 ### NPC hostil 3 - Cactus 
 
-[i18]Idle 
-[i19]Ataque 
+- **Idle** 
+- **Ataque** 
 
 ### NPC hostil 4 - Planta 
 
-[i20]Idle 
-[i21]Ataque 
+- **Idle** 
+- **Ataque** 
 
-[i22]### NPC hostil 5 - Caracol 
+### NPC hostil 5 - Caracol 
 
-[i23]Idle 
-[i24]Ataque
+- **Idle** 
+- **Ataque**
 
 ## Calendario
 | Hito | Fecha |
