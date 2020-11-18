@@ -44,7 +44,7 @@ export default class level1 extends Phaser.Scene {
     this.cameraZoomInCombat = 1.1;
     this.cameraZoomWhenKilling = 1.3;
     this.cameraOffsetInCombat = 100;
-    this.cameraRotationWhenKilling = 0.04;
+    this.cameraRotationWhenKilling = 0.01;
 
     this.combatHappening = false;
     this.currentEnemy;
