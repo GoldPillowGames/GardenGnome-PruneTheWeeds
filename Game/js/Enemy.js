@@ -275,7 +275,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         UsefulMethods.print("Parry");
         switch (this.enemyState) {
             case this.enemyStates.ATTACKING:
-                this.scene.player.HP--;
+                //this.scene.player.HP--;
                 break;
             case this.enemyStates.PARRY:
                 if (!this.beenParried) {

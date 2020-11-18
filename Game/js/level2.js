@@ -108,7 +108,7 @@ export default class level2 extends Phaser.Scene {
     this.confButton.pointerUp = function(){
       UsefulMethods.print("Pointerup1");
       that.cameras.main.fadeOut(200);
-      that.scene.get("Level_"+that.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { that.scene.start("GameOver"); }, callbackScope: this, loop: false });
+      that.scene.get("Level_"+that.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { that.scene.start("mainMenu"); }, callbackScope: this, loop: false });
     
     }
 

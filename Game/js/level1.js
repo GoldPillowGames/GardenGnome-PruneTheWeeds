@@ -10,6 +10,7 @@
  */
 
 import UsefulMethods from './useful-methods.js';
+import SoundManager from './sound-manager.js';
 import Enemy from './enemy.js';
 import Button from './button.js';
 import Player from './player.js';
@@ -60,9 +61,11 @@ export default class level1 extends Phaser.Scene {
   }
 
   create() {
+    var that = this;
     //let that = this;
     this.cameras.main.fadeIn(1000);
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
+    this.currentMusic = SoundManager.playMusic('theme1', this);
 
     this.darkBackground = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'DarkBackground');
     this.darkBackground.setOrigin(0.5);
@@ -77,8 +80,7 @@ export default class level1 extends Phaser.Scene {
     this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 0 , HP: 5});
     this.player.create();
     this.player.body.setOffset(0, -20);
-
-    var that = this;
+    this.player.onDie = () => {SoundManager.stopMusic(that.currentMusic);}
 
     this.inputManager = new InputManager(this);
     this.inputManager.create();
@@ -104,7 +106,8 @@ export default class level1 extends Phaser.Scene {
     this.confButton.pointerUp = function(){
       UsefulMethods.print("Pointerup1");
       that.cameras.main.fadeOut(200);
-      that.scene.get("Level_"+that.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { that.scene.start("GameOver"); }, callbackScope: this, loop: false });
+      SoundManager.stopMusic(that.currentMusic);
+      that.scene.get("Level_"+that.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { that.scene.start("mainMenu"); }, callbackScope: this, loop: false });
     
     }
 
@@ -458,6 +461,8 @@ export default class level1 extends Phaser.Scene {
     var combat = function () {
       this.player.canMove = false;
       this.player.anims.play('GnomeStopAnim');
+      SoundManager.stopMusic(this.currentMusic);
+      this.currentMusic = SoundManager.playMusic('battle-theme1', this);
       
       this.currentEnemy = enemy;
       this.combatHappening = true;
@@ -666,7 +671,8 @@ export default class level1 extends Phaser.Scene {
       var combat = function () {
         that.player.canMove = false;
         that.player.anims.play('GnomeStopAnim');
-        
+        SoundManager.stopMusic(this.currentMusic);
+        this.currentMusic = SoundManager.playMusic('battle-theme1', this);
         that.currentEnemy = element;
         that.combatHappening = true;
         

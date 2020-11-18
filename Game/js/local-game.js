@@ -280,8 +280,8 @@ class localgame extends Phaser.Scene{
 
     this.jumpaudio  = this.sound.add('jump-audio');
     this.jumpaudio.volume = game.sfxVolume;
-    this.allSoundtracks = [this.sound.add('soundtrack'),this.sound.add('soundtrack2')];
-    this.allSoundtracksLoop = [this.sound.add('soundtrackLoop'),this.sound.add('soundtrack2Loop')];
+    this.allSoundtracks = [this.sound.add('soundtrack'), this.sound.add('soundtrack2')];
+    this.allSoundtracksLoop = [this.sound.add('soundtrackLoop'), this.sound.add('soundtrack2Loop')];
 
     var playLoop1 = function(){
       if(!this.ended){
