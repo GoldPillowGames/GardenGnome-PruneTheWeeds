@@ -24,7 +24,7 @@ export default class MainMenu extends Phaser.Scene {
 
     RepeatElement(element, distance, times, yCoord, depth) {
         for (var i = 0; i < times; i++) {
-            this.repeatedElement = this.add.sprite(0 + distance * i, UsefulMethods.RelativePosition(yCoord, "y", this), element,);
+            this.repeatedElement = this.add.sprite(0 + distance * i, UsefulMethods.RelativePosition(yCoord, "y", this), element);
             this.repeatedElement.setDepth(depth);
         }
     }

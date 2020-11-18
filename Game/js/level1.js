@@ -60,10 +60,6 @@ export default class level1 extends Phaser.Scene {
     // #endregion
   }
 
-
-
-
-
   create() {
     var that = this;
     //let that = this;
@@ -180,7 +176,12 @@ export default class level1 extends Phaser.Scene {
     this.createEnemies();
 
     // DEBUG BORRAR.
-    this.testingText = this.add.text(UsefulMethods.RelativePosition(-42.3, "x", this), UsefulMethods.RelativePosition(-37, "y", this), "", { fontFamily: '"amazingkids_font"', fontSize: 36, color: 'black' });
+    this.axeIcon = this.add.image(UsefulMethods.RelativePosition(-41, "x", this), UsefulMethods.RelativePosition(-34, "y", this), 'AxeIcon');
+    this.axeIcon.setDepth(10);
+    this.axeIcon.scaleX = UsefulMethods.RelativeScale(0.008, 'x', this);
+    this.axeIcon.scaleY = this.axeIcon.scaleX;
+
+    this.testingText = this.add.text(UsefulMethods.RelativePosition(-38, "x", this), UsefulMethods.RelativePosition(-37, "y", this), "", { fontFamily: '"amazingkids_font"', fontSize: 36, color: 'white', stroke: 'black', strokeThickness: 7 });
     this.testingText.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
     this.testingText.scaleY = this.testingText.scaleX;
     //this.testingText.setOrigin(0.5, 0,5);
@@ -217,7 +218,7 @@ export default class level1 extends Phaser.Scene {
     this.uiContainer.add(this.whiteHealthBar);
     this.uiContainer.add(this.healthBar);
     this.uiContainer.add(this.gnomeHead);
-
+    this.uiContainer.add(this.axeIcon);
 
 
     /*this.testingText.setScrollFactor(0);
@@ -353,10 +354,8 @@ export default class level1 extends Phaser.Scene {
 
     this.floors[this.currentFloor].x = this.floors[0].width * this.nextFloor * this.floors[0].scaleX;
 
-    this.props[this.currentFloor][0].x = this.floors[0].width * this.nextFloor * this.floors[this.currentFloor].scaleX;
-    this.props[this.currentFloor][1].x = this.floors[0].width * this.nextFloor * this.floors[this.currentFloor].scaleX;
-
-    console.log(this.currentfloor);
+    this.props[this.currentFloor][0].x += 3 * this.floors[0].width * this.floors[0].scaleX;
+    this.props[this.currentFloor][1].x += 3 * this.floors[0].width * this.floors[0].scaleX;
 
     var initialPosition = this.floors[this.currentFloor].x;
 
@@ -602,8 +601,8 @@ export default class level1 extends Phaser.Scene {
 
   createPropsContainer(floor) {
     return [
-      this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width, -7, floor.x - floor.originX * floor.width, 9, 30, 106, 108),
-      this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width, 7, floor.x - floor.originX * floor.width - UsefulMethods.RelativePosition(5, 'x', this), 9, 30, 112, 114)
+      this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width * floor.scaleX, -7, floor.x - floor.originX * floor.width * floor.scaleX, 9, 30, 106, 108),
+      this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width * floor.scaleX, 7, floor.x - floor.originX * floor.width * floor.scaleX - UsefulMethods.RelativePosition(5, 'x', this), 9, 30, 112, 114)
     ];
   }
 
@@ -710,7 +709,7 @@ export default class level1 extends Phaser.Scene {
    * Método que se ejecuta constantemente, en el de momento solo están los controles de movimiento.
    */
   update(delta) {
-    this.testingText.setText("Score: " + this.player.score);
+    this.testingText.setText(this.player.score);
 
     //Si currentEnemy existe (lo hace en caso de estar en un combate) se actualizan los textos con sus datos para testear.
     if (this.currentEnemy != null) {

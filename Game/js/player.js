@@ -17,7 +17,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.velocity = 360;
         this.direction = 0;
         this.HP = HP;
-        this.maxHP=HP;
+        this.maxHP = HP;
         this.canMove = true;
         this.playerScale = 1;
 
@@ -52,52 +52,52 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     createParryControls() {
         // Cuando se suelta el click izquierdo del ratón, el personaje hace parry o ataca.
         this.scene.input.on('pointermove', function (pointer) {
-            
+
             if (this.scene.combatHappening && this.scene.currentEnemy != null && this.scene.inputManager.movementPointerId === pointer.id &&
-            this.canParry &&
-            (new Phaser.Math.Vector2(pointer.x - this.scene.inputManager.initialMouseX, pointer.y - this.scene.inputManager.initialMouseY)).length() >= 40) {
+                this.canParry &&
+                (new Phaser.Math.Vector2(pointer.x - this.scene.inputManager.initialMouseX, pointer.y - this.scene.inputManager.initialMouseY)).length() >= 40) {
                 UsefulMethods.print("En combate");
 
-                if(this.parrying)
+                if (this.parrying)
                     this.parryCooldownFunction();
 
-                if(this.scene.arrow.angle == -90 &&  (pointer.y - this.scene.inputManager.initialMouseY < 0 && Math.abs(pointer.y - this.scene.inputManager.initialMouseY) > Math.abs(pointer.x - this.scene.inputManager.initialMouseX) )){
-                    if(this.parrying){
+                if (this.scene.arrow.angle == -90 && (pointer.y - this.scene.inputManager.initialMouseY < 0 && Math.abs(pointer.y - this.scene.inputManager.initialMouseY) > Math.abs(pointer.x - this.scene.inputManager.initialMouseX))) {
+                    if (this.parrying) {
                         this.scene.currentEnemy.playerHasParried();
                         this.anims.play('GnomeParryUp');
                     }
                 }
-                else if(this.scene.arrow.angle == 90 && (pointer.y - this.scene.inputManager.initialMouseY > 0 && Math.abs(pointer.y - this.scene.inputManager.initialMouseY) > Math.abs(pointer.x - this.scene.inputManager.initialMouseX))){
-                    if(this.parrying){
+                else if (this.scene.arrow.angle == 90 && (pointer.y - this.scene.inputManager.initialMouseY > 0 && Math.abs(pointer.y - this.scene.inputManager.initialMouseY) > Math.abs(pointer.x - this.scene.inputManager.initialMouseX))) {
+                    if (this.parrying) {
                         this.scene.currentEnemy.playerHasParried();
                         this.anims.play('GnomeParryDown');
                     }
-                }else if(this.scene.hardMode){
-                    if(this.scene.arrow.angle == 0 && (pointer.x - this.scene.inputManager.initialMouseX > 0 &&  Math.abs(pointer.x - this.scene.inputManager.initialMouseX) > Math.abs(pointer.y - this.scene.inputManager.initialMouseY))){
-                        if(this.parrying){
+                } else if (this.scene.hardMode) {
+                    if (this.scene.arrow.angle == 0 && (pointer.x - this.scene.inputManager.initialMouseX > 0 && Math.abs(pointer.x - this.scene.inputManager.initialMouseX) > Math.abs(pointer.y - this.scene.inputManager.initialMouseY))) {
+                        if (this.parrying) {
                             this.scene.currentEnemy.playerHasParried();
                             this.anims.play('GnomeParryUp');
                         }
-                    }else if(this.scene.arrow.angle == -180 && (pointer.x - this.scene.inputManager.initialMouseX < 0 && Math.abs(pointer.x - this.scene.inputManager.initialMouseX) > Math.abs(pointer.y - this.scene.inputManager.initialMouseY))){
-                        if(this.parrying){
+                    } else if (this.scene.arrow.angle == -180 && (pointer.x - this.scene.inputManager.initialMouseX < 0 && Math.abs(pointer.x - this.scene.inputManager.initialMouseX) > Math.abs(pointer.y - this.scene.inputManager.initialMouseY))) {
+                        if (this.parrying) {
                             this.scene.currentEnemy.playerHasParried();
                             this.anims.play('GnomeParryDown');
                         }
                     }
-                }          
+                }
             }
 
         }, this);
 
         this.scene.input.on('pointerdown', function (pointer) {
-            if(this.scene.currentEnemy != null){
+            if (this.scene.currentEnemy != null) {
                 this.parrying = true;
-                
+
                 this.scene.currentEnemy.playerHasAttacked();
             }
         }, this);
 
-        this.scene.input.on('pointerup', function (pointer){
+        this.scene.input.on('pointerup', function (pointer) {
             this.parrying = false;
         }, this);
     }
@@ -123,22 +123,69 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                         that.direction = 1;
                     }
                     else if (pointer.x - this.scene.inputManager.initialMouseX < 0) {
-                         that.direction = -1;
+                        that.direction = -1;
                     }
                 }
             }
         });
     }
 
-    die(){
-        if(!this.isDead){
+    hurt() {
+        this.HP--;
+        this.scene.healthBar.scaleX = (this.scene.player.HP / this.scene.player.maxHP);
+
+        var that = this;
+
+        this.anims.play('GnomeHurt');
+        this.canParry = false;
+        this.scene.time.addEvent({ delay: this.parryCooldown * 1000, callback: this.canParryAgain, callbackScope: this, loop: false });
+
+        this.scene.tweens.add({
+            targets: that,
+            x: that.x - 15,
+            ease: 'Power1',
+
+            duration: 90,
+            yoyo: true,
+            repeat: 0,
+            onStart: function () {
+                that.setTint(0xff002a);
+            },
+            onComplete: function () {
+                that.setTint(0xffffff);
+            },
+            onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
+            onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+        });
+
+        if (this.HP <= 0) {
+            this.scene.tweens.add({
+                targets: that,
+                alpha: { value: 0, duration: 90, ease: 'Linear' },
+                repeat: 0,
+            });
+            this.scene.tweens.add({
+                targets: [
+                    that.scene.healthBar,
+                    that.scene.healthBarBackground,
+                    that.scene.whiteHealthBar
+                ],
+                alpha: { value: 0, duration: 90, ease: 'Linear' },
+                repeat: 0,
+            });
+            this.die();
+        }
+        
+    }
+
+    die() {
+        if (!this.isDead) {
             //this.onDie();
             SoundManager.stopMusic(this.scene.sys.game.currentMusic);
             // UsefulMethods.print("El jugador muere. Pasa lo que tenga que pasar.");
             this.scene.sys.game.score = this.score;
             this.scene.cameras.main.fadeOut(150);
-            this.scene.scene.get("Level_"+this.scene.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { this.scene.scene.start("GameOver"); }, callbackScope: this, loop: false });
-            
+            this.scene.scene.get("Level_" + this.scene.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { this.scene.scene.start("GameOver"); }, callbackScope: this, loop: false });
             this.isDead = true;
         }
     }
@@ -146,9 +193,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     update(delta) {
 
         this.parryWithKeys();
-        if(this.scene.currentEnemy != null && Phaser.Input.Keyboard.JustDown(this.scene.inputManager.spaceButton)){
+        if (this.scene.currentEnemy != null && Phaser.Input.Keyboard.JustDown(this.scene.inputManager.spaceButton)) {
             this.parrying = true;
-            
+
             this.scene.currentEnemy.playerHasAttacked();
         }
 
@@ -157,8 +204,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         //     this.playerState = this.playerStates.WALKING;
         // }
 
-        if(this.direction == -1)
-            this.direction =0;
+        if (this.direction == -1)
+            this.direction = 0;
 
         if ((this.direction >= 0) && this.playerState === this.playerStates.STOPPED && this.canMove) {
             this.anims.play('GnomeWalkAnim');
@@ -190,11 +237,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         //     this.scaleX = Math.abs(this.scaleX);
         // }
 
-        if(this.HP <= 0){
-            this.die();
-        }
-        
-        if(this.canMove && this.direction != 0 && this.anims.getCurrentKey() != 'GnomeWalkAnim'){
+        if (this.canMove && this.direction != 0 && this.anims.getCurrentKey() != 'GnomeWalkAnim') {
             this.anims.play('GnomeWalkAnim');
         }
 
@@ -205,40 +248,40 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     }
 
-    parryWithKeys(){
+    parryWithKeys() {
 
         this.keysPressed = this.scene.inputManager.downButton.isDown || this.scene.inputManager.upButton.isDown || this.scene.inputManager.rightButton.isDown || this.scene.inputManager.leftButton.isDown;
 
         if (this.scene.combatHappening && this.scene.currentEnemy != null &&
-            this.canParry && this.keysPressed){
-                UsefulMethods.print("En combate");
+            this.canParry && this.keysPressed) {
+            UsefulMethods.print("En combate");
 
-                this.parryCooldownFunction();
+            this.parryCooldownFunction();
 
-                if(this.scene.arrow.angle == -90 && this.scene.inputManager.upButton.isDown){
+            if (this.scene.arrow.angle == -90 && this.scene.inputManager.upButton.isDown) {
 
-                        this.scene.currentEnemy.playerHasParried();
-                        this.anims.play('GnomeParryUp');
-                    
-                }
-                else if(this.scene.arrow.angle == 90 && this.scene.inputManager.downButton.isDown){
-                    
-                        this.scene.currentEnemy.playerHasParried();
-                        this.anims.play('GnomeParryDown');
-                    
-                }else if(this.scene.hardMode){
-                    if(this.scene.arrow.angle == 0 && this.scene.inputManager.rightButton.isDown){
-                        
-                            this.scene.currentEnemy.playerHasParried();
-                            this.anims.play('GnomeParryUp');
-                        
-                    }else if(this.scene.arrow.angle == -180 && this.scene.inputManager.leftButton.isDown){
-                        
-                            this.scene.currentEnemy.playerHasParried();
-                            this.anims.play('GnomeParryDown');
-                        
-                    }
-                }          
+                this.scene.currentEnemy.playerHasParried();
+                this.anims.play('GnomeParryUp');
+
             }
+            else if (this.scene.arrow.angle == 90 && this.scene.inputManager.downButton.isDown) {
+
+                this.scene.currentEnemy.playerHasParried();
+                this.anims.play('GnomeParryDown');
+
+            } else if (this.scene.hardMode) {
+                if (this.scene.arrow.angle == 0 && this.scene.inputManager.rightButton.isDown) {
+
+                    this.scene.currentEnemy.playerHasParried();
+                    this.anims.play('GnomeParryUp');
+
+                } else if (this.scene.arrow.angle == -180 && this.scene.inputManager.leftButton.isDown) {
+
+                    this.scene.currentEnemy.playerHasParried();
+                    this.anims.play('GnomeParryDown');
+
+                }
+            }
+        }
     }
 }

@@ -47,6 +47,7 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('DarkBackground', 'assets/end-game-background.png');
         this.load.image('LogoJuego', 'assets/main-menu/logo.png');
         this.load.image('gnome-dead', ['assets/character/gnome-dead.png', 'assets/character/gnome-dead_n.png']);
+        this.load.image('gnome-hurt', ['assets/character/gnome-hurt.png', 'assets/character/gnome-hurt_n.png']);
 
         this.load.audio('theme1', 'assets/audio/level1.wav');
         this.load.audio('menu-theme', 'assets/audio/menu-theme.wav');
@@ -75,6 +76,8 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Hard-Button'    , 'assets/main-menu/hard.png');
         this.load.image('Settings-Menu-Background', 'assets/test/settings-menu-background.png');
         this.load.image('GnomeHead' , 'assets/character/gnomehead.png');
+        this.load.image('AxeIcon', 'assets/main-menu/score-icon.png');
+        this.load.image('AxeIconBorderless', 'assets/main-menu/score-icon-borderless.png');
 
         this.load.image('Exit' , 'assets/props/exit.png');
 
@@ -378,6 +381,11 @@ export default class LoadingScreen extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('WalkingGnome', { start: 0, end: 0 }),
             frameRate: 8,
             repeat: -1
+          });
+          this.anims.create({
+            key: 'GnomeHurt',
+            frames: [{ key: "gnome-hurt", frame: 0 }],
+            frameRate: 20,
           });
       }
 }
