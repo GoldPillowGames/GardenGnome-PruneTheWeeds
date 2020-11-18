@@ -19,6 +19,9 @@ export default class InputManager {
         this.initialMouseX = 0;
         this.initialMouseY = 0;
         this.maxMouseDistance = 125;
+
+        this.pointerX;
+        this.pointerY;
     }
 
     create() {
@@ -73,10 +76,6 @@ export default class InputManager {
                 that.isMouseMoving = true;
                 that.initialMouseX = pointer.x;
                 that.initialMouseY = pointer.y;
-                that.circle_UI_Base.x = that.initialMouseX;
-                that.circle_UI_Base.y = that.initialMouseY;
-                that.circle_UI.x = Phaser.Math.Clamp(pointer.x, that.initialMouseX - 150, that.initialMouseX + 150);
-                that.circle_UI.y = Phaser.Math.Clamp(pointer.y, that.initialMouseY - 150, that.initialMouseY + 150);
                 this.scene.tweens.add({
                     targets: that.circle_UI,
                     alpha: 0.65,
@@ -107,26 +106,11 @@ export default class InputManager {
         this.scene.input.on('pointermove', function (pointer) {
             // Comprobamos si el id del puntero es el mismo que inició el movimiento
             if (that.movementPointerId === pointer.id) {
-                
-                var module = UsefulMethods.vectorModule(pointer.x - that.initialMouseX, pointer.y - that.initialMouseY);
-                //var module = Math.sqrt(Math.pow(pointer.x - this.initialMouseX, 2) + Math.pow(pointer.y - this.initialMouseY, 2));
-
-                if(this.scene.combatHappening && this.scene.currentEnemy.enemyState == this.scene.currentEnemy.enemyStates.TIRED){
-                    var xMax = 0;
-                    var yMax = 0;
-                }else{
-                    var xMax = Math.abs((pointer.x - that.initialMouseX) / module) * that.maxMouseDistance;
-                    var yMax = Math.abs((pointer.y - that.initialMouseY) / module) * that.maxMouseDistance;
-                }
-
-                that.circle_UI.x = Phaser.Math.Clamp(pointer.x, that.initialMouseX - xMax, that.initialMouseX + xMax);
-                that.circle_UI.y = Phaser.Math.Clamp(pointer.y, that.initialMouseY - yMax, that.initialMouseY + yMax);
+                that.pointerX = pointer.x;
+                that.pointerY = pointer.y;
                 //this.circle_UI.x = pointer.x;
                 //this.circle_UI.y = pointer.y;
             }
-
-
-
         });
 
         // Cuando se suelta el click izquierdo del ratón, el personaje
@@ -159,6 +143,36 @@ export default class InputManager {
             }
 
         });
+    }
+
+    update() {
+        var module = UsefulMethods.vectorModule(this.pointerX - this.initialMouseX, this.pointerY - this.initialMouseY);
+
+        var xMax, yMax;
+        if ((this.scene.combatHappening && this.scene.currentEnemy.enemyState == this.scene.currentEnemy.enemyStates.TIRED) || module == 0) {
+            xMax = 0;
+            yMax = 0;
+        } else {
+            xMax = Math.abs((this.pointerX - this.initialMouseX) / module) * this.maxMouseDistance;
+            yMax = Math.abs((this.pointerY - this.initialMouseY) / module) * this.maxMouseDistance;
+        }
+
+        this.circle_UI_Base.setScale(1 / this.scene.cameras.main.zoom * this.circle_UI_Base_OriginalScale, 1 / this.scene.cameras.main.zoom * this.circle_UI_Base_OriginalScale);
+        this.circle_UI_Base.x = this.zoomPosX(this.initialMouseX);
+        this.circle_UI_Base.y = this.zoomPosY(this.initialMouseY);
+
+        this.circle_UI.setScale(1 / this.scene.cameras.main.zoom * this.circle_UI_OriginalScale, 1 / this.scene.cameras.main.zoom * this.circle_UI_OriginalScale);
+        this.circle_UI.x = this.zoomPosX(Phaser.Math.Clamp(this.pointerX, this.initialMouseX - xMax, this.initialMouseX + xMax));
+        this.circle_UI.y = this.zoomPosY(Phaser.Math.Clamp(this.pointerY, this.initialMouseY - yMax, this.initialMouseY + yMax));
+        console.log(module);
+    }
+
+    zoomPosX(oldPos) {
+        return (oldPos - this.scene.sys.game.config.width / 2) * (1 / this.scene.cameras.main.zoom) + this.scene.sys.game.config.width / 2;
+    }
+
+    zoomPosY(oldPos) {
+        return (oldPos - this.scene.sys.game.config.height / 2) * (1 / this.scene.cameras.main.zoom) + this.scene.sys.game.config.height / 2;
     }
 
 }

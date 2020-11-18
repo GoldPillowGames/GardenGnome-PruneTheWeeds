@@ -76,8 +76,10 @@ export default class level1 extends Phaser.Scene {
     this.darkBackground.scaleX = UsefulMethods.RelativeScale(100, "x", this);
     this.darkBackground.scaleY = UsefulMethods.RelativeScale(100, "y", this);
 
+    this.add.sprite(UsefulMethods.RelativePosition(-35, "x", this), UsefulMethods.RelativePosition(83, "y", this), "House").setOrigin(0.5, 0.5).setDepth(8);
+
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 0 , HP: 5});
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2 , HP: 5});
     this.player.create();
     this.player.body.setOffset(0, -20);
     // this.player.onDie = () => {SoundManager.stopMusic(that.sys.game.currentMusic);}
@@ -722,6 +724,7 @@ export default class level1 extends Phaser.Scene {
     }
 
     this.uiContainer.update();
+    this.inputManager.update();
 
     this.whiteHealthBar.scaleX = UsefulMethods.lerp(this.whiteHealthBar.scaleX, this.healthBar.scaleX, 0.15);
     // #region Teclas y movimiento
