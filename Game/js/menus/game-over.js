@@ -1,5 +1,5 @@
-import UsefulMethods from '../js/useful-methods.js';
-import Button from './button.js';
+import UsefulMethods from '../useful-methods.js';
+import Button from '../button.js';
 
 // Clase correspondiente a la escena de splash screen.
 export default class GameOver extends Phaser.Scene {

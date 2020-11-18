@@ -9,14 +9,13 @@
  * -
  */
 
-import UsefulMethods from './useful-methods.js';
-import SoundManager from './sound-manager.js';
-import Enemy from './enemy.js';
-import Button from './button.js';
-import Player from './player.js';
-import InputManager from './input-manager.js';
-import UIContainer from './ui-container.js';
-import StreetLight from './street-light.js';
+import UsefulMethods from '../useful-methods.js';
+import SoundManager from '../sound-manager.js';
+import Enemy from '../enemy.js';
+import Button from '../button.js';
+import Player from '../player.js';
+import InputManager from '../input-manager.js';
+import UIContainer from '../ui-container.js';
 
 //Escena para testeo de juego de plataformas
 export default class level2 extends Phaser.Scene {

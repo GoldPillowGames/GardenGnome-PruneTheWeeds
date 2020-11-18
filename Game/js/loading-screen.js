@@ -64,8 +64,6 @@ export default class LoadingScreen extends Phaser.Scene {
 
         this.load.audio('ButtonSound', 'assets/menu sounds/papersound4.mp3');
 
-
-        
         this.load.image('SettingsBackground', ['assets/main-menu/settings-background.png', 'assets/main-menu/settings-background_n3.png']);
         this.load.image('SliderBar', 'assets/main-menu/slider-bar.png');
         this.load.image('Plus', 'assets/main-menu/plus.png');
