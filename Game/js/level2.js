@@ -261,7 +261,7 @@ export default class level2 extends Phaser.Scene {
     this.fences = [];
 
     var initialPosition = -40;
-    this.fences.push(this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFenceNight'));
+    this.fences.push(this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence'));
     var fence = this.fences[0];
     //fence.setTint(0xB88ADC);
     fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
