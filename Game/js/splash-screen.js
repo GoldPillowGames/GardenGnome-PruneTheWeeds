@@ -5,8 +5,23 @@ export default class SplashScreen extends Phaser.Scene {
 
   // Constructor de la escena.
   constructor() {
-    super('SplashScreen');
+    super({
+      key: "SplashScreen",
+      pack: {
+          files: [
+              {
+                  type: 'image',
+                  key: 'logo',
+                  url: 'assets/logo.png'
+              }
+          ]
+      }
+    });
     this.logo;
+  }
+
+  preload(){
+    this.load.video('intro', 'assets/videos/intro.mp4', 'canplaythrough', true, true);
   }
 
   // Funcion create, que crea los elementos del propio juego.
@@ -19,8 +34,9 @@ export default class SplashScreen extends Phaser.Scene {
     this.logo = this.add.image(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'logo');
     this.logo.setScale(UsefulMethods.RelativeScale(0.02, "x", this));
 
+    var that = this;
     this.input.on('pointerdown', function (pointer) {
-      PlayIntro();
+      StartMenu(that);
     }, this);
 
     // Hacemos un fade con la camara.
@@ -32,7 +48,7 @@ export default class SplashScreen extends Phaser.Scene {
     function StartMenu(scene) {
       //game.currentMusic = scene.sound.add('menuMusic', { loop: true, volume: game.musicVolume });
       //game.currentMusic.play();
-      scene.scene.start('mainMenu');
+      scene.scene.start('LoadingScreen');
     }
 
     function LoadMenu(scene) {
@@ -70,8 +86,15 @@ export default class SplashScreen extends Phaser.Scene {
     }
 
     this.time.addEvent({
-      delay: 3000,
-      callback: () => LoadIntro()
+      delay: 3000, // 3000
+      callback: () => {
+        cam.fadeOut(1000);
+        that.time.addEvent({
+          delay: 1100,
+          callback: () => StartMenu(that)
+        });
+        // LoadIntro
+      }
     });
 
   }

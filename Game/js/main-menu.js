@@ -123,7 +123,7 @@ export default class MainMenu extends Phaser.Scene {
         // this.InitCreditsButton();
 
         this.PlayTitle1Tween();
-        this.PlayTitle2Tween();
+        //this.PlayTitle2Tween();
 
         //#region Variables temporales
         let levelName;
@@ -202,6 +202,8 @@ export default class MainMenu extends Phaser.Scene {
         this.playButton.create();
         this.playButton.pointerUp = function () {
             text.setText("Select a Level");
+            text.y = UsefulMethods.RelativeScale(110, "y", this);
+            text.setDepth(101);
             that.ShowButtons(levelButtons);
             this.playPressedButtonArray(mainButtons);
         }
@@ -242,15 +244,16 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     PlayTitle1Tween() {
-        this.title1 = this.add.sprite(this.width / 2.2, this.height / 6, 'Title-Example');
-        this.title1.displayWidth = 350;
+        this.title1 = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(24, "y", this), 'LogoJuego');
+        this.title1.displayWidth = UsefulMethods.RelativeScale(40, "x", this);
         this.title1.scaleY = this.title1.scaleX;
+        this.title1.setDepth(100);
 
         var title1_Anim = this.tweens.add({
             targets: this.title1,
 
-            scaleX: 1.1,
-            scaleY: 1.1,
+            scaleX: this.title1.scaleX * 1.06,
+            scaleY: this.title1.scaleY * 1.06,
             ease: 'Sine.easeInOut',
             duration: 1800,
             yoyo: true,

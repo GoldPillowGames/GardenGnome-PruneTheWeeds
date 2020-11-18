@@ -1,21 +1,37 @@
+import UsefulMethods from '../js/useful-methods.js';
+
 // Clase correspondiente a la escena de carga.
 export default class LoadingScreen extends Phaser.Scene {
     // Constructor de la escena.
     constructor() {
-        super("LoadingScreen");
+        super({
+          key: "LoadingScreen"
+          // pack: {
+          //   files: [
+          //       {
+          //           type: 'video',
+          //           key: 'simple_bg',
+          //           url: './assets/videos/intro.mp4'
+          //       }
+          //     ]
+          //   }
+        });
         this.isLoading = true;
         this.isFading = false;
     }
 
     // Funcion preload que carga los assets.
     preload() {
-        this.load.image('logo', 'assets/logo.png');
+      
+        //this.load.image('logo', 'assets/logo.png');
 
         this.load.image('Law', 'assets/test/Law.jpg');
         this.load.image('Floor', 'assets/game-elements/ground.png');
         this.load.image('Circle-UI', 'assets/test/circle-ui.png');
         this.load.image('Frog', 'assets/test/Rana1.png');
         this.load.image('Arrow', 'assets/props/arrow.png');
+        this.load.image('Cross', 'assets/props/cross.png');
+        this.load.image('Tick', 'assets/props/tick.png');
 
         this.load.image('BaseFloor1', ['assets/Level 1/sueloTileado.png', 'assets/Level 1/sueloTileado_n.png']);
         this.load.image('BaseSky1', 'assets/Level 1/cielo_base2.png');
@@ -28,6 +44,10 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Shovel3', ['assets/props/shovel3.png', 'assets/props/shovel3_n.png']);
         this.load.image('Rake', ['assets/props/rake.png', 'assets/props/rake_n.png']);
         this.load.image('StreetLight', 'assets/test/lightplaceholder.png');
+        this.load.image('DarkBackground', 'assets/end-game-background.png');
+        this.load.image('LogoJuego', 'assets/main-menu/logo.png');
+
+        
 
         this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
             frameWidth: 64,
@@ -51,14 +71,43 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Settings-Menu-Background', 'assets/test/settings-menu-background.png');
         this.load.image('GnomeHead' , 'assets/character/gnomehead.png');
 
+        this.load.image('Exit' , 'assets/props/exit.png');
+
         this.loadAssetsEnemies();
 
-        this.load.video('intro', 'assets/videos/intro.mp4', 'canplaythrough', true, false);
+        //this.load.video('intro', 'assets/videos/intro.mp4', 'canplaythrough', true, false);
+
+        
 
         // Codigo relativo a la barra de carga.
         this.width = this.sys.game.config.width;
         this.height = this.sys.game.config.height;
         var that = this;
+        //this.add.image(0, 0, "simple_bg").setOrigin(0, 0).setScale(this.width/2, this.height/2);
+        this.video = this.add.video(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'intro');
+        // video.displayHeight = this.height;
+        // video.displayWidth = this.width;
+        this.video.play(true);
+        this.video.setLoop(true);
+        
+        this.loadVideo = function(){ 
+          if(!document["hidden"]){
+            that.video = this.add.video(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'intro');
+            that.video.play(true);
+            if(that.video.isPlaying()){
+              UsefulMethods.print(that.video.isPlaying());
+            }
+            that.video.setLoop(true);
+            
+          }
+        }
+        document.addEventListener("visibilitychange", this.loadVideo());
+        // let background = this.add.graphics({
+        //     fillStyle: {
+        //         color: 0x404040
+        //     }
+        // });
+        // background.fillRect(0, 0, that.width, that.height);
 
         let loadingBar = this.add.graphics({
             lineStyle: {
@@ -72,7 +121,7 @@ export default class LoadingScreen extends Phaser.Scene {
 
         let loadingText = this.make.text({
             x: that.width / 2,
-            y: that.height / 2 - 20,
+            y: that.height / 1.065,
             text: 'Please wait...',
             style: {
                 font: '18px Monaco',
@@ -83,7 +132,7 @@ export default class LoadingScreen extends Phaser.Scene {
 
         let percentText = this.make.text({
             x: that.width / 2,
-            y: that.height / 2 + 10,
+            y: that.height / 1.12 - 1.5,
             text: '0%',
             style: {
                 font: '14px Impact',
@@ -92,38 +141,38 @@ export default class LoadingScreen extends Phaser.Scene {
         });
         percentText.setOrigin(0.5, 0.5);
 
-        let assetText = this.make.text({
-            x: that.width / 2,
-            y: that.height / 2 + 40,
-            text: '',
-            style: {
-                font: '18px Monaco',
-                fill: '#ffffff'
-            }
-        });
-        assetText.setOrigin(0.5, 0.5);
+        // let assetText = this.make.text({
+        //     x: that.width / 2,
+        //     y: that.height / 2 + 40,
+        //     text: '',
+        //     style: {
+        //         font: '18px Monaco',
+        //         fill: '#ffffff'
+        //     }
+        // });
+        // assetText.setOrigin(0.5, 0.5);
 
         this.load.on('progress', (percent) => {
             loadingBar.clear();
             percentText.setText(parseInt(percent * 100) + '%');
 
-            loadingBar.fillRect(that.width / 2 - that.width / 8,
-                that.height / 2,
-                that.width * percent / 4,
-                20);
-            loadingBar.strokeRect(that.width / 2 - that.width / 8,
-                that.height / 2,
-                that.width / 4,
-                20);
+            loadingBar.fillRect(that.width / 2 - that.width / 2.4,
+                that.height / 1.145,
+                that.width * percent / 1.2115,
+                25);
+            loadingBar.strokeRect(that.width / 2 - that.width / 2.4,
+                that.height / 1.145,
+                that.width / 1.2115,
+                25);
         })
 
         this.load.on('fileprogress', (file) => {
-            assetText.setText('Loading: ' + file.key);
+            //assetText.setText('Loading: ' + file.key);
         })
         this.load.on('complete', () => {
             that.isLoading = false;
             loadingText.setText('Click anywhere to start');
-            assetText.setText('Load complete.');
+            //assetText.setText('Load complete.');
         })
 
     }
@@ -207,6 +256,18 @@ export default class LoadingScreen extends Phaser.Scene {
     }
 
     create() {
+      // UsefulMethods.print(this.video.isPlaying());
+      // this.video.play(true);
+      // this.video.on('unlocked', function(video, error){
+      //   this.video.play(true);
+      //   UsefulMethods.print(this.video.isPlaying());
+      // }, this);
+        // this.video = this.add.video(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'intro');
+        // // video.displayHeight = this.height;
+        // // video.displayWidth = this.width;
+        
+        // this.video.setLoop(true);
+
         this.createAnimationsEnemies();
         
         var that = this;
@@ -216,7 +277,7 @@ export default class LoadingScreen extends Phaser.Scene {
                 that.isFading = true;
 
                 that.cameras.main.fadeOut(200);
-                that.scene.get("LoadingScreen").time.addEvent({ delay: 210, callback: function () { that.scene.start("SplashScreen"); }, callbackScope: this, loop: false });
+                that.scene.get("LoadingScreen").time.addEvent({ delay: 210, callback: function () { that.scene.start("mainMenu"); }, callbackScope: this, loop: false });
 
                 //that.customTransition(this.scene, 'SplashScreen', 1000);
             }
