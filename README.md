@@ -101,8 +101,11 @@ El videojuego contará con un estilo cartoon con figuras y paletas de colores pa
 ### HUD
 
 En la esquina superior izquierda se mostrará la barra de vida del jugador, y al lado de esta aparecerá la cabeza del gnomo. 
+
 Debajo de la barra de vida aparecerán los puntos conseguidos por el jugador hasta el momento. 
+
 Encima de los enemigos se mostrará su barra de vida y su barra de resistencia. A la izquierda de estas 2 barras se mostrará una flecha indicando la dirección del parry. 
+
 En la esquina superior derecha habrá un botón que servirá para terminar la partida y volver al menú principal. 
 
 ### Menú principal
