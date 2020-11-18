@@ -261,9 +261,9 @@ export default class level2 extends Phaser.Scene {
     this.fences = [];
 
     var initialPosition = -40;
-    this.fences.push(this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence'));
+    this.fences.push(this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFenceNight'));
     var fence = this.fences[0];
-    fence.setTint(0xB88ADC);
+    //fence.setTint(0xB88ADC);
     fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
     fence.scaleY = fence.scaleX;
     fence.setDepth(-8);
@@ -609,9 +609,9 @@ export default class level2 extends Phaser.Scene {
         Math.random() <= 0.8 ? sprites[0] : sprites[(Math.floor((1 + Math.random() * (sprites.length - 1))))]);
 
       object.setOrigin(0.5, 1);
-      object.setTint(0xB88ADC);
+      
       //object.setPipeline('Light2D');
-      object.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
+      object.scaleX = UsefulMethods.RelativeScale(0.04, "x", this);
       object.scaleY = object.scaleX;
       object.scaleX = Math.random() <= 0.5 ? object.scaleX : -object.scaleX;
 
@@ -628,8 +628,8 @@ export default class level2 extends Phaser.Scene {
 
   createPropsContainer(floor) {
     return [
-      this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width * floor.scaleX, -7, floor.x - floor.originX * floor.width * floor.scaleX, 9, 30, 106, 108),
-      this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width * floor.scaleX, 7, floor.x - floor.originX * floor.width * floor.scaleX - UsefulMethods.RelativePosition(5, 'x', this), 9, 30, 112, 114)
+      this.createRandomSprites(['GrassNight', 'Shovel1Night', 'Shovel2Night', 'Shovel3Night', 'RakeNight'], floor.width * floor.scaleX, -7, floor.x - floor.originX * floor.width * floor.scaleX, 9, 30, 106, 108),
+      this.createRandomSprites(['GrassNight', 'Shovel1Night', 'Shovel2Night', 'Shovel3Night', 'RakeNight'], floor.width * floor.scaleX, 7, floor.x - floor.originX * floor.width * floor.scaleX - UsefulMethods.RelativePosition(5, 'x', this), 9, 30, 112, 114)
     ];
   }
 

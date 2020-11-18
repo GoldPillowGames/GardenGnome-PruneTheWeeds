@@ -39,13 +39,21 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('BaseFloor2', 'assets/Level 2/sueloTileadoNoche.png');
         this.load.image('BaseSky2', 'assets/Level 2/cielo_base_noche.png');
 
+        this.load.image('WoodFenceNight', 'assets/Level 2/verjas_madera_noche.png');
+        this.load.image('BrokenFenceNight', 'assets/Level 2/verjas_rotas_noche.png');
+
         this.load.image('MetalFence', 'assets/props/metal_fence.png');
         this.load.image('WoodFence', ['assets/props/wood_fence_small.png', 'assets/props/wood_fence_small_n.png']);
         this.load.image('Grass', ['assets/props/grass.png', 'assets/props/grass_n.png']);
+        this.load.image('GrassNight', 'assets/Level 2/hierba_noche.png');
         this.load.image('Shovel1', ['assets/props/shovel1.png', 'assets/props/shovel1_n.png']);
         this.load.image('Shovel2', ['assets/props/shovel2.png', 'assets/props/shovel2_n.png']);
         this.load.image('Shovel3', ['assets/props/shovel3.png', 'assets/props/shovel3_n.png']);
+        this.load.image('Shovel1Night', 'assets/Level 2/pala1_noche.png');
+        this.load.image('Shovel2Night', 'assets/Level 2/pala2_noche.png');
+        this.load.image('Shovel3Night', 'assets/Level 2/pala3_noche.png');
         this.load.image('Rake', ['assets/props/rake.png', 'assets/props/rake_n.png']);
+        this.load.image('RakeNight', 'assets/Level 2/rastrillo_noche.png');
         this.load.image('StreetLight', 'assets/test/lightplaceholder.png');
         this.load.image('DarkBackground', 'assets/end-game-backgroundLittle.png');
         this.load.image('LogoJuego', 'assets/main-menu/logo.png');
