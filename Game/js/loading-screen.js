@@ -105,12 +105,6 @@ export default class LoadingScreen extends Phaser.Scene {
           }
         }
         document.addEventListener("visibilitychange", this.loadVideo());
-        // let background = this.add.graphics({
-        //     fillStyle: {
-        //         color: 0x404040
-        //     }
-        // });
-        // background.fillRect(0, 0, that.width, that.height);
 
         let loadingBar = this.add.graphics({
             lineStyle: {
@@ -124,58 +118,53 @@ export default class LoadingScreen extends Phaser.Scene {
 
         let loadingText = this.make.text({
             x: that.width / 2,
-            y: that.height / 1.065,
+            y: that.height / 1.06,
             text: 'Please wait...',
             style: {
-                font: '18px Monaco',
+                font: '26px amazingkids_font',
                 fill: '#ffffff'
+                
             }
+            
         });
         loadingText.setOrigin(0.5, 0.5);
+        loadingText.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
+        loadingText.scaleY = loadingText.scaleY;
 
         let percentText = this.make.text({
             x: that.width / 2,
-            y: that.height / 1.12 - 1.5,
+            y: that.height / 1.11675,
             text: '0%',
             style: {
-                font: '14px Impact',
+                font: '22px amazingkids_font',
                 fill: '#000000'
             }
         });
         percentText.setOrigin(0.5, 0.5);
-
-        // let assetText = this.make.text({
-        //     x: that.width / 2,
-        //     y: that.height / 2 + 40,
-        //     text: '',
-        //     style: {
-        //         font: '18px Monaco',
-        //         fill: '#ffffff'
-        //     }
-        // });
-        // assetText.setOrigin(0.5, 0.5);
+        percentText.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
+        percentText.scaleY = percentText.scaleY;
 
         this.load.on('progress', (percent) => {
             loadingBar.clear();
             percentText.setText(parseInt(percent * 100) + '%');
 
-            loadingBar.fillRect(that.width / 2 - that.width / 2.4,
+            loadingBar.fillRect(that.width / 2 - that.width / 2.423,
                 that.height / 1.145,
-                that.width * percent / 1.2115,
-                25);
-            loadingBar.strokeRect(that.width / 2 - that.width / 2.4,
+                that.width * percent / 1.216,
+                30);
+            loadingBar.strokeRect(that.width / 2 - that.width / 2.423,
                 that.height / 1.145,
-                that.width / 1.2115,
-                25);
+                that.width / 1.216,
+                30);
         })
 
         this.load.on('fileprogress', (file) => {
-            //assetText.setText('Loading: ' + file.key);
+
         })
         this.load.on('complete', () => {
             that.isLoading = false;
-            loadingText.setText('Click anywhere to start');
-            //assetText.setText('Load complete.');
+            var isPC = !(that.sys.game.device.os.android || that.sys.game.device.os.iOS || that.sys.game.device.os.iPad || that.sys.game.device.os.iPhone);
+            isPC ? loadingText.setText('Click anywhere to start') : loadingText.setText('Touch anywhere to start');
         })
 
     }
@@ -267,11 +256,8 @@ export default class LoadingScreen extends Phaser.Scene {
         this.input.on('pointerdown', function () {
             if (!that.isLoading && !that.isFading) {
                 that.isFading = true;
-
                 that.cameras.main.fadeOut(200);
                 that.scene.get("LoadingScreen").time.addEvent({ delay: 210, callback: function () { that.scene.start("mainMenu"); }, callbackScope: this, loop: false });
-
-                //that.customTransition(this.scene, 'SplashScreen', 1000);
             }
         });
     }
@@ -313,7 +299,6 @@ export default class LoadingScreen extends Phaser.Scene {
           frameRate: 9,
           repeat: -1
         });
-    
     
       this.anims.create({
           key: 'CactusAttackAnim',
@@ -391,6 +376,5 @@ export default class LoadingScreen extends Phaser.Scene {
             frameRate: 8,
             repeat: -1
           });
-    
       }
 }
