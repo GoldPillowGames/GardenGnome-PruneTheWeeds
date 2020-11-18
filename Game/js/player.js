@@ -148,7 +148,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         //     this.playerState = this.playerStates.WALKING;
         // }
 
-        if ((this.direction != 0) && this.playerState === this.playerStates.STOPPED && this.canMove) {
+        if ((this.direction > 0) && this.playerState === this.playerStates.STOPPED && this.canMove) {
             this.anims.play('GnomeWalkAnim');
             this.playerState = this.playerStates.WALKING;
         } else if (this.playerState === this.playerStates.WALKING && this.direction === 0) {
