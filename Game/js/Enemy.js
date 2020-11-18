@@ -1,4 +1,5 @@
 import UsefulMethods from './useful-methods.js';
+import SoundManager from './sound-manager.js';
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     constructor(data) {
@@ -351,6 +352,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     this.scene.time.addEvent({
                         delay: 600,
                         callback: () => {
+                            SoundManager.stopMusic(this.scene.sys.game.currentMusic);
+                            this.scene.sys.game.currentMusic = SoundManager.playMusic('theme1', this.scene);
                             this.slowMotion = 1;
                             this.scene.cameraZoom = 0.9;
                             this.scene.cameras.main.setLerp(0, 0);

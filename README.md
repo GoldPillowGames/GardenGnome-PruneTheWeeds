@@ -54,8 +54,10 @@ Durante el transcurso de los niveles, surgirán encuentros con enemigos en donde
 
 ## Historia
 ### Sinopsis
+Un gnomo de jardín, que llevaba una vida pacífica, se ve invadido por una serie de monstruos, por lo que deberá luchar contra ellos para proteger su hogar. 
 
 ### Resumen
+La vida de un gnomo de jardín no suele ser especialmente interesante, y la del protagonista de Gargen Gnome: Prune the weeds no es diferente. Pero tiene un objetivo claro, cuidar y proteger su jardín, por lo que cuando este se ve invadido por una serie de monstruos, no duda es armarse con su hacha y salir a por ellos. Las criaturas parecen no acabarse nunca, pero el gnomo no piensa rendirse, por lo que luchará hasta el final, cueste lo que cueste. 
 
 ## Jugabilidad
 ### Qué experiencia se busca
@@ -197,33 +199,45 @@ Escena donde los programadores harán cualquier tipo de prueba necesaria, antes 
 
 ### Personaje principal  
 
-Andar. 
-Atacar con hacha. 
-Parry superior. 
-Parry inferior. 
-Muerte. 
+- **Andar.** 
+- **Atacar con hacha.** 
+- **Parry superior.** 
+- **Parry inferior.** 
+- **Muerte.** 
 
 ### NPC hostil 1 - Rana 
 
-Idle 
-Ataque 
+- **Idle** 
+- **Ataque** 
 
 ### NPC hostil 2 - Champiñón 
 
-Idle 
-Ataque 
+- **Idle** 
+- **Ataque**
 
 ### NPC hostil 3 - Cactus 
 
-Idle 
-Ataque 
+- **Idle** 
+- **Ataque** 
 
 ### NPC hostil 4 - Planta 
 
-Idle 
-Ataque 
+- **Idle** 
+- **Ataque** 
 
 ### NPC hostil 5 - Caracol 
 
-Idle 
-Ataque 
+- **Idle** 
+- **Ataque**
+
+## Calendario
+| Hito | Fecha |
+| ----------- | ----------- |
+| Inicio del proyecto | 09/10/2020 |
+| Definición de la paleta de colores | 19/10/2020 |
+| Assets comunes y de los escenarios | 29/10/2020 |
+| Animaciones de enemigos parametrizadas | 10/11/2020 |
+| Juego infinito, dificulad, y barras de vida | 15/11/2020 |
+| Spritesheets del personaje | 16/11/2020 |
+| Importación de los assets al proyecto de Phaser | 16/11/2020 |
+| Fin del proyecto | 19/11/2020 |
