@@ -73,7 +73,7 @@ export default class level1 extends Phaser.Scene {
     this.darkBackground.scaleY = UsefulMethods.RelativeScale(100, "y", this);
 
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(97, "y", this), texture: 'WalkingGnome', frame: 0 , HP: 5});
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 0 , HP: 5});
     this.player.create();
     this.player.body.setOffset(0, -20);
 

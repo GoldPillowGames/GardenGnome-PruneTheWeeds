@@ -3,12 +3,12 @@ import Button from '../js/button.js'
 
 export default class Slider extends Phaser.GameObjects.Container {
     constructor(data) {
-        let {scene, x, y, sliderTexture, minusTexture, plusTexture, sliderText} = data;
+        let {scene, x, y, sliderTexture, minusTexture, plusTexture, sliderText, currentValue} = data;
         super(scene, x, y);
 
         this.scene = scene;
 
-        this.value = 3;
+        this.value = currentValue;
         this.disabledAlpha = 0.5;
 
         this.scene.add.existing(this);
@@ -38,46 +38,28 @@ export default class Slider extends Phaser.GameObjects.Container {
         //this.sliderBar1 = this.scene.add.sprite(UsefulMethods.RelativePosition(x+posX+6,    "x", scene), UsefulMethods.RelativePosition(y, "y", scene), sliderTexture);
         this.sliderBar1.create();
         this.sliderBar1.pointerUp = () => {this.value = 1;}
-        
-        // this.sliderBar1.scaleX = UsefulMethods.RelativeScale(0.07, 'x', scene)
-        // this.sliderBar1.scaleY = text.scaleX;
 
         this.sliderBar2 = new Button({scene:scene, x:x+posX+11, y:y, texture: sliderTexture, frame:4, scale:0.075});
         //this.sliderBar1 = this.scene.add.sprite(UsefulMethods.RelativePosition(x+posX+6,    "x", scene), UsefulMethods.RelativePosition(y, "y", scene), sliderTexture);
         this.sliderBar2.create();
         this.sliderBar2.pointerUp = () => {this.value = 2;}
-        // this.sliderBar2 = this.scene.add.sprite(UsefulMethods.RelativePosition(x+posX+11,  "x", scene), UsefulMethods.RelativePosition(y, "y", scene), sliderTexture);
-        // this.sliderBar2.scaleX = UsefulMethods.RelativeScale(0.07, 'x', scene)
-        // this.sliderBar2.scaleY = text.scaleX;
 
         this.sliderBar3 = new Button({scene:scene, x:x+posX+16, y:y, texture: sliderTexture, frame:4, scale:0.075});
         //this.sliderBar1 = this.scene.add.sprite(UsefulMethods.RelativePosition(x+posX+6,    "x", scene), UsefulMethods.RelativePosition(y, "y", scene), sliderTexture);
         this.sliderBar3.create();
         this.sliderBar3.pointerUp = () => {this.value = 3;}
-        // this.sliderBar3 = this.scene.add.sprite(UsefulMethods.RelativePosition(x+posX+16, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), sliderTexture);
-        // this.sliderBar3.scaleX = UsefulMethods.RelativeScale(0.07, 'x', scene)
-        // this.sliderBar3.scaleY = text.scaleX;
 
         this.sliderBar4 = new Button({scene:scene, x:x+posX+21, y:y, texture: sliderTexture, frame:4, scale:0.075});
         //this.sliderBar1 = this.scene.add.sprite(UsefulMethods.RelativePosition(x+posX+6,    "x", scene), UsefulMethods.RelativePosition(y, "y", scene), sliderTexture);
         this.sliderBar4.create();
         this.sliderBar4.pointerUp = () => {this.value = 4;}
-        // this.sliderBar4 = this.scene.add.sprite(UsefulMethods.RelativePosition(x+posX+21, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), sliderTexture);
-        // this.sliderBar4.scaleX = UsefulMethods.RelativeScale(0.07, 'x', scene)
-        // this.sliderBar4.scaleY = text.scaleX;
 
         this.sliderBar5 = new Button({scene:scene, x:x+posX+26, y:y, texture: sliderTexture, frame:4, scale:0.075});
         //this.sliderBar1 = this.scene.add.sprite(UsefulMethods.RelativePosition(x+posX+6,    "x", scene), UsefulMethods.RelativePosition(y, "y", scene), sliderTexture);
         this.sliderBar5.create();
         this.sliderBar5.pointerUp = () => {this.value = 5;}
-        // this.sliderBar5 = this.scene.add.sprite(UsefulMethods.RelativePosition(x+posX+26, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), sliderTexture);
-        // this.sliderBar5.scaleX = UsefulMethods.RelativeScale(0.07, 'x', scene)
-        // this.sliderBar5.scaleY = text.scaleX;
 
         this.sliderBar = [this.sliderBar1, this.sliderBar2, this.sliderBar3, this.sliderBar4, this.sliderBar5];
-        // this.plus = this.scene.add.sprite(UsefulMethods.RelativePosition(x+32, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), plusTexture);
-        // this.plus.scaleX = 0.135;
-        // this.plus.scaleY = this.plus.scaleX;
 
         this.plus = new Button({scene:scene, x:x+posX+32, y:y, texture: plusTexture, frame:4, scale:0.011});
     }

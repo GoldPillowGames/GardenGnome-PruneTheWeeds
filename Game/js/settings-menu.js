@@ -61,13 +61,13 @@ export default class SettingsMenu extends Phaser.Scene{
         text.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
         text.scaleY = text.scaleX;
 
-        this.masterVolume = new Slider({scene:this, x:10, y:35, sliderTexture:'SliderBar', minusTexture:'Minus', plusTexture:'Plus', sliderText:'MASTER VOLUME'});
+        this.masterVolume = new Slider({scene:this, x:10, y:35, sliderTexture:'SliderBar', minusTexture:'Minus', plusTexture:'Plus', sliderText:'MASTER VOLUME', currentValue: this.sys.game.globalVolume * 5});
         this.masterVolume.create();
 
-        this.musicVolume = new Slider({scene:this, x:10, y:47.5, sliderTexture:'SliderBar', minusTexture:'Minus', plusTexture:'Plus', sliderText:'MUSIC VOLUME'});
+        this.musicVolume = new Slider({scene:this, x:10, y:47.5, sliderTexture:'SliderBar', minusTexture:'Minus', plusTexture:'Plus', sliderText:'MUSIC VOLUME', currentValue: this.sys.game.musicVolume * 5});
         this.musicVolume.create();
 
-        this.sfxVolume = new Slider({scene:this, x:10, y:60, sliderTexture:'SliderBar', minusTexture:'Minus', plusTexture:'Plus', sliderText:'SFX VOLUME'});
+        this.sfxVolume = new Slider({scene:this, x:10, y:60, sliderTexture:'SliderBar', minusTexture:'Minus', plusTexture:'Plus', sliderText:'SFX VOLUME', currentValue: this.sys.game.sfxVolume * 5});
         this.sfxVolume.create();
 
         this.exitButton = new Button({scene:this, x:89.5, y:86, texture:'ExitButton', frame:4, scale:0.018});
@@ -86,5 +86,9 @@ export default class SettingsMenu extends Phaser.Scene{
         this.musicVolume.update(delta);
         this.sfxVolume.update(delta);
         this.exitButton.update(delta);
+
+        this.sys.game.globalVolume = this.masterVolume.value / 5;
+        this.sys.game.musicVolume = this.musicVolume.value / 5;
+        this.sys.game.sfxVolume = this.sfxVolume.value / 5;
     }
 }

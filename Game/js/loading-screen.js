@@ -92,8 +92,10 @@ export default class LoadingScreen extends Phaser.Scene {
         
         this.loadVideo = function(){ 
           if(!document["hidden"]){
-            that.video = this.add.video(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'intro');
+            that.video = that.add.video(UsefulMethods.RelativePosition(50, "x", that), UsefulMethods.RelativePosition(50, "y", that), 'intro');
             that.video.play(true);
+            that.video.displayHeight = that.height;
+            that.video.displayWidth = that.width;
             if(that.video.isPlaying()){
               UsefulMethods.print(that.video.isPlaying());
             }
@@ -256,17 +258,6 @@ export default class LoadingScreen extends Phaser.Scene {
     }
 
     create() {
-      // UsefulMethods.print(this.video.isPlaying());
-      // this.video.play(true);
-      // this.video.on('unlocked', function(video, error){
-      //   this.video.play(true);
-      //   UsefulMethods.print(this.video.isPlaying());
-      // }, this);
-        // this.video = this.add.video(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'intro');
-        // // video.displayHeight = this.height;
-        // // video.displayWidth = this.width;
-        
-        // this.video.setLoop(true);
 
         this.createAnimationsEnemies();
         
