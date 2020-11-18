@@ -56,11 +56,13 @@ export default class level2 extends Phaser.Scene {
     this.firstCombat = true;
     this.hardMode = this.scene.get("mainMenu").hardMode;
 
-    this.sys.game.levelIndex = 1;
+    this.sys.game.levelIndex = 2;
     // #endregion
   }
 
   create() {
+    this.color = Phaser.Display.Color.HexStringToColor('0xB88ADC').color;
+
     var that = this;
     //let that = this;
     this.cameras.main.fadeIn(1000);
@@ -79,11 +81,15 @@ export default class level2 extends Phaser.Scene {
     var house = this.add.sprite(UsefulMethods.RelativePosition(-35, "x", this), UsefulMethods.RelativePosition(83, "y", this), "House").setOrigin(0.5, 0.5).setDepth(8);
     house.scaleX = UsefulMethods.RelativeScale(0.079, "x", this);
     house.scaleY = house.scaleX;
+    house.setTint(0xB88ADC);
 
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2 , HP: 5});
+
+    
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2 , HP: 5, tint: this.color});
     this.player.create();
     this.player.body.setOffset(0, -20);
+    this.player.setTint(0xB88ADC);
     // this.player.onDie = () => {SoundManager.stopMusic(that.sys.game.currentMusic);}
 
     this.inputManager = new InputManager(this);
@@ -257,6 +263,7 @@ export default class level2 extends Phaser.Scene {
     var initialPosition = -40;
     this.fences.push(this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence'));
     var fence = this.fences[0];
+    fence.setTint(0xB88ADC);
     fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
     fence.scaleY = fence.scaleX;
     fence.setDepth(-8);
@@ -267,6 +274,7 @@ export default class level2 extends Phaser.Scene {
     while (fence.x < this.floors[0].width * this.floors[0].scaleX * 3) {
       initialPosition += 12;
       fence = this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence');
+      fence.setTint(0xB88ADC);
       this.fences.push(fence);
       fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
       fence.scaleY = fence.scaleX;
@@ -288,7 +296,8 @@ export default class level2 extends Phaser.Scene {
       stamina: 2,
       hp: 2,
       idleAnimation: 'PlantIdleAnim',
-      attackAnimation: 'PlantAttackAnim'
+      attackAnimation: 'PlantAttackAnim',
+      tint: this.color
     }));
 
     this.anims.create({
@@ -316,12 +325,13 @@ export default class level2 extends Phaser.Scene {
       stamina: 2,
       hp: 5,
       idleAnimation: 'SnailIdleAnim',
-      attackAnimation: 'SnailAttackAnim'
+      attackAnimation: 'SnailAttackAnim',
+      tint: this.color
     }));
 
     this.enemies.push(new Enemy({
       scene: this, x: (this.floors[2].x + (this.floors[2].width) * (this.floors[2].scaleX) * 0.5), y: 75,
-      texture: 'IdleMushroom', frame: 0, attackTime: 0.45, window: 0.55, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim'
+      texture: 'IdleMushroom', frame: 0, attackTime: 0.45, window: 0.55, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim',tint: this.color
     }));
 
     this.arrow = this.add.sprite(this.enemies[0].x, this.enemies[0].y - UsefulMethods.RelativePosition(15, 'y', this), 'Arrow');
@@ -330,7 +340,10 @@ export default class level2 extends Phaser.Scene {
     this.arrow.setAlpha(0);
     this.arrow.setDepth(15);
 
-    this.enemies.forEach(element => { element.create(); });
+    this.enemies.forEach(element => { 
+      element.create();
+      element.setTint(0xB88ADC);
+     });
   }
 
   /**
@@ -404,7 +417,8 @@ export default class level2 extends Phaser.Scene {
           stamina: Phaser.Math.Between(2, 4),
           hp: Phaser.Math.Between(8, 15),
           idleAnimation: 'SnailIdleAnim',
-          attackAnimation: 'SnailAttackAnim'
+          attackAnimation: 'SnailAttackAnim',
+          tint: this.color
         }));
         break;
       case 2:
@@ -417,7 +431,8 @@ export default class level2 extends Phaser.Scene {
           stamina: Phaser.Math.Between(4, 7),
           hp: Phaser.Math.Between(3, 6),
           idleAnimation: 'CactusIdleAnim',
-          attackAnimation: 'CactusAttackAnim'
+          attackAnimation: 'CactusAttackAnim',
+          tint: this.color
         }));
         break;
       case 3:
@@ -430,7 +445,8 @@ export default class level2 extends Phaser.Scene {
           stamina: Phaser.Math.Between(2, 3),
           hp: Phaser.Math.Between(4, 8),
           idleAnimation: 'MushroomIdleAnim',
-          attackAnimation: 'MushroomAttackAnim'
+          attackAnimation: 'MushroomAttackAnim',
+          tint: this.color
         }));
         break;
       case 4:
@@ -443,7 +459,8 @@ export default class level2 extends Phaser.Scene {
           stamina: Phaser.Math.Between(1, 3),
           hp: Phaser.Math.Between(10, 14),
           idleAnimation: 'PlantIdleAnim',
-          attackAnimation: 'PlantAttackAnim'
+          attackAnimation: 'PlantAttackAnim',
+          tint: this.color
         }));
         break;
       case 5:
@@ -456,11 +473,12 @@ export default class level2 extends Phaser.Scene {
           stamina: Phaser.Math.Between(1, 2),
           hp: Phaser.Math.Between(12, 20),
           idleAnimation: 'FrogIdleAnim',
-          attackAnimation: 'FrogAttackAnim'
+          attackAnimation: 'FrogAttackAnim',
+          tint: this.color
         }));
         break;
     }
-
+    this.enemies[this.nextFloor].setTint(0xB88ADC);
     this.physics.add.collider(this.enemies[this.nextFloor], this.floors[this.currentFloor]);
     this.physics.add.collider(this.enemies[this.nextFloor].collision, this.floors[this.currentFloor]);
     this.enemies[this.nextFloor].create();
@@ -591,6 +609,7 @@ export default class level2 extends Phaser.Scene {
         Math.random() <= 0.8 ? sprites[0] : sprites[(Math.floor((1 + Math.random() * (sprites.length - 1))))]);
 
       object.setOrigin(0.5, 1);
+      object.setTint(0xB88ADC);
       //object.setPipeline('Light2D');
       object.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
       object.scaleY = object.scaleX;
@@ -735,6 +754,16 @@ export default class level2 extends Phaser.Scene {
     this.whiteHealthBar.scaleX = UsefulMethods.lerp(this.whiteHealthBar.scaleX, this.healthBar.scaleX, 0.15);
     // #region Teclas y movimiento
     this.player.update(delta);
+  }
+
+  restoreLerp(value, time) {
+    var that = this;
+    this.time.addEvent({
+      delay: time,
+      callback: () => {
+        that.cameras.main.setLerp(value, value);
+      }
+    });
   }
 
 }

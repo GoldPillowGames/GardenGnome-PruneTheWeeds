@@ -4,7 +4,7 @@ import SoundManager from './sound-manager.js';
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     constructor(data) {
         // #region Contructor
-        let { scene, x, y, texture, frame, attackTime, window, stamina, hp, idleAnimation, attackAnimation } = data;
+        let { scene, x, y, texture, frame, attackTime, window, stamina, hp, idleAnimation, attackAnimation, tint} = data;
         super(scene, x, y, texture, frame);
         // #endregion
 
@@ -32,6 +32,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.hp = hp;
         this.maxHP = hp;
 
+        this.tinte = tint;
         // #endregion
         this.beenParried = false;
 
@@ -248,7 +249,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 that.setTint(0xff002a);
             },
             onComplete: function () {
-                that.setTint(0xffffff);
+                
+                that.setTint(that.tinte);
+                UsefulMethods.print("Tinte" + that.tinte);
             },
             onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
             onRepeat: function () { console.log('onRepeat'); console.log(arguments); },

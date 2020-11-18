@@ -61,6 +61,8 @@ export default class level1 extends Phaser.Scene {
   }
 
   create() {
+    this.color = Phaser.Display.Color.HexStringToColor('0xffffff').color;
+
     var that = this;
     //let that = this;
     this.cameras.main.fadeIn(1000);
@@ -81,7 +83,7 @@ export default class level1 extends Phaser.Scene {
     house.scaleY = house.scaleX;
 
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2, HP: 5 });
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2, HP: 5 , tint: this.color});
     this.player.create();
     this.player.body.setOffset(0, -20);
     // this.player.onDie = () => {SoundManager.stopMusic(that.sys.game.currentMusic);}
@@ -288,7 +290,8 @@ export default class level1 extends Phaser.Scene {
       stamina: 2,
       hp: 2,
       idleAnimation: 'PlantIdleAnim',
-      attackAnimation: 'PlantAttackAnim'
+      attackAnimation: 'PlantAttackAnim',
+      tint: this.color
     }));
 
     this.anims.create({
@@ -316,12 +319,13 @@ export default class level1 extends Phaser.Scene {
       stamina: 2,
       hp: 5,
       idleAnimation: 'SnailIdleAnim',
-      attackAnimation: 'SnailAttackAnim'
+      attackAnimation: 'SnailAttackAnim',
+      tint: this.color
     }));
 
     this.enemies.push(new Enemy({
       scene: this, x: (this.floors[2].x + (this.floors[2].width) * (this.floors[2].scaleX) * 0.5), y: 75,
-      texture: 'IdleMushroom', frame: 0, attackTime: 0.45, window: 0.55, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim'
+      texture: 'IdleMushroom', frame: 0, attackTime: 0.45, window: 0.55, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim', tint:this.color
     }));
 
     this.arrow = this.add.sprite(this.enemies[0].x, this.enemies[0].y - UsefulMethods.RelativePosition(15, 'y', this), 'Arrow');
@@ -413,7 +417,8 @@ export default class level1 extends Phaser.Scene {
           stamina: Phaser.Math.Between(2, 4),
           hp: Phaser.Math.Between(8, 15),
           idleAnimation: 'SnailIdleAnim',
-          attackAnimation: 'SnailAttackAnim'
+          attackAnimation: 'SnailAttackAnim',
+          tint: this.color
         }));
         break;
       case 2:
@@ -426,7 +431,8 @@ export default class level1 extends Phaser.Scene {
           stamina: Phaser.Math.Between(4, 7),
           hp: Phaser.Math.Between(3, 6),
           idleAnimation: 'CactusIdleAnim',
-          attackAnimation: 'CactusAttackAnim'
+          attackAnimation: 'CactusAttackAnim',
+          tint: this.color
         }));
         break;
       case 3:
@@ -439,7 +445,8 @@ export default class level1 extends Phaser.Scene {
           stamina: Phaser.Math.Between(2, 3),
           hp: Phaser.Math.Between(4, 8),
           idleAnimation: 'MushroomIdleAnim',
-          attackAnimation: 'MushroomAttackAnim'
+          attackAnimation: 'MushroomAttackAnim',
+          tint: this.color
         }));
         break;
       case 4:
@@ -452,7 +459,8 @@ export default class level1 extends Phaser.Scene {
           stamina: Phaser.Math.Between(1, 3),
           hp: Phaser.Math.Between(10, 14),
           idleAnimation: 'PlantIdleAnim',
-          attackAnimation: 'PlantAttackAnim'
+          attackAnimation: 'PlantAttackAnim',
+          tint: this.color
         }));
         break;
       case 5:
@@ -465,7 +473,8 @@ export default class level1 extends Phaser.Scene {
           stamina: Phaser.Math.Between(1, 2),
           hp: Phaser.Math.Between(12, 20),
           idleAnimation: 'FrogIdleAnim',
-          attackAnimation: 'FrogAttackAnim'
+          attackAnimation: 'FrogAttackAnim',
+          tint: this.color
         }));
         break;
     }

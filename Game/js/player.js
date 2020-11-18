@@ -4,7 +4,7 @@ import SoundManager from './sound-manager.js';
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(data) {
         // #region Contructor
-        let { scene, x, y, texture, frame, HP } = data;
+        let { scene, x, y, texture, frame, HP, tint } = data;
         super(scene, x, y, texture, frame);
         // #endregion
 
@@ -20,6 +20,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.maxHP = HP;
         this.canMove = true;
         this.playerScale = 1;
+
+        this.tinte = tint;
 
         this.parrying = false;
 
@@ -152,7 +154,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 that.setTint(0xff002a);
             },
             onComplete: function () {
-                that.setTint(0xffffff);
+                that.setTint(that.tinte);
+                UsefulMethods.print(that.tinte)
             },
             onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
             onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
