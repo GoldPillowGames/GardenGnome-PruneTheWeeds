@@ -46,6 +46,7 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('StreetLight', 'assets/test/lightplaceholder.png');
         this.load.image('DarkBackground', 'assets/end-game-background.png');
         this.load.image('LogoJuego', 'assets/main-menu/logo.png');
+        this.load.image('House', 'assets/props/house.png');
         this.load.image('gnome-dead', ['assets/character/gnome-dead.png', 'assets/character/gnome-dead_n.png']);
         this.load.image('gnome-hurt', ['assets/character/gnome-hurt.png', 'assets/character/gnome-hurt_n.png']);
 
@@ -378,9 +379,8 @@ export default class LoadingScreen extends Phaser.Scene {
           });
           this.anims.create({
             key: 'GnomeStopAnim',
-            frames: this.anims.generateFrameNumbers('WalkingGnome', { start: 0, end: 0 }),
-            frameRate: 8,
-            repeat: -1
+            frames: [ { key: 'WalkingGnome', frame: 2 } ],
+            frameRate: 20
           });
           this.anims.create({
             key: 'GnomeHurt',
