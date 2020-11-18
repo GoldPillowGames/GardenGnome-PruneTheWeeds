@@ -164,8 +164,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         if (this.enemyState == this.enemyStates.PARRY) {
 
             if (!this.beenParried) {
-                this.scene.player.HP--;
-                this.scene.healthBar.scaleX = (this.scene.player.HP / this.scene.player.maxHP);
+                this.scene.player.hurt();
             }
             this.enemyState = this.enemyStates.ATTACKING;
             this.waiting();
@@ -359,6 +358,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                             this.scene.cameras.main.startFollow(this.scene.player, true);
                             this.scene.cameras.main.rotateTo(0, true, 800, 'Cubic.easeOut');
                             this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 800, 'Expo.easeOut');
+
+                            this.scene.player.score += this.maxHP * 10;
+
                             this.scene.uiContainer.setScrollFactor(0);
                         }
                     });
@@ -375,11 +377,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.scene.player.canMove = true;
         this.scene.tweens.timeScale = 1;
-
-
-
-
-        this.scene.player.score += this.maxHP * 10;
 
         this.staminaBar.destroy();
         this.healthBar.destroy();
