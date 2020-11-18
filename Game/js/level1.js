@@ -508,7 +508,7 @@ export default class level1 extends Phaser.Scene {
       enemy.createBars();
       enemy.collision.destroy();
 
-      this.restoreLerp(0.09, 300);
+      this.cameras.main.setLerp(0.09, 0.09);
       this.cameras.main.setFollowOffset(-this.cameraOffsetInCombat);
       this.cameras.main.zoomTo(this.cameraZoomInCombat, 300, 'Sine.easeInOut');
 
