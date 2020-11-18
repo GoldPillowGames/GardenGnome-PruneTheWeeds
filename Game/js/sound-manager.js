@@ -11,12 +11,13 @@
 
 export default class SoundManager{
 
-    static currentMusic;
+    static stopMusic(sound){
+      sound.setVolume(0);
+    }
 
     static playMusic(musicName, scene){
-      if(this.currentMusic != null)
-        this.currentMusic.stop();
-      this.currentMusic = scene.sound.add(musicName).play({
+      var currentMusic = scene.sound.add(musicName);
+      currentMusic.play({
         mute: false,
         volume: scene.sys.game.musicVolume * scene.sys.game.globalVolume,
         rate: 1,
@@ -25,6 +26,7 @@ export default class SoundManager{
         loop: true,
         delay: 0
       });
+      return currentMusic;
     }
 
     static playSound(soundName, scene){

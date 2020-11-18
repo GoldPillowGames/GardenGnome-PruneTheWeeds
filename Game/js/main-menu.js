@@ -11,6 +11,7 @@
 
 import UsefulMethods from '../js/useful-methods.js';
 import Button from '../js/button.js';
+import SoundManager from './sound-manager.js';
 
 export default class MainMenu extends Phaser.Scene {
     constructor() {
@@ -77,7 +78,8 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     create() {
-
+        
+        this.currentMusic = SoundManager.playMusic('menu-theme', this);
 
         this.width = this.sys.game.config.width;
         this.height = this.sys.game.config.height;
@@ -151,6 +153,7 @@ export default class MainMenu extends Phaser.Scene {
         this.difficultyButton1.pointerUp = function () {
             that.hardMode = false;
             that.cameras.main.fadeOut(200);
+            SoundManager.stopMusic(that.currentMusic);
             that.scene.get("mainMenu").time.addEvent({ delay: 210, callback: function () { that.scene.start(levelName); }, callbackScope: this, loop: false });
         }
 
@@ -159,6 +162,7 @@ export default class MainMenu extends Phaser.Scene {
         this.difficultyButton2.pointerUp = function () {
             that.hardMode = true;
             that.cameras.main.fadeOut(200);
+            SoundManager.stopMusic(that.currentMusic);
             that.scene.get("mainMenu").time.addEvent({ delay: 210, callback: function () { that.scene.start(levelName); }, callbackScope: this, loop: false });
         }
 
@@ -212,6 +216,7 @@ export default class MainMenu extends Phaser.Scene {
         this.settingsButton.create();
         this.settingsButton.pointerUp = function () {
             that.cameras.main.fadeOut(225);
+            SoundManager.stopMusic(that.currentMusic);
             that.scene.get("mainMenu").time.addEvent({ delay: 510, callback: function () { that.scene.start("settingsMenu"); }, callbackScope: this, loop: false });
         }
 
@@ -220,6 +225,7 @@ export default class MainMenu extends Phaser.Scene {
         this.creditsButton.pointerUp = function () {
             // Credits
             that.cameras.main.fadeOut(225);
+            SoundManager.stopMusic(that.currentMusic);
             that.scene.get("mainMenu").time.addEvent({ delay: 510, callback: function () { that.scene.start("creditsMenu"); }, callbackScope: this, loop: false });
         }
         mainButtons = [this.playButton, this.settingsButton, this.creditsButton];
