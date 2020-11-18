@@ -54,8 +54,10 @@ Durante el transcurso de los niveles, surgirán encuentros con enemigos en donde
 
 ## Historia
 ### Sinopsis
+Un gnomo de jardín, que llevaba una vida pacífica, se ve invadido por una serie de monstruos, por lo que deberá luchar contra ellos para proteger su hogar. 
 
 ### Resumen
+La vida de un gnomo de jardín no suele ser especialmente interesante, y la del protagonista de Gargen Gnome: Prune the weeds no es diferente. Pero tiene un objetivo claro, cuidar y proteger su jardín, por lo que cuando este se ve invadido por una serie de monstruos, no duda es armarse con su hacha y salir a por ellos. Las criaturas parecen no acabarse nunca, pero el gnomo no piensa rendirse, por lo que luchará hasta el final, cueste lo que cueste. 
 
 ## Jugabilidad
 ### Qué experiencia se busca
