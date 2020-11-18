@@ -29,10 +29,10 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     createRandomSprites(sprites, maxDistance, depth, initX, minX, maxX, minY, maxY) {
-        var nextSpritePositionX = initX;
-        var nextSpritePositionY = minY;
+        var nextSpritePositionX = UsefulMethods.UnrelativePosition(initX, "x", this) + (Math.random() * (maxX - minX) + minX);
+        var nextSpritePositionY = (Math.random() * (maxY - minY) + minY);
 
-        while (nextSpritePositionX < UsefulMethods.RelativePosition(maxDistance, 'x', this)) {
+        while (nextSpritePositionX < UsefulMethods.UnrelativePosition(initX + maxDistance, "x", this)) {
             var object = this.add.sprite(
                 UsefulMethods.RelativePosition(nextSpritePositionX, "x", this),
                 UsefulMethods.RelativePosition(nextSpritePositionY, "y", this),
@@ -43,9 +43,11 @@ export default class MainMenu extends Phaser.Scene {
 
             object.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
             object.scaleY = object.scaleX;
+            object.scaleX = Math.random() <= 0.5 ? object.scaleX : -object.scaleX;
             nextSpritePositionX = nextSpritePositionX + (Math.random() * (maxX - minX) + minX);
             nextSpritePositionY = (Math.random() * (maxY - minY) + minY);
         }
+
     }
 
     createFences() {
@@ -80,8 +82,10 @@ export default class MainMenu extends Phaser.Scene {
         this.width = this.sys.game.config.width;
         this.height = this.sys.game.config.height;
 
-        this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], 100, 7, -40, 14, 20, 65, 72);
-        this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], 100, 7, -30, 14, 20, 65, 72);
+        var object = this.add.sprite(
+            UsefulMethods.RelativePosition(0, "x", this),// + 2235 / 2,
+            UsefulMethods.RelativePosition(70, "y", this),
+            "Grass").setDepth(50);
         this.createFences();
         //this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], 100, 7, -30, 14, 20, 110, 118);
 
@@ -102,7 +106,12 @@ export default class MainMenu extends Phaser.Scene {
 
         this.add.sprite(UsefulMethods.RelativePosition(20, "x", this), UsefulMethods.RelativePosition(70, "y", this), 'BaseSky1').setAlpha(0.92);
 
-        this.add.sprite(UsefulMethods.RelativePosition(25, "x", this), UsefulMethods.RelativePosition(92, "y", this), 'BaseFloor1').setAlpha(0.92);
+        var floor = this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(92, "y", this), 'BaseFloor1').setAlpha(0.92);
+        floor.setOrigin(0, floor.originY);
+
+        this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width, -7, Math.abs(floor.x), 6, 16, 65, 72);
+        this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width, 7, Math.abs(floor.x), 6, 16, 65, 72);
+
         // this.SettingsButtonsContainer = this.add.sprite(this.width/3, this.height/1.32,'').setInteractive();
         // this.SettingsButtonsContainer.alpha = 0;
         // this.SettingsButtonsContainer.setDepth(0);

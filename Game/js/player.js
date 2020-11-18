@@ -103,6 +103,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.displayWidth = UsefulMethods.RelativeScale(20, "x", this.scene);
         this.scaleY = this.scaleX;
         this.playerScale = this.scaleX;
+        this.setDepth(0);
 
         this.createParryControls();
 
@@ -147,7 +148,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         //     this.playerState = this.playerStates.WALKING;
         // }
 
-        if ((this.direction != 0) && this.playerState === this.playerStates.STOPPED && this.canMove) {
+        if(this.direction == -1)
+            this.direction =0;
+
+        if ((this.direction >= 0) && this.playerState === this.playerStates.STOPPED && this.canMove) {
             this.anims.play('GnomeWalkAnim');
             this.playerState = this.playerStates.WALKING;
         } else if (this.playerState === this.playerStates.WALKING && this.direction === 0) {
@@ -180,8 +184,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if(this.HP <= 0){
             this.die();
         }
-        if(this.direction == -1)
-            this.direction =0;
+        
+        if(this.canMove && this.direction != 0 && this.anims.getCurrentKey() != 'GnomeWalkAnim'){
+            this.anims.play('GnomeWalkAnim');
+        }
+
         // Se aplica la velocidad de movimiento al sprite
         var calculatedSpeed = this.canMove ? (this.direction * this.velocity) : 0;
 

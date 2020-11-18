@@ -44,19 +44,24 @@ export default class level1 extends Phaser.Scene {
     this.cameraZoomInCombat = 1.1;
     this.cameraZoomWhenKilling = 1.3;
     this.cameraOffsetInCombat = 100;
+    this.cameraRotationWhenKilling = 0.04;
 
     this.combatHappening = false;
     this.currentEnemy;
 
+    this.currentFloor = 0;
+    this.nextFloor = 3;
+
     this.firstCombat = true;
     this.hardMode = this.scene.get("mainMenu").hardMode;
 
+    this.sys.game.levelIndex = 1;
     // #endregion
   }
 
-    
 
- 
+
+
 
   create() {
     //let that = this;
@@ -77,7 +82,8 @@ export default class level1 extends Phaser.Scene {
     this.player.create();
     this.player.body.setOffset(0, -20);
 
-    
+    var that = this;
+
     this.inputManager = new InputManager(this);
     this.inputManager.create();
     this.SetupCamera();
@@ -86,8 +92,6 @@ export default class level1 extends Phaser.Scene {
     this.uiContainer.create();
 
     this.InitFloor();
-
-    var that = this;
 
     this.exitButton = new Button({ scene: this, x: 100, y: 3.8,  texture: 'Exit', frame: 0, scale: 0.0125});
     this.exitButton.create();
@@ -103,8 +107,9 @@ export default class level1 extends Phaser.Scene {
 
     this.confButton.pointerUp = function(){
       UsefulMethods.print("Pointerup1");
-      that.scene.get("Level_1").time.addEvent({ delay: 210, callback: function () { that.scene.start('mainMenu'); }, callbackScope: this, loop: false });
-   
+      that.cameras.main.fadeOut(200);
+      that.scene.get("Level_"+that.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { that.scene.start("GameOver"); }, callbackScope: this, loop: false });
+    
     }
 
     this.exitText = this.add.text(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(33.33, "y", this), "Are you sure you want to return?", { fontFamily: '"amazingkids_font"', fontSize: 48, color: 'white' });
@@ -167,13 +172,14 @@ export default class level1 extends Phaser.Scene {
         }
         
     }
-    
 
     //Creamos los enemigos
     this.createEnemies();
 
     // DEBUG BORRAR.
-    this.testingText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(25, "y", this), "", { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
+    this.testingText = this.add.text(UsefulMethods.RelativePosition(-42.3, "x", this), UsefulMethods.RelativePosition(-37, "y", this), "", { fontFamily: '"amazingkids_font"', fontSize: 36, color: 'black' });
+    this.testingText.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+    this.testingText.scaleY = this.testingText.scaleX;
     //this.testingText.setOrigin(0.5, 0,5);
     //this.testingText2 = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(30, "y", this), "Energía: " + this.enemies[0].stamina, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     //this.testingText2.setOrigin(0.5, 0,5);
@@ -200,16 +206,16 @@ export default class level1 extends Phaser.Scene {
 
     this.gnomeHead = this.add.sprite(this.healthBar.x - UsefulMethods.RelativePosition(2, "x", this), this.healthBar.y + UsefulMethods.RelativePosition(1, "y", this), 'GnomeHead');
 
-    this.gnomeHead.scaleX = this.player.scaleX/2;
-    this.gnomeHead.scaleY = this.player.scaleY/2;
+    this.gnomeHead.scaleX = this.player.scaleX / 2;
+    this.gnomeHead.scaleY = this.player.scaleY / 2;
     this.gnomeHead.setDepth(16);
-    
+
     this.uiContainer.add(this.healthBarBackground);
     this.uiContainer.add(this.whiteHealthBar);
     this.uiContainer.add(this.healthBar);
     this.uiContainer.add(this.gnomeHead);
-   
-    
+
+
 
     /*this.testingText.setScrollFactor(0);
     this.testingText2.setScrollFactor(0);
@@ -226,14 +232,14 @@ export default class level1 extends Phaser.Scene {
     // var streetLight = new StreetLight({scene:this, x:50, y:90, texture:'StreetLight', frame:4, scale:0.0225});
     // this.lights.enable().setAmbientColor(0xc3c3c3);
 
-    
+
     this.createFences();
-    
+
     this.InitPlayer();
     this.InitColliders();
   }
-  
-  createFences(){
+
+  createFences() {
     this.fences = [];
 
     var initialPosition = -40;
@@ -245,9 +251,8 @@ export default class level1 extends Phaser.Scene {
     //fence.setPipeline('Light2D');
 
     var numberOfFences = 20;
-    
-    while(fence.x < this.floors[0].width * this.floors[0].scaleX *3)
-    {
+
+    while (fence.x < this.floors[0].width * this.floors[0].scaleX * 3) {
       initialPosition += 12;
       fence = this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence');
       this.fences.push(fence);
@@ -258,44 +263,19 @@ export default class level1 extends Phaser.Scene {
     }
   }
 
-  createRandomSprites(sprites, maxDistance, depth, initX, minX, maxX, minY, maxY) {
-    var nextSpritePositionX = initX;
-    var nextSpritePositionY = minY;
-
-    while(nextSpritePositionX < UsefulMethods.RelativePosition(maxDistance, 'x', this))
-    {
-      var object = this.add.sprite(
-        UsefulMethods.RelativePosition(nextSpritePositionX, "x", this),
-        UsefulMethods.RelativePosition(nextSpritePositionY, "y", this),
-        Math.random() <= 0.8 ? sprites[0] : sprites[(Math.floor((1 + Math.random() * (sprites.length - 1))))]).setDepth(depth);
-      
-        object.setOrigin(0.5, 1);
-      //object.setPipeline('Light2D');
-
-      object.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
-      object.scaleY = object.scaleX;
-      nextSpritePositionX = nextSpritePositionX + (Math.random() * (maxX - minX) + minX);
-      nextSpritePositionY = (Math.random() * (maxY - minY) + minY);
-    }
-  }
-
-
   //Método para crear a los enemigos.
   createEnemies() {
-
- 
-
     this.enemies = [];
 
     this.enemies.push(new Enemy({
       scene: this, x: (this.floors[0].x + (this.floors[0].width) * (this.floors[0].scaleX) * 0.5), y: 75,
-      texture: 'IdlePlant', 
-      frame: 0, 
-      attackTime: 0.55, 
-      window: 0.45, 
+      texture: 'IdlePlant',
+      frame: 0,
+      attackTime: 0.55,
+      window: 0.45,
       stamina: 2,
-      hp: 2, 
-      idleAnimation: 'PlantIdleAnim', 
+      hp: 2,
+      idleAnimation: 'PlantIdleAnim',
       attackAnimation: 'PlantAttackAnim'
     }));
 
@@ -317,13 +297,13 @@ export default class level1 extends Phaser.Scene {
 
     this.enemies.push(new Enemy({
       scene: this, x: (this.floors[1].x + (this.floors[1].width) * (this.floors[1].scaleX) * 0.5), y: 75,
-      texture: 'IdleSnail', 
-      frame: 0, 
-      attackTime: 0.85, 
-      window: 0.45, 
-      stamina: 2, 
-      hp: 5, 
-      idleAnimation: 'SnailIdleAnim', 
+      texture: 'IdleSnail',
+      frame: 0,
+      attackTime: 0.85,
+      window: 0.45,
+      stamina: 2,
+      hp: 5,
+      idleAnimation: 'SnailIdleAnim',
       attackAnimation: 'SnailAttackAnim'
     }));
 
@@ -332,15 +312,13 @@ export default class level1 extends Phaser.Scene {
       texture: 'IdleMushroom', frame: 0, attackTime: 0.55, window: 0.45, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim'
     }));
 
-
-    this.arrow = this.add.sprite(this.enemies[0].x, this.enemies[0].y - UsefulMethods.RelativePosition(15,'y' , this), 'Arrow');
-    this.arrow.scaleX = UsefulMethods.RelativeScale(0.01 , 'x' , this);
+    this.arrow = this.add.sprite(this.enemies[0].x, this.enemies[0].y - UsefulMethods.RelativePosition(15, 'y', this), 'Arrow');
+    this.arrow.scaleX = UsefulMethods.RelativeScale(0.01, 'x', this);
     this.arrow.scaleY = this.arrow.scaleX;
     this.arrow.setAlpha(0);
     this.arrow.setDepth(15);
 
-    this.enemies.forEach(element => { element.create();});
-
+    this.enemies.forEach(element => { element.create(); });
   }
 
   /**
@@ -355,33 +333,38 @@ export default class level1 extends Phaser.Scene {
   }
 
 
-  RepeatElement(element, distance, times, yCoord, depth){
-    for(var i = 0; i < times; i++){
-      this.repeatedElement = this.add.sprite(0 + distance*i, UsefulMethods.RelativePosition(yCoord, "y", this), element, );
+  RepeatElement(element, distance, times, yCoord, depth) {
+    for (var i = 0; i < times; i++) {
+      this.repeatedElement = this.add.sprite(0 + distance * i, UsefulMethods.RelativePosition(yCoord, "y", this), element,);
       this.repeatedElement.setDepth(depth);
     }
   }
 
-  newFloor(){
+  newFloor() {
 
-    this.skys[this.currentFloor].x= this.skys[0].width * this.skys[0].scaleX * this.nextFloor;
+    this.skys[this.currentFloor].x = this.skys[0].width * this.skys[0].scaleX * this.nextFloor;
 
     //this.RepeatElement('BaseSky1', this.skys[0].width, 2, 105, -11);
 
-    var distance = this.floors[this.currentFloor].x + this.floors[0].width * this.floors[0].scaleX-500;
+    var distance = this.floors[this.currentFloor].x + this.floors[0].width * this.floors[0].scaleX - 500;
 
-    this.floors[this.currentFloor].x = this.floors[0].width*this.nextFloor* this.floors[0].scaleX;
+    this.floors[this.currentFloor].x = this.floors[0].width * this.nextFloor * this.floors[0].scaleX;
+
+    this.props[this.currentFloor][0].x = this.floors[0].width * this.nextFloor * this.floors[this.currentFloor].scaleX;
+    this.props[this.currentFloor][1].x = this.floors[0].width * this.nextFloor * this.floors[this.currentFloor].scaleX;
+
+    console.log(this.currentfloor);
 
     var initialPosition = this.floors[this.currentFloor].x;
 
     var maxDistance = 0;
-    for(var i = 0; i < this.fences.length; i++){
-      if(this.fences[i].x > maxDistance){
+    for (var i = 0; i < this.fences.length; i++) {
+      if (this.fences[i].x > maxDistance) {
         maxDistance = this.fences[i].x;
       }
     }
-    for(var i = 0; i < this.fences.length; i++){
-      if(this.fences[i].x < distance){
+    for (var i = 0; i < this.fences.length; i++) {
+      if (this.fences[i].x < distance) {
         maxDistance += UsefulMethods.RelativePosition(12, "x", this);
         this.fences[i].x = maxDistance;
       }
@@ -400,83 +383,82 @@ export default class level1 extends Phaser.Scene {
     // this.nextFloor.setPipeline('Light2D');
 
     var randomEnemy = Phaser.Math.Between(1, 5);
-    switch(randomEnemy){
+    switch (randomEnemy) {
       case 1:
         this.enemies.push(new Enemy({
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
-          texture: 'IdleSnail', 
-          frame: 0, 
-          attackTime: 0.85, 
-          window: 0.45, 
-          stamina: Phaser.Math.Between(2, 4), 
-          hp: Phaser.Math.Between(8, 15), 
-          idleAnimation: 'SnailIdleAnim', 
+          texture: 'IdleSnail',
+          frame: 0,
+          attackTime: 0.85,
+          window: 0.45,
+          stamina: Phaser.Math.Between(2, 4),
+          hp: Phaser.Math.Between(8, 15),
+          idleAnimation: 'SnailIdleAnim',
           attackAnimation: 'SnailAttackAnim'
         }));
         break;
       case 2:
         this.enemies.push(new Enemy({
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
-          texture: 'IdleCactus', 
-          frame: 0, 
-          attackTime: 1.05, 
-          window: 0.45, 
-          stamina: Phaser.Math.Between(4, 7), 
-          hp: Phaser.Math.Between(3, 6), 
-          idleAnimation: 'CactusIdleAnim', 
+          texture: 'IdleCactus',
+          frame: 0,
+          attackTime: 1.05,
+          window: 0.45,
+          stamina: Phaser.Math.Between(4, 7),
+          hp: Phaser.Math.Between(3, 6),
+          idleAnimation: 'CactusIdleAnim',
           attackAnimation: 'CactusAttackAnim'
         }));
-        break;  
-      case 3: 
+        break;
+      case 3:
         this.enemies.push(new Enemy({
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
-          texture: 'IdleMushroom', 
-          frame: 0, 
-          attackTime: 0.55, 
-          window: 0.45, 
-          stamina: Phaser.Math.Between(2, 3), 
-          hp: Phaser.Math.Between(4, 8), 
-          idleAnimation: 'MushroomIdleAnim', 
+          texture: 'IdleMushroom',
+          frame: 0,
+          attackTime: 0.55,
+          window: 0.45,
+          stamina: Phaser.Math.Between(2, 3),
+          hp: Phaser.Math.Between(4, 8),
+          idleAnimation: 'MushroomIdleAnim',
           attackAnimation: 'MushroomAttackAnim'
-        })); 
+        }));
         break;
       case 4:
         this.enemies.push(new Enemy({
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
-          texture: 'IdlePlant', 
-          frame: 0, 
-          attackTime: 0.55, 
-          window: 0.45, 
-          stamina: Phaser.Math.Between(1, 3), 
-          hp: Phaser.Math.Between(10, 14), 
-          idleAnimation: 'PlantIdleAnim', 
+          texture: 'IdlePlant',
+          frame: 0,
+          attackTime: 0.55,
+          window: 0.45,
+          stamina: Phaser.Math.Between(1, 3),
+          hp: Phaser.Math.Between(10, 14),
+          idleAnimation: 'PlantIdleAnim',
           attackAnimation: 'PlantAttackAnim'
-        }));  
+        }));
         break;
       case 5:
         this.enemies.push(new Enemy({
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
-          texture: 'IdleFrog', 
-          frame: 0, 
-          attackTime: 0.8, 
-          window: 0.5, 
-          stamina: Phaser.Math.Between(1, 2), 
-          hp: Phaser.Math.Between(12, 20), 
-          idleAnimation: 'FrogIdleAnim', 
+          texture: 'IdleFrog',
+          frame: 0,
+          attackTime: 0.8,
+          window: 0.5,
+          stamina: Phaser.Math.Between(1, 2),
+          hp: Phaser.Math.Between(12, 20),
+          idleAnimation: 'FrogIdleAnim',
           attackAnimation: 'FrogAttackAnim'
-        }));  
+        }));
         break;
     }
-
-    
 
     this.physics.add.collider(this.enemies[this.nextFloor], this.floors[this.currentFloor]);
     this.physics.add.collider(this.enemies[this.nextFloor].collision, this.floors[this.currentFloor]);
     this.enemies[this.nextFloor].create();
-    
+
     var enemy = this.enemies[this.nextFloor];
     var combat = function () {
       this.player.canMove = false;
+      this.player.anims.play('GnomeStopAnim');
       
       this.currentEnemy = enemy;
       this.combatHappening = true;
@@ -497,7 +479,7 @@ export default class level1 extends Phaser.Scene {
 
     this.nextFloor++;
     this.currentFloor++;
-    if(this.currentFloor == 3){
+    if (this.currentFloor == 3) {
       this.currentFloor = 0;
     }
 
@@ -509,22 +491,21 @@ export default class level1 extends Phaser.Scene {
   InitFloor() {
     this.floors = [];
     this.skys = [];
+    this.props = [];
 
     var floorDistance = 2289;
-    this.currentFloor = 0;
-    this.nextFloor = 3;
 
-    this.skys.push(this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', ));
+    this.skys.push(this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1',));
     this.skys[0].setDepth(-11);
     this.skys[0].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     //this.skys[0].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
 
-    this.skys.push(this.add.sprite(this.skys[0].width * this.skys[0].scaleX, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', ));
+    this.skys.push(this.add.sprite(this.skys[0].width * this.skys[0].scaleX, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1',));
     this.skys[1].setDepth(-11);
     this.skys[1].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     //this.skys[1].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
 
-    this.skys.push(this.add.sprite(this.skys[0].width*2*this.skys[0].scaleX, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1', ));
+    this.skys.push(this.add.sprite(this.skys[0].width * 2 * this.skys[0].scaleX, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1',));
     this.skys[2].setDepth(-11);
     this.skys[2].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     //this.skys[2].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
@@ -536,18 +517,26 @@ export default class level1 extends Phaser.Scene {
     this.floors[0].body.setOffset(0, 80);
     this.floors[0].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     this.floors[0].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
-   // this.floor.setPipeline('Light2D');
+    // this.floor.setPipeline('Light2D');
 
-    this.floors.push(this.physics.add.sprite( this.floors[0].x +  this.floors[0].width* this.floors[0].scaleX, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1'));
+    this.props.push(
+      this.createPropsContainer(this.floors[0])
+    );
+
+    this.floors.push(this.physics.add.sprite(this.floors[0].x + this.floors[0].width * this.floors[0].scaleX, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1'));
     this.floors[1].setDepth(-9);
     this.floors[1].body.allowGravity = false;
     this.floors[1].body.immovable = true;
     this.floors[1].body.setOffset(0, 80);
     this.floors[1].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
-   // this.floor1.setPipeline('Light2D');
     this.floors[1].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
+    // this.floor1.setPipeline('Light2D');
 
-    this.floors.push(this.physics.add.sprite( this.floors[0].x +  this.floors[0].width* this.floors[0].scaleX*2, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1'));
+    this.props.push(
+      this.createPropsContainer(this.floors[1])
+    );
+
+    this.floors.push(this.physics.add.sprite(this.floors[0].x + this.floors[0].width * this.floors[0].scaleX * 2, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1'));
     this.floors[2].setDepth(-9);
     this.floors[2].body.allowGravity = false;
     this.floors[2].body.immovable = true;
@@ -556,8 +545,9 @@ export default class level1 extends Phaser.Scene {
     this.floors[2].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
     //this.floor2.setPipeline('Light2D');
 
-    this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], this.floors[0].width * this.floors[0].scaleX, -7, -40, 14, 20, 106, 108);
-    this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], this.floors[0].width * this.floors[0].scaleX, 7, -30, 14, 20, 110, 118);
+    this.props.push(
+      this.createPropsContainer(this.floors[2])
+    );
 
     // this.floor.scaleX = UsefulMethods.RelativeScale(0.1, "x", this);
     // this.floor.scaleY = this.floor.scaleX;
@@ -573,6 +563,43 @@ export default class level1 extends Phaser.Scene {
     // this.floor3 = this.physics.add.sprite(UsefulMethods.RelativePosition(135, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'Floor', 4);
     // this.floor3.body.allowGravity = false;
     // this.floor3.body.immovable = true;
+  }
+
+  createRandomSprites(sprites, maxDistance, depth, initX, minX, maxX, minY, maxY) {
+    var spritesContainer = this.add.container(0, 0);
+    spritesContainer.setDepth(depth);
+
+    var nextSpritePositionX = UsefulMethods.UnrelativePosition(initX, "x", this) + (Math.random() * (maxX - minX) + minX);
+    var nextSpritePositionY = (Math.random() * (maxY - minY) + minY);
+
+    while (nextSpritePositionX < UsefulMethods.UnrelativePosition(initX + maxDistance, "x", this)) {
+      var object = this.add.sprite(
+        UsefulMethods.RelativePosition(nextSpritePositionX, "x", this),
+        UsefulMethods.RelativePosition(nextSpritePositionY, "y", this),
+        Math.random() <= 0.8 ? sprites[0] : sprites[(Math.floor((1 + Math.random() * (sprites.length - 1))))]);
+
+      object.setOrigin(0.5, 1);
+      //object.setPipeline('Light2D');
+      object.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
+      object.scaleY = object.scaleX;
+      object.scaleX = Math.random() <= 0.5 ? object.scaleX : -object.scaleX;
+
+      spritesContainer.add(object);
+
+      nextSpritePositionX = nextSpritePositionX + (Math.random() * (maxX - minX) + minX);
+      nextSpritePositionY = (Math.random() * (maxY - minY) + minY);
+    }
+
+
+
+    return spritesContainer;
+  }
+
+  createPropsContainer(floor) {
+    return [
+      this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width, -7, floor.x - floor.originX * floor.width, 9, 30, 106, 108),
+      this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width, 7, floor.x - floor.originX * floor.width - UsefulMethods.RelativePosition(5, 'x', this), 9, 30, 112, 114)
+    ];
   }
 
   /**
@@ -606,24 +633,23 @@ export default class level1 extends Phaser.Scene {
     this.wall_right = this.walls.create(825, this.height / 2, 'wall');
     this.wall_right.setAlpha(0);
 
-    this.physics.add.collider(this.player,  this.floors[0]);
-    this.physics.add.collider(this.player,  this.floors[1]);
-    this.physics.add.collider(this.player,  this.floors[2]);
+    this.physics.add.collider(this.player, this.floors[0]);
+    this.physics.add.collider(this.player, this.floors[1]);
+    this.physics.add.collider(this.player, this.floors[2]);
     this.physics.add.collider(this.player, this.floor3);
-
-    // PROVISIONAL. Lo suyo sería:
+    
     this.enemies.forEach(element => {
 
       this.floors.forEach(element2 => {
-        this.physics.add.collider(element,  element2);
-        this.physics.add.collider(element.collision,  element2);
-  
+        this.physics.add.collider(element, element2);
+        this.physics.add.collider(element.collision, element2);
+
         // this.physics.add.collider(element,  this.floors[1]);
         // this.physics.add.collider(element.collision,  this.floors[1]);
-  
+
         // this.physics.add.collider(element,  this.floors[2]);
         // this.physics.add.collider(element.collision,  this.floors[2]);
-      })   
+      })
     });
 
     // this.physics.add.collider(this.enemies[0], this.floor1);
@@ -640,6 +666,7 @@ export default class level1 extends Phaser.Scene {
     this.enemies.forEach(element => {
       var combat = function () {
         that.player.canMove = false;
+        that.player.anims.play('GnomeStopAnim');
         
         that.currentEnemy = element;
         that.combatHappening = true;
@@ -647,15 +674,15 @@ export default class level1 extends Phaser.Scene {
         element.attack();
         element.createBars();
         element.collision.destroy();
-        
+
         this.cameras.main.setLerp(0.09, 0.09);
         that.cameras.main.setFollowOffset(-that.cameraOffsetInCombat);
         that.cameras.main.zoomTo(that.cameraZoomInCombat, 300, 'Sine.easeInOut');
 
-        if(!this.firstCombat){
+        if (!this.firstCombat) {
           this.newFloor();
         }
-        this.firstCombat = false;       
+        this.firstCombat = false;
         //that.resizeText();
 
       };
@@ -663,7 +690,7 @@ export default class level1 extends Phaser.Scene {
     });
   }
 
-  resizeText(){
+  resizeText() {
     this.testingText.scaleX = this.testingText.scaleX / this.cameraZoomInCombat;
     this.testingText.scaleY = this.testingText.scaleY / this.cameraZoomInCombat;
     this.testingText.x = this.testingText.x / this.cameraZoomInCombat + this.cameraOffsetInCombat;

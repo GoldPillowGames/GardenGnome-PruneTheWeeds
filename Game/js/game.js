@@ -39,6 +39,5 @@ var isWeb = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.te
     antialias: true
   };
 
-  
 var game = new Phaser.Game(config);
 
