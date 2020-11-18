@@ -48,7 +48,9 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('LogoJuego', 'assets/main-menu/logo.png');
         this.load.image('gnome-dead', ['assets/character/gnome-dead.png', 'assets/character/gnome-dead_n.png']);
 
-        
+        this.load.audio('theme1', 'assets/audio/level1.wav');
+        this.load.audio('menu-theme', 'assets/audio/menu-theme.wav');
+        this.load.audio('battle-theme1', 'assets/audio/battle-theme1.wav');
 
         this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
             frameWidth: 64,
@@ -166,7 +168,6 @@ export default class LoadingScreen extends Phaser.Scene {
             var isPC = !(that.sys.game.device.os.android || that.sys.game.device.os.iOS || that.sys.game.device.os.iPad || that.sys.game.device.os.iPhone);
             isPC ? loadingText.setText('Click anywhere to start') : loadingText.setText('Touch anywhere to start');
         })
-
     }
     
     loadAssetsEnemies(){

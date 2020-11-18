@@ -10,6 +10,7 @@
  */
 
 import UsefulMethods from './useful-methods.js';
+import SoundManager from './sound-manager.js';
 import Enemy from './enemy.js';
 import Button from './button.js';
 import Player from './player.js';
@@ -67,6 +68,7 @@ export default class level1 extends Phaser.Scene {
     //let that = this;
     this.cameras.main.fadeIn(1000);
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
+    SoundManager.playMusic('theme1', this);
 
     this.darkBackground = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'DarkBackground');
     this.darkBackground.setOrigin(0.5);
@@ -459,6 +461,7 @@ export default class level1 extends Phaser.Scene {
     var combat = function () {
       this.player.canMove = false;
       this.player.anims.play('GnomeStopAnim');
+      SoundManager.playMusic('battle-theme1', this);
       
       this.currentEnemy = enemy;
       this.combatHappening = true;
@@ -667,7 +670,7 @@ export default class level1 extends Phaser.Scene {
       var combat = function () {
         that.player.canMove = false;
         that.player.anims.play('GnomeStopAnim');
-        
+        SoundManager.playMusic('battle-theme1', this);
         that.currentEnemy = element;
         that.combatHappening = true;
         
