@@ -229,14 +229,13 @@ Idle
 Ataque
 
 ## Calendario
-
-| Hito | Fecha
-| ----------- | ----------- | ----------- |
+| Hito | Fecha |
+| ----------- | ----------- |
 | Inicio del proyecto | 09/10/2020 |
 | Definición de la paleta de colores | 19/10/2020 |
-| Assets comunes y de los escenarios |  |
-| Animaciones de enemigos parametrizadas |  |
-| Juego infinito, dificulad, y barras de vida |  |
+| Assets comunes y de los escenarios | 29/10/2020 |
+| Animaciones de enemigos parametrizadas | 10/11/2020 |
+| Juego infinito, dificulad, y barras de vida | 15/11/2020 |
 | Spritesheets del personaje | 16/11/2020 |
 | Importación de los assets al proyecto de Phaser | 16/11/2020 |
 | Fin del proyecto | 19/11/2020 |
