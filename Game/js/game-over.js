@@ -35,7 +35,6 @@ export default class GameOver extends Phaser.Scene {
         light.y = pointer.y;
       });
       
-      
     }
     var light = this.lights.addLight(0, 0, 100000, 0xe6fcf5, 0.2);
     this.lights.enable().setAmbientColor(0xc3c3c3);
@@ -53,7 +52,11 @@ export default class GameOver extends Phaser.Scene {
     this.gameOverText = this.add.text(UsefulMethods.RelativePosition(72, "x", this), UsefulMethods.RelativePosition(25, "y", this), "GAME OVER", { fontFamily: '"amazingkids_font"', fontSize: 102, color: '#ff5e5e' });
     this.gameOverText.setOrigin(0.5, 0.5);
 
-    this.scoreText = this.add.text(UsefulMethods.RelativePosition(72, "x", this), UsefulMethods.RelativePosition(38, "y", this), "Score: " + this.sys.game.score, { fontFamily: '"amazingkids_font"', fontSize: 42, color: 'white' });
+    this.axeIcon = this.add.image(UsefulMethods.RelativePosition(68, "x", this), UsefulMethods.RelativePosition(38, "y", this), 'AxeIconBorderless');
+    this.axeIcon.scaleX = UsefulMethods.RelativeScale(0.008, 'x', this);
+    this.axeIcon.scaleY = this.axeIcon.scaleX;
+
+    this.scoreText = this.add.text(UsefulMethods.RelativePosition(72, "x", this), UsefulMethods.RelativePosition(38, "y", this), this.sys.game.score, { fontFamily: '"amazingkids_font"', fontSize: 42, color: 'white' });
     this.scoreText.setOrigin(0.5, 0.5);
 
     this.confirmationText = this.add.text(UsefulMethods.RelativePosition(72, "x", this), UsefulMethods.RelativePosition(55, "y", this), "Try again?", { fontFamily: '"amazingkids_font"', fontSize: 52, color: 'white' });

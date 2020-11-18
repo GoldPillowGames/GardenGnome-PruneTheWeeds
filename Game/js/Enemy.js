@@ -359,7 +359,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                             this.scene.cameras.main.rotateTo(0, true, 800, 'Cubic.easeOut');
                             this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 800, 'Expo.easeOut');
 
-                            this.scene.player.score += this.maxHP * 10;
+                            this.scene.player.score++; //+= this.maxHP * 10;
 
                             this.scene.uiContainer.setScrollFactor(0);
                         }

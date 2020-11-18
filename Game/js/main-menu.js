@@ -180,7 +180,7 @@ export default class MainMenu extends Phaser.Scene {
         this.level1Button.create();
         this.level1Button.pointerUp = function () {
             text.setText("Select a Difficulty Level");
-            levelName = 'Level_1';
+            levelName = 'GameOver';
             that.ShowButtons(difficultyButtons);
             this.playPressedButtonArray(levelButtons);
         }

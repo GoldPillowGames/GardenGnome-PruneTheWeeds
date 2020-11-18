@@ -75,6 +75,7 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Settings-Menu-Background', 'assets/test/settings-menu-background.png');
         this.load.image('GnomeHead' , 'assets/character/gnomehead.png');
         this.load.image('AxeIcon', 'assets/main-menu/score-icon.png');
+        this.load.image('AxeIconBorderless', 'assets/main-menu/score-icon-borderless.png');
 
         this.load.image('Exit' , 'assets/props/exit.png');
 
