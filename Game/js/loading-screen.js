@@ -36,6 +36,9 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('BaseFloor1', ['assets/Level 1/sueloTileado.png', 'assets/Level 1/sueloTileado_n.png']);
         this.load.image('BaseSky1', 'assets/Level 1/cielo_base2.png');
 
+        this.load.image('BaseFloor2', 'assets/Level 2/sueloTileadoNoche.png');
+        this.load.image('BaseSky2', 'assets/Level 2/cielo_base_noche.png');
+
         this.load.image('MetalFence', 'assets/props/metal_fence.png');
         this.load.image('WoodFence', ['assets/props/wood_fence_small.png', 'assets/props/wood_fence_small_n.png']);
         this.load.image('Grass', ['assets/props/grass.png', 'assets/props/grass_n.png']);
@@ -44,7 +47,7 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Shovel3', ['assets/props/shovel3.png', 'assets/props/shovel3_n.png']);
         this.load.image('Rake', ['assets/props/rake.png', 'assets/props/rake_n.png']);
         this.load.image('StreetLight', 'assets/test/lightplaceholder.png');
-        this.load.image('DarkBackground', 'assets/end-game-background.png');
+        this.load.image('DarkBackground', 'assets/end-game-backgroundLittle.png');
         this.load.image('LogoJuego', 'assets/main-menu/logo.png');
         this.load.image('House', 'assets/props/house.png');
         this.load.image('gnome-dead', ['assets/character/gnome-dead.png', 'assets/character/gnome-dead_n.png']);

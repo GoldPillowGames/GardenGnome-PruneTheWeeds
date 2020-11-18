@@ -10,6 +10,7 @@
  */
 
 import UsefulMethods from './useful-methods.js';
+import SoundManager from './sound-manager.js';
 import Enemy from './enemy.js';
 import Button from './button.js';
 import Player from './player.js';
@@ -44,7 +45,7 @@ export default class level2 extends Phaser.Scene {
     this.cameraZoomInCombat = 1.1;
     this.cameraZoomWhenKilling = 1.3;
     this.cameraOffsetInCombat = 100;
-    this.cameraRotationWhenKilling = 0.04;
+    this.cameraRotationWhenKilling = 0.01;
 
     this.combatHappening = false;
     this.currentEnemy;
@@ -55,18 +56,16 @@ export default class level2 extends Phaser.Scene {
     this.firstCombat = true;
     this.hardMode = this.scene.get("mainMenu").hardMode;
 
-    this.sys.game.levelIndex = 2;
+    this.sys.game.levelIndex = 1;
     // #endregion
   }
 
-
-
-
-
   create() {
+    var that = this;
     //let that = this;
     this.cameras.main.fadeIn(1000);
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
+    this.sys.game.currentMusic = SoundManager.playMusic('theme1', this);
 
     this.darkBackground = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'DarkBackground');
     this.darkBackground.setOrigin(0.5);
@@ -77,12 +76,15 @@ export default class level2 extends Phaser.Scene {
     this.darkBackground.scaleX = UsefulMethods.RelativeScale(100, "x", this);
     this.darkBackground.scaleY = UsefulMethods.RelativeScale(100, "y", this);
 
+    var house = this.add.sprite(UsefulMethods.RelativePosition(-35, "x", this), UsefulMethods.RelativePosition(83, "y", this), "House").setOrigin(0.5, 0.5).setDepth(8);
+    house.scaleX = UsefulMethods.RelativeScale(0.079, "x", this);
+    house.scaleY = house.scaleX;
+
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 0 , HP: 5});
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2 , HP: 5});
     this.player.create();
     this.player.body.setOffset(0, -20);
-
-    var that = this;
+    // this.player.onDie = () => {SoundManager.stopMusic(that.sys.game.currentMusic);}
 
     this.inputManager = new InputManager(this);
     this.inputManager.create();
@@ -92,7 +94,7 @@ export default class level2 extends Phaser.Scene {
     this.uiContainer.create();
 
     this.InitFloor();
-    
+
     this.exitButton = new Button({ scene: this, x: 100, y: 3.8,  texture: 'Exit', frame: 0, scale: 0.0125});
     this.exitButton.create();
     this.exitButton.setScrollFactor(0);
@@ -108,8 +110,11 @@ export default class level2 extends Phaser.Scene {
     this.confButton.pointerUp = function(){
       UsefulMethods.print("Pointerup1");
       that.cameras.main.fadeOut(200);
+      SoundManager.playSound('ButtonSound', that);
+      SoundManager.stopMusic(that.sys.game.currentMusic);
       that.scene.get("Level_"+that.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { that.scene.start("mainMenu"); }, callbackScope: this, loop: false });
     
+      
     }
 
     this.exitText = this.add.text(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(33.33, "y", this), "Are you sure you want to return?", { fontFamily: '"amazingkids_font"', fontSize: 48, color: 'white' });
@@ -133,6 +138,7 @@ export default class level2 extends Phaser.Scene {
   
 
     this.denyButton.pointerUp = function () {
+      SoundManager.playSound('ButtonSound', that);
       that.darkBackground.active = false;
           that.darkBackground.setAlpha(0);
           that.player.canMove = true;
@@ -145,6 +151,7 @@ export default class level2 extends Phaser.Scene {
     }
 
     this.exitButton.pointerUp = function () {
+      SoundManager.playSound('ButtonSound', that);
       UsefulMethods.print("Pointerup3");
         if(!that.darkBackground.active){
           that.darkBackground.active = true;
@@ -172,13 +179,19 @@ export default class level2 extends Phaser.Scene {
         }
         
     }
-    
 
     //Creamos los enemigos
     this.createEnemies();
 
     // DEBUG BORRAR.
-    this.testingText = this.add.text(UsefulMethods.RelativePosition(-44, "x", this), UsefulMethods.RelativePosition(-32, "y", this), "", { fontFamily: '"amazingkids_font"', fontSize: 36, color: 'black' });
+    this.axeIcon = this.add.image(UsefulMethods.RelativePosition(-41, "x", this), UsefulMethods.RelativePosition(-34, "y", this), 'AxeIcon');
+    this.axeIcon.setDepth(10);
+    this.axeIcon.scaleX = UsefulMethods.RelativeScale(0.008, 'x', this);
+    this.axeIcon.scaleY = this.axeIcon.scaleX;
+
+    this.scoreText = this.add.text(UsefulMethods.RelativePosition(-38, "x", this), UsefulMethods.RelativePosition(-37, "y", this), "", { fontFamily: '"amazingkids_font"', fontSize: 36, color: 'white', stroke: 'black', strokeThickness: 7 });
+    this.scoreText.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+    this.scoreText.scaleY = this.scoreText.scaleX;
     //this.testingText.setOrigin(0.5, 0,5);
     //this.testingText2 = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(30, "y", this), "Energía: " + this.enemies[0].stamina, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     //this.testingText2.setOrigin(0.5, 0,5);
@@ -213,7 +226,7 @@ export default class level2 extends Phaser.Scene {
     this.uiContainer.add(this.whiteHealthBar);
     this.uiContainer.add(this.healthBar);
     this.uiContainer.add(this.gnomeHead);
-
+    this.uiContainer.add(this.axeIcon);
 
 
     /*this.testingText.setScrollFactor(0);
@@ -222,7 +235,7 @@ export default class level2 extends Phaser.Scene {
     this.coolDownText.setScrollFactor(0);
     this.playerHPText.setScrollFactor(0);*/
 
-    this.uiContainer.add(this.testingText);
+    this.uiContainer.add(this.scoreText);
     //this.uiContainer.add(this.testingText2);
     //this.uiContainer.add(this.testingText3);
     this.uiContainer.add(this.coolDownText);
@@ -270,8 +283,8 @@ export default class level2 extends Phaser.Scene {
       scene: this, x: (this.floors[0].x + (this.floors[0].width) * (this.floors[0].scaleX) * 0.5), y: 75,
       texture: 'IdlePlant',
       frame: 0,
-      attackTime: 0.55,
-      window: 0.45,
+      attackTime: 0.45,
+      window: 0.55,
       stamina: 2,
       hp: 2,
       idleAnimation: 'PlantIdleAnim',
@@ -298,8 +311,8 @@ export default class level2 extends Phaser.Scene {
       scene: this, x: (this.floors[1].x + (this.floors[1].width) * (this.floors[1].scaleX) * 0.5), y: 75,
       texture: 'IdleSnail',
       frame: 0,
-      attackTime: 0.85,
-      window: 0.45,
+      attackTime: 0.70,
+      window: 0.60,
       stamina: 2,
       hp: 5,
       idleAnimation: 'SnailIdleAnim',
@@ -308,7 +321,7 @@ export default class level2 extends Phaser.Scene {
 
     this.enemies.push(new Enemy({
       scene: this, x: (this.floors[2].x + (this.floors[2].width) * (this.floors[2].scaleX) * 0.5), y: 75,
-      texture: 'IdleMushroom', frame: 0, attackTime: 0.55, window: 0.45, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim'
+      texture: 'IdleMushroom', frame: 0, attackTime: 0.45, window: 0.55, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim'
     }));
 
     this.arrow = this.add.sprite(this.enemies[0].x, this.enemies[0].y - UsefulMethods.RelativePosition(15, 'y', this), 'Arrow');
@@ -349,10 +362,8 @@ export default class level2 extends Phaser.Scene {
 
     this.floors[this.currentFloor].x = this.floors[0].width * this.nextFloor * this.floors[0].scaleX;
 
-    this.props[this.currentFloor][0].x = this.floors[0].width * this.nextFloor * this.floors[this.currentFloor].scaleX;
-    this.props[this.currentFloor][1].x = this.floors[0].width * this.nextFloor * this.floors[this.currentFloor].scaleX;
-
-    console.log(this.currentfloor);
+    this.props[this.currentFloor][0].x += 3 * this.floors[0].width * this.floors[0].scaleX;
+    this.props[this.currentFloor][1].x += 3 * this.floors[0].width * this.floors[0].scaleX;
 
     var initialPosition = this.floors[this.currentFloor].x;
 
@@ -458,6 +469,8 @@ export default class level2 extends Phaser.Scene {
     var combat = function () {
       this.player.canMove = false;
       this.player.anims.play('GnomeStopAnim');
+      SoundManager.stopMusic(this.sys.game.currentMusic);
+      this.sys.game.currentMusic = SoundManager.playMusic('battle-theme1', this);
       
       this.currentEnemy = enemy;
       this.combatHappening = true;
@@ -494,22 +507,22 @@ export default class level2 extends Phaser.Scene {
 
     var floorDistance = 2289;
 
-    this.skys.push(this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1',));
+    this.skys.push(this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'BaseSky2',));
     this.skys[0].setDepth(-11);
     this.skys[0].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     //this.skys[0].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
 
-    this.skys.push(this.add.sprite(this.skys[0].width * this.skys[0].scaleX, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1',));
+    this.skys.push(this.add.sprite(this.skys[0].width * this.skys[0].scaleX, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky2',));
     this.skys[1].setDepth(-11);
     this.skys[1].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     //this.skys[1].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
 
-    this.skys.push(this.add.sprite(this.skys[0].width * 2 * this.skys[0].scaleX, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1',));
+    this.skys.push(this.add.sprite(this.skys[0].width * 2 * this.skys[0].scaleX, UsefulMethods.RelativePosition(105, "y", this), 'BaseSky2',));
     this.skys[2].setDepth(-11);
     this.skys[2].scaleX = UsefulMethods.RelativeScale(0.08, 'x', this);
     //this.skys[2].scaleY = UsefulMethods.RelativeScale(0.12, 'y', this);
 
-    this.floors.push(this.physics.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1'));
+    this.floors.push(this.physics.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor2'));
     this.floors[0].setDepth(-9);
     this.floors[0].body.allowGravity = false;
     this.floors[0].body.immovable = true;
@@ -522,7 +535,7 @@ export default class level2 extends Phaser.Scene {
       this.createPropsContainer(this.floors[0])
     );
 
-    this.floors.push(this.physics.add.sprite(this.floors[0].x + this.floors[0].width * this.floors[0].scaleX, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1'));
+    this.floors.push(this.physics.add.sprite(this.floors[0].x + this.floors[0].width * this.floors[0].scaleX, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor2'));
     this.floors[1].setDepth(-9);
     this.floors[1].body.allowGravity = false;
     this.floors[1].body.immovable = true;
@@ -535,7 +548,7 @@ export default class level2 extends Phaser.Scene {
       this.createPropsContainer(this.floors[1])
     );
 
-    this.floors.push(this.physics.add.sprite(this.floors[0].x + this.floors[0].width * this.floors[0].scaleX * 2, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor1'));
+    this.floors.push(this.physics.add.sprite(this.floors[0].x + this.floors[0].width * this.floors[0].scaleX * 2, UsefulMethods.RelativePosition(130, "y", this), 'BaseFloor2'));
     this.floors[2].setDepth(-9);
     this.floors[2].body.allowGravity = false;
     this.floors[2].body.immovable = true;
@@ -596,8 +609,8 @@ export default class level2 extends Phaser.Scene {
 
   createPropsContainer(floor) {
     return [
-      this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width, -7, floor.x - floor.originX * floor.width, 9, 30, 106, 108),
-      this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width, 7, floor.x - floor.originX * floor.width - UsefulMethods.RelativePosition(5, 'x', this), 9, 30, 112, 114)
+      this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width * floor.scaleX, -7, floor.x - floor.originX * floor.width * floor.scaleX, 9, 30, 106, 108),
+      this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width * floor.scaleX, 7, floor.x - floor.originX * floor.width * floor.scaleX - UsefulMethods.RelativePosition(5, 'x', this), 9, 30, 112, 114)
     ];
   }
 
@@ -666,7 +679,8 @@ export default class level2 extends Phaser.Scene {
       var combat = function () {
         that.player.canMove = false;
         that.player.anims.play('GnomeStopAnim');
-        
+        SoundManager.stopMusic(this.sys.game.currentMusic);
+        this.sys.game.currentMusic = SoundManager.playMusic('battle-theme1', this);
         that.currentEnemy = element;
         that.combatHappening = true;
         
@@ -690,10 +704,10 @@ export default class level2 extends Phaser.Scene {
   }
 
   resizeText() {
-    this.testingText.scaleX = this.testingText.scaleX / this.cameraZoomInCombat;
-    this.testingText.scaleY = this.testingText.scaleY / this.cameraZoomInCombat;
-    this.testingText.x = this.testingText.x / this.cameraZoomInCombat + this.cameraOffsetInCombat;
-    this.testingText.y = this.testingText.y / this.cameraZoomInCombat;
+    this.scoreText.scaleX = this.scoreText.scaleX / this.cameraZoomInCombat;
+    this.scoreText.scaleY = this.scoreText.scaleY / this.cameraZoomInCombat;
+    this.scoreText.x = this.scoreText.x / this.cameraZoomInCombat + this.cameraOffsetInCombat;
+    this.scoreText.y = this.scoreText.y / this.cameraZoomInCombat;
 
     //Se sigue esta formula para cambiar el tamaño y la posición de la interfaz cuando se cambia el zoom de la camara
 
@@ -703,7 +717,7 @@ export default class level2 extends Phaser.Scene {
    * Método que se ejecuta constantemente, en el de momento solo están los controles de movimiento.
    */
   update(delta) {
-    this.testingText.setText("Score: " + this.player.score);
+    this.scoreText.setText(this.player.score);
 
     //Si currentEnemy existe (lo hace en caso de estar en un combate) se actualizan los textos con sus datos para testear.
     if (this.currentEnemy != null) {
@@ -716,6 +730,7 @@ export default class level2 extends Phaser.Scene {
     }
 
     this.uiContainer.update();
+    this.inputManager.update();
 
     this.whiteHealthBar.scaleX = UsefulMethods.lerp(this.whiteHealthBar.scaleX, this.healthBar.scaleX, 0.15);
     // #region Teclas y movimiento

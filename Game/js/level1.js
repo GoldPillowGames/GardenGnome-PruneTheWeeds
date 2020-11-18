@@ -68,13 +68,13 @@ export default class level1 extends Phaser.Scene {
     this.sys.game.currentMusic = SoundManager.playMusic('theme1', this);
 
     this.darkBackground = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'DarkBackground');
-    this.darkBackground.setOrigin(0.5);
+    this.darkBackground.setOrigin(0.5,0.5);
     this.darkBackground.setDepth(1000);
-    this.darkBackground.setAlpha(1);
+    this.darkBackground.setAlpha(0);
     this.darkBackground.setScrollFactor(0);
     this.darkBackground.active = false;
-    this.darkBackground.scaleX = UsefulMethods.RelativeScale(100, "x", this);
-    this.darkBackground.scaleY = UsefulMethods.RelativeScale(100, "y", this);
+    this.darkBackground.scaleX = UsefulMethods.RelativeScale(0.5, "x", this);
+    this.darkBackground.scaleY = UsefulMethods.RelativeScale(0.5, "y", this);
 
     var house = this.add.sprite(UsefulMethods.RelativePosition(-35, "x", this), UsefulMethods.RelativePosition(83, "y", this), "House").setOrigin(0.5, 0.5).setDepth(8);
     house.scaleX = UsefulMethods.RelativeScale(0.079, "x", this);
