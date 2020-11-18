@@ -226,4 +226,17 @@ Ataque
 ### NPC hostil 5 - Caracol 
 
 Idle 
-Ataque 
+Ataque
+
+## Calendario
+
+| Hito | Fecha
+| ----------- | ----------- | ----------- |
+| Inicio del proyecto | 09/10/2020 |
+| Definición de la paleta de colores | 19/10/2020 |
+| Assets comunes y de los escenarios |  |
+| Animaciones de enemigos parametrizadas |  |
+| Juego infinito, dificulad, y barras de vida |  |
+| Spritesheets del personaje | 16/11/2020 |
+| Importación de los assets al proyecto de Phaser | 16/11/2020 |
+| Fin del proyecto | 19/11/2020 |
