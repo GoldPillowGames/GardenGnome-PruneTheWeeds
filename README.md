@@ -107,4 +107,125 @@ El título se ubica en la parte superior con una leve animación de escalado eje
 
 En cuanto a la transición inicial, esta comienza con un fade in de 200 milisegundos de duración a la par que los tres botones de la mitad inferior de la pantalla ascienden mientras rotan levemente en un ángulo de 45º hasta colocarse en sus respectivos lugares. 
 
+[imagen 9]
+
+Si se pulsa el botón de jugar (el del centro), los 3 botones desaparecerán con una animación, para aparecer otros 2 botones. Aquí el jugador podrá elegir entre uno de los 2 escenarios disponibles para jugar. Cuando esto suceda, de nuevo desaparecerán los botones y aparecerán otros nuevos para elegir la dificultad. Será entonces cuando el jugador elija la dificultad, se producirá un fade out de 200 milisegundos, y empezará la partida. 
+
 [Imagen 10]
+
+## Assets necesarios
+
+### Diseños 2D
+
+#### Personaje principal
+Se trataría de un gnomo de jardín armado con un hacha similar al estilo de los gnomos de la película de Gnomeo y Julieta.  
+     
+#### Enemigos
+Diseño de una rana, un caracol mago, un cactus en una maceta, una seta que escupe, y una planta carnívora.
+
+### Sonido
+
+### Código
+
+#### Script del personaje 
+
+Se gestiona tanto el movimiento del personaje, como su comportamiento en los combates. También se gestionan sus animaciones, y su puntuación. 
+
+#### Script del nivel 1
+
+Nada más empezar, crea al jugador, el escenario, los 3 primeros enemigos y todos los elementos de la interfaz (algunos empezarán ocultos). Cada vez que el jugador derrote a un enemigo (a excepción del primero) se generará nuevo terreno y un nuevo enemigo en la dirección X de la escena, para que el nivel sea infinito. Para generar este nuevo terreno se utilizan aquellos objetos que se encuentren a la izquierda del jugador, por lo que nunca los iba a volver a ver. De esta forma se evitan problemas de rendimiento al no tener cada vez más objetos en la escena, y al no tener que eliminarlos e instanciarlos de nuevo cada vez que se quiera hacer avanzar el terreno. Para crear los enemigos se utiliza la clase Enemy, y se les asigna una función que se ejecutará cuando el jugador se acerque suficiente, para iniciar el combate. Los enemigos se generan de forma aleatoria cada vez (a excepción de los 3 primeros).  
+
+#### Script del nivel 2 
+
+Nada más empezar, crea al jugador, el escenario, los 3 primeros enemigos y todos los elementos de la interfaz (algunos empezarán ocultos). Cada vez que el jugador derrote a un enemigo (a excepción del primero) se generará nuevo terreno y un nuevo enemigo en la dirección X de la escena, para que el nivel sea infinito. Para generar este nuevo terreno se utilizan aquellos objetos que se encuentren a la izquierda del jugador, por lo que nunca los iba a volver a ver. De esta forma se evitan problemas de rendimiento al no tener cada vez más objetos en la escena, y al no tener que eliminarlos e instanciarlos de nuevo cada vez que se quiera hacer avanzar el terreno. Para crear los enemigos se utiliza la clase Enemy, y se les asigna una función que se ejecutará cuando el jugador se acerque suficiente, para iniciar el combate. Los enemigos se generan de forma aleatoria cada vez (a excepción de los 3 primeros). 
+
+#### Script del enemigo
+
+Se configura el enemigo con los datos que se le hayan pasado en el constructor (vida, resistencia, animaciones, tiempo de ataque y de contraataque...). Funciona como una máquina de estados, ya que el enemigo puede estar en 3 estados distintos, pasando de uno a otro cada cierto tiempo, o tras un suceso. Si se encuentra “atacando”, no puede perder vida ni resistencia o ser contraatacado. Si está en estado “parry” si podrá ser contraatacado, perdiendo resistencia, pero no vida, y si se le acaba la resistencia, pasará a estado “cansado” y podrá perder vida por los ataques del jugador.
+
+#### Scripts de los botones 
+
+Gestiona todo el comportamiento y las animaciones de los botones. Se posiciona y escala en función de los parámetros recibidos en el constructor. Se configura siempre para estar en una capa visible por el jugador, y para moverse junto a la cámara de la escena en la que se encuentra. La función que se ejecuta cuando se pulsa el botón se define una vez instanciada la clase, de forma que cada instancia.  
+
+#### Scripts del menú principal 
+
+Gestiona el comportamiento de los botones del menú, y la decoración del mismo. Al principio aparecen 3 botones, uno para ir al menú de créditos, otro para ir al menú de opciones y otro para jugar. Este último hará aparecer 2 nuevos botones, uno por escenario, y tras elegir aparecerán 2 botones para elegir la dificultad. 
+
+#### Script de los controles 
+
+Se encarga de recibir y gestionar todas las entradas, bien sean a través del teclado y el ratón, o bien sea a través de la pantalla táctil del teléfono. 
+
+#### Scripts de la escena de Game Over 
+
+Muestra la puntuación obtenida durante la partida, y permite volver a jugar, o volver al menú de inicio. 
+
+#### Scripts de funciones
+
+Contiene funciones genéricas útiles para los programadores en cualquier otro script.  
+
+#### Scripts del slider
+
+Sirve para crear barras deslizantes que se mueven de un lado a otro con el ratón.
+
+#### Scripts de la escena de configuración 
+
+Permite al jugador modificar el volumen global, el de la música o el de los efectos de sonido. También hay un botón para volver al menú principal. 
+
+#### Scripts de la escena de créditos 
+
+Muestra los autores del proyecto, un correo para contactar con el equipo, y un botón para volver al menú principal. 
+
+#### Scripts para mostrar el logo 
+
+Muestra una pequeña animación del logo del equipo desarrollador, antes de pasar al menú principal. 
+
+#### Scripts de la pantalla de carga
+
+Gestiona la carga de todo el material necesario para el juego (tanto visual como sonoro). Una vez ha sido cargado, se pide al jugador que pulse, para comenzar. Mientras se produce la carga, se muestra una animación donde se ven a los personajes del juego.
+
+#### Scripts de la clase “Contenedor de elementos de interfaz” 
+
+Se trata de un contenedor, al que se pueden añadir distintos elementos de la interfaz, para que todos se comporten de la misma manera (avancen con la cámara y se escalen si la cámara hace zoom).
+
+#### Scripts de la luz 
+
+Gestionan el comportamiento de objetos que emiten luz. 
+
+#### Scripts de la escena de pruebas 
+
+Escena donde los programadores harán cualquier tipo de prueba necesaria, antes de añadirse al juego final. 
+
+## Animación
+
+### Personaje principal  
+
+Andar. 
+Atacar con hacha. 
+Parry superior. 
+Parry inferior. 
+Muerte. 
+
+### NPC hostil 1 - Rana 
+
+Idle 
+Ataque 
+
+### NPC hostil 2 - Champiñón 
+
+Idle 
+Ataque 
+
+### NPC hostil 3 - Cactus 
+
+Idle 
+Ataque 
+
+### NPC hostil 4 - Planta 
+
+Idle 
+Ataque 
+
+### NPC hostil 5 - Caracol 
+
+Idle 
+Ataque 
