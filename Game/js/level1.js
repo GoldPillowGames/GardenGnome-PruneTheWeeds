@@ -103,6 +103,7 @@ export default class level1 extends Phaser.Scene {
 
     this.confButton.pointerUp = function(){
       UsefulMethods.print("Pointerup1");
+      that.cameras.main.fadeOut(200);
       that.scene.get("Level_1").time.addEvent({ delay: 210, callback: function () { that.scene.start('mainMenu'); }, callbackScope: this, loop: false });
    
     }
@@ -173,7 +174,7 @@ export default class level1 extends Phaser.Scene {
     this.createEnemies();
 
     // DEBUG BORRAR.
-    this.testingText = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(25, "y", this), "", { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
+    this.testingText = this.add.text(UsefulMethods.RelativePosition(-44, "x", this), UsefulMethods.RelativePosition(-32, "y", this), "", { fontFamily: '"amazingkids_font"', fontSize: 36, color: 'black' });
     //this.testingText.setOrigin(0.5, 0,5);
     //this.testingText2 = this.add.text(UsefulMethods.RelativePosition(-47, "x", this), UsefulMethods.RelativePosition(30, "y", this), "Energía: " + this.enemies[0].stamina, { fontFamily: '"Roboto Condensed"', fontFamily: '"brush_font"', fontSize: 21, color: 'white' });
     //this.testingText2.setOrigin(0.5, 0,5);
