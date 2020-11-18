@@ -356,11 +356,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                             this.scene.sys.game.currentMusic = SoundManager.playMusic('theme1', this.scene);
                             this.slowMotion = 1;
                             this.scene.cameraZoom = 0.9;
-                            this.scene.cameras.main.setLerp(0, 0);
-                            this.scene.cameras.main.setFollowOffset(0);
-                            this.scene.cameras.main.startFollow(this.scene.player, true);
+                            this.scene.cameras.main.setFollowOffset(this.scene.cameras.main.offsetX);
                             this.scene.cameras.main.rotateTo(0, true, 800, 'Cubic.easeOut');
                             this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 800, 'Expo.easeOut');
+
+                            this.scene.restoreLerp(1, 600);
 
                             this.scene.player.score++; //+= this.maxHP * 10;
 

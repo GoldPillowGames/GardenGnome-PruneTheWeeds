@@ -79,7 +79,7 @@ export default class level1 extends Phaser.Scene {
     this.add.sprite(UsefulMethods.RelativePosition(-35, "x", this), UsefulMethods.RelativePosition(83, "y", this), "House").setOrigin(0.5, 0.5).setDepth(8);
 
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2 , HP: 5});
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2, HP: 5 });
     this.player.create();
     this.player.body.setOffset(0, -20);
     // this.player.onDie = () => {SoundManager.stopMusic(that.sys.game.currentMusic);}
@@ -87,30 +87,30 @@ export default class level1 extends Phaser.Scene {
     this.inputManager = new InputManager(this);
     this.inputManager.create();
     this.SetupCamera();
-    this.uiContainer = new UIContainer({ scene: this, x: this.width / 2, y: this.height / 2});
-    
+    this.uiContainer = new UIContainer({ scene: this, x: this.width / 2, y: this.height / 2 });
+
     this.uiContainer.create();
 
     this.InitFloor();
 
-    this.exitButton = new Button({ scene: this, x: 100, y: 3.8,  texture: 'Exit', frame: 0, scale: 0.0125});
+    this.exitButton = new Button({ scene: this, x: 100, y: 3.8, texture: 'Exit', frame: 0, scale: 0.0125 });
     this.exitButton.create();
     this.exitButton.setScrollFactor(0);
     this.exitButton.touchableArea.setScrollFactor(0);
 
-    this.confButton = new Button({ scene: this, x: 66.66, y: 66.66,  texture: 'Tick', frame: 0, scale: 0.025});
+    this.confButton = new Button({ scene: this, x: 66.66, y: 66.66, texture: 'Tick', frame: 0, scale: 0.025 });
     this.confButton.create();
     this.confButton.setScrollFactor(0);
     this.confButton.touchableArea.setScrollFactor(0);
     this.confButton.setAlpha(0);
     this.confButton.touchableArea.setAlpha(0)
 
-    this.confButton.pointerUp = function(){
+    this.confButton.pointerUp = function () {
       UsefulMethods.print("Pointerup1");
       that.cameras.main.fadeOut(200);
       SoundManager.stopMusic(that.sys.game.currentMusic);
-      that.scene.get("Level_"+that.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { that.scene.start("mainMenu"); }, callbackScope: this, loop: false });
-    
+      that.scene.get("Level_" + that.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { that.scene.start("mainMenu"); }, callbackScope: this, loop: false });
+
     }
 
     this.exitText = this.add.text(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(33.33, "y", this), "Are you sure you want to return?", { fontFamily: '"amazingkids_font"', fontSize: 48, color: 'white' });
@@ -119,7 +119,7 @@ export default class level1 extends Phaser.Scene {
     this.exitText.setOrigin(0.5);
     this.exitText.setVisible(false);
 
-    this.denyButton = new Button({ scene: this, x: 33.33, y: 66.66,  texture: 'Cross', frame: 0, scale: 0.025});
+    this.denyButton = new Button({ scene: this, x: 33.33, y: 66.66, texture: 'Cross', frame: 0, scale: 0.025 });
     this.denyButton.create();
     this.denyButton.setScrollFactor(0);
     this.denyButton.touchableArea.setScrollFactor(0);
@@ -131,47 +131,47 @@ export default class level1 extends Phaser.Scene {
 
     //this.denyButton.setAlpha(100);
     //that.denyButton.removeInteractive();
-  
+
 
     this.denyButton.pointerUp = function () {
       that.darkBackground.active = false;
-          that.darkBackground.setAlpha(0);
-          that.player.canMove = true;
+      that.darkBackground.setAlpha(0);
+      that.player.canMove = true;
 
-          that.confButton.setAlpha(0);
-          that.confButton.touchableArea.setAlpha(0);
-          that.denyButton.setAlpha(0);
-          that.denyButton.touchableArea.setAlpha(0);
-          that.exitText.setVisible(false);
+      that.confButton.setAlpha(0);
+      that.confButton.touchableArea.setAlpha(0);
+      that.denyButton.setAlpha(0);
+      that.denyButton.touchableArea.setAlpha(0);
+      that.exitText.setVisible(false);
     }
 
     this.exitButton.pointerUp = function () {
       UsefulMethods.print("Pointerup3");
-        if(!that.darkBackground.active){
-          that.darkBackground.active = true;
-          that.darkBackground.setAlpha(100);
-          that.player.canMove = false;
+      if (!that.darkBackground.active) {
+        that.darkBackground.active = true;
+        that.darkBackground.setAlpha(100);
+        that.player.canMove = false;
 
-          that.confButton.setAlpha(100);
-          that.confButton.touchableArea.setAlpha(0.1);
-          that.denyButton.setAlpha(100);
-          that.denyButton.touchableArea.setAlpha(0.1);
+        that.confButton.setAlpha(100);
+        that.confButton.touchableArea.setAlpha(0.1);
+        that.denyButton.setAlpha(100);
+        that.denyButton.touchableArea.setAlpha(0.1);
 
-          that.exitText.setVisible(true);
+        that.exitText.setVisible(true);
 
-        }else{
-          that.darkBackground.active = false;
-          that.darkBackground.setAlpha(0);
-          that.player.canMove = true;
+      } else {
+        that.darkBackground.active = false;
+        that.darkBackground.setAlpha(0);
+        that.player.canMove = true;
 
-          that.confButton.setAlpha(0);
-          that.confButton.touchableArea.setAlpha(0);
-          that.denyButton.setAlpha(0);
-          that.denyButton.touchableArea.setAlpha(0);
+        that.confButton.setAlpha(0);
+        that.confButton.touchableArea.setAlpha(0);
+        that.denyButton.setAlpha(0);
+        that.denyButton.touchableArea.setAlpha(0);
 
-          that.exitText.setVisible(false);
-        }
-        
+        that.exitText.setVisible(false);
+      }
+
     }
 
     //Creamos los enemigos
@@ -338,6 +338,15 @@ export default class level1 extends Phaser.Scene {
     this.cameras.main.startFollow(this.player, true);
   }
 
+  restoreLerp(value, time) {
+    var that = this;
+    this.time.addEvent({
+      delay: time,
+      callback: () => {
+        that.cameras.main.setLerp(value, value);
+      }
+    });
+  }
 
   RepeatElement(element, distance, times, yCoord, depth) {
     for (var i = 0; i < times; i++) {
@@ -465,7 +474,7 @@ export default class level1 extends Phaser.Scene {
       this.player.anims.play('GnomeStopAnim');
       SoundManager.stopMusic(this.sys.game.currentMusic);
       this.sys.game.currentMusic = SoundManager.playMusic('battle-theme1', this);
-      
+
       this.currentEnemy = enemy;
       this.combatHappening = true;
 
@@ -473,7 +482,7 @@ export default class level1 extends Phaser.Scene {
       enemy.createBars();
       enemy.collision.destroy();
 
-      this.cameras.main.setLerp(0.09, 0.09);
+      this.restoreLerp(0.09, 300);
       this.cameras.main.setFollowOffset(-this.cameraOffsetInCombat);
       this.cameras.main.zoomTo(this.cameraZoomInCombat, 300, 'Sine.easeInOut');
 
@@ -643,7 +652,7 @@ export default class level1 extends Phaser.Scene {
     this.physics.add.collider(this.player, this.floors[1]);
     this.physics.add.collider(this.player, this.floors[2]);
     this.physics.add.collider(this.player, this.floor3);
-    
+
     this.enemies.forEach(element => {
 
       this.floors.forEach(element2 => {
@@ -677,7 +686,7 @@ export default class level1 extends Phaser.Scene {
         this.sys.game.currentMusic = SoundManager.playMusic('battle-theme1', this);
         that.currentEnemy = element;
         that.combatHappening = true;
-        
+
         element.attack();
         element.createBars();
         element.collision.destroy();
