@@ -54,6 +54,8 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.audio('menu-theme', 'assets/audio/menu-theme.wav');
         this.load.audio('battle-theme1', 'assets/audio/battle-theme1.wav');
 
+        this.load.audio('ButtonSound', 'assets/menu sounds/papersound4.mp3');
+
         this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
             frameWidth: 64,
             frameHeight: 64
@@ -70,7 +72,9 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('Title-Title'    , 'assets/test/title.png');
         this.load.image('Play-Button'    , 'assets/main-menu/play.png');
         this.load.image('Settings-Button', 'assets/main-menu/settings.png');
-        this.load.image('Credits-Button' , 'assets/main-menu/rankings.png');
+        this.load.image('Credits-Button' , 'assets/main-menu/credits.png');
+        this.load.image('Level-1'        , 'assets/main-menu/level_1.png');
+        this.load.image('Level-2'        , 'assets/main-menu/level_2.png');
         this.load.image('Easy-Button'    , 'assets/main-menu/easy.png');
         this.load.image('Hard-Button'    , 'assets/main-menu/hard.png');
         this.load.image('Settings-Menu-Background', 'assets/test/settings-menu-background.png');

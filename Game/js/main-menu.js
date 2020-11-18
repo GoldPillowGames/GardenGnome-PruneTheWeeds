@@ -116,6 +116,8 @@ export default class MainMenu extends Phaser.Scene {
 
         var floor = this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(92, "y", this), 'BaseFloor1').setAlpha(0.92);
         floor.setOrigin(0, floor.originY);
+        floor.scaleX = UsefulMethods.RelativeScale(0.082, "x", this);
+        floor.scaleY = UsefulMethods.RelativeScale(0.14, "y", this);
 
         this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width, -7, Math.abs(floor.x), 6, 16, 65, 72);
         this.createRandomSprites(['Grass', 'Shovel1', 'Shovel2', 'Shovel3', 'Rake'], floor.width, 7, Math.abs(floor.x), 6, 16, 65, 72);
@@ -157,6 +159,8 @@ export default class MainMenu extends Phaser.Scene {
         this.difficultyButton1 = new Button({ scene: this, x: 40, y: 120, texture: 'Easy-Button', frame: 4, scale: 0.0225 });
         this.difficultyButton1.create();
         this.difficultyButton1.pointerUp = function () {
+            SoundManager.playSound('ButtonSound', that);
+
             that.hardMode = false;
             that.cameras.main.fadeOut(200);
             SoundManager.stopMusic(that.sys.game.currentMusic);
@@ -166,6 +170,8 @@ export default class MainMenu extends Phaser.Scene {
         this.difficultyButton2 = new Button({ scene: this, x: 60, y: 120, texture: 'Hard-Button', frame: 4, scale: 0.0225 });
         this.difficultyButton2.create();
         this.difficultyButton2.pointerUp = function () {
+            SoundManager.playSound('ButtonSound', that);
+
             that.hardMode = true;
             that.cameras.main.fadeOut(200);
             SoundManager.stopMusic(that.sys.game.currentMusic);
@@ -176,41 +182,46 @@ export default class MainMenu extends Phaser.Scene {
         //#endregion
 
         //#region Botones de selección de nivel
-        this.level1Button = new Button({ scene: this, x: 30, y: 120, texture: 'Credits-Button', frame: 4, scale: 0.0225 });
+        this.level1Button = new Button({ scene: this, x: 40, y: 120, texture: 'Level-1', frame: 4, scale: 0.0225 });
         this.level1Button.create();
         this.level1Button.pointerUp = function () {
+            SoundManager.playSound('ButtonSound', that);
+
             text.setText("Select a Difficulty Level");
             levelName = 'Level_1';
             that.ShowButtons(difficultyButtons);
             this.playPressedButtonArray(levelButtons);
         }
 
-        this.level2Button = new Button({ scene: this, x: 50, y: 120, texture: 'Credits-Button', frame: 4, scale: 0.0225 });
+        this.level2Button = new Button({ scene: this, x: 60, y: 120, texture: 'Level-2', frame: 4, scale: 0.0225 });
         this.level2Button.create();
         this.level2Button.pointerUp = function () {
+            SoundManager.playSound('ButtonSound', that);
+
             text.setText("Select a Difficulty Level");
             that.ShowButtons(difficultyButtons);
             levelName = 'platformTesting';
             this.playPressedButtonArray(levelButtons);
         }
 
-        this.level3Button = new Button({ scene: this, x: 70, y: 120, texture: 'Credits-Button', frame: 4, scale: 0.0225 });
-        this.level3Button.create();
-        this.level3Button.pointerUp = function () {
-            text.setText("Select a Difficulty Level");
-            // Level 1
-            // that.scene.get("mainMenu").time.addEvent({delay: 210, callback: function(){that.scene.start('platformTesting');}, callbackScope:this, loop:false});
-            that.ShowButtons(difficultyButtons);
-            levelName = 'platformTesting';
-            this.playPressedButtonArray(levelButtons);
-        }
-        levelButtons = [this.level1Button, this.level2Button, this.level3Button];
+        // this.level3Button = new Button({ scene: this, x: 70, y: 120, texture: 'Credits-Button', frame: 4, scale: 0.0225 });
+        // this.level3Button.create();
+        // this.level3Button.pointerUp = function () {
+        //     text.setText("Select a Difficulty Level");
+        //     // Level 1
+        //     // that.scene.get("mainMenu").time.addEvent({delay: 210, callback: function(){that.scene.start('platformTesting');}, callbackScope:this, loop:false});
+        //     that.ShowButtons(difficultyButtons);
+        //     levelName = 'platformTesting';
+        //     this.playPressedButtonArray(levelButtons);
+        // }
+        levelButtons = [this.level1Button, this.level2Button];
         //#endregion
 
         //#region Botones del menú principal
         this.playButton = new Button({ scene: this, x: 50, y: 60, texture: 'Play-Button', frame: 4, scale: 0.0225 });
         this.playButton.create();
         this.playButton.pointerUp = function () {
+            SoundManager.playSound('ButtonSound', that);
             text.setText("Select a Level");
             text.y = UsefulMethods.RelativeScale(110, "y", this);
             text.setDepth(101);
@@ -221,6 +232,7 @@ export default class MainMenu extends Phaser.Scene {
         this.settingsButton = new Button({ scene: this, x: 20, y: 60, texture: 'Settings-Button', frame: 4, scale: 0.02 });
         this.settingsButton.create();
         this.settingsButton.pointerUp = function () {
+            SoundManager.playSound('ButtonSound', that);
             that.cameras.main.fadeOut(225);
             //SoundManager.stopMusic(that.currentMusic);
             that.scene.get("mainMenu").time.addEvent({ delay: 510, callback: function () { that.scene.start("settingsMenu"); }, callbackScope: this, loop: false });
@@ -231,13 +243,14 @@ export default class MainMenu extends Phaser.Scene {
         this.creditsButton.pointerUp = function () {
             // Credits
             that.cameras.main.fadeOut(225);
+            SoundManager.playSound('ButtonSound', that);
             //SoundManager.stopMusic(that.currentMusic);
             that.scene.get("mainMenu").time.addEvent({ delay: 510, callback: function () { that.scene.start("creditsMenu"); }, callbackScope: this, loop: false });
         }
         mainButtons = [this.playButton, this.settingsButton, this.creditsButton];
         //#endregion
 
-        this.buttons = [this.level1Button, this.level2Button, this.level3Button, this.playButton, this.settingsButton, this.creditsButton, this.difficultyButton1, this.difficultyButton2];
+        this.buttons = [this.level1Button, this.level2Button, this.playButton, this.settingsButton, this.creditsButton, this.difficultyButton1, this.difficultyButton2];
     }
 
 

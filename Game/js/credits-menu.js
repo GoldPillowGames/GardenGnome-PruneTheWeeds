@@ -12,6 +12,7 @@
 import UsefulMethods from '../js/useful-methods.js';
 import Slider from '../js/slider.js';
 import Button from '../js/button.js';
+import SoundManager from './sound-manager.js';
 
 export default class CreditsMenu extends Phaser.Scene{
     constructor(){
@@ -63,14 +64,14 @@ export default class CreditsMenu extends Phaser.Scene{
 
         let creditsStyle = {
             fontFamily: 'amazingkids_font', 
-            fontSize: '42px',
+            fontSize: '36px',
             color: '#e6fcf5',
             stroke: '#0e302f',
             strokeThickness: 12
         }
 
-        let x = 10;
-        let y = 25;
+        let x = 90;
+        let y = 33.5;
         let y_increment = 7.5;
 
         let credits_german = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y, 'y', this), 'Germán López Gutiérrez', creditsStyle);
@@ -82,41 +83,51 @@ export default class CreditsMenu extends Phaser.Scene{
         y_increment += 7.5;
         let credits_jorge = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), 'Jorge Sánchez Sánchez', creditsStyle);
         y_increment += 11.5;
+        let credits_Zapsplat = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), 'Additional sound effects from https://www.zapsplat.com', creditsStyle);
+        y_increment += 11.5;
         let credits_contact = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), 'CONTACT: goldpillowgames@gmail.com', creditsStyle);
 
-        credits_german.setOrigin(0);
+
+        credits_german.setOrigin(1);
         credits_german.setDepth(100);
         credits_german.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
         credits_german.scaleY = text.scaleX;
 
-        credits_fernando.setOrigin(0);
+        credits_fernando.setOrigin(1);
         credits_fernando.setDepth(100);
         credits_fernando.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
         credits_fernando.scaleY = text.scaleX;
 
-        credits_ignacio.setOrigin(0);
+        credits_ignacio.setOrigin(1);
         credits_ignacio.setDepth(100);
         credits_ignacio.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
         credits_ignacio.scaleY = text.scaleX;
 
-        credits_elvira.setOrigin(0);
+        credits_elvira.setOrigin(1);
         credits_elvira.setDepth(100);
         credits_elvira.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
         credits_elvira.scaleY = text.scaleX;
 
-        credits_jorge.setOrigin(0);
+        credits_jorge.setOrigin(1);
         credits_jorge.setDepth(100);
         credits_jorge.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
         credits_jorge.scaleY = text.scaleX;
 
-        credits_contact.setOrigin(0);
+        credits_contact.setOrigin(1);
         credits_contact.setDepth(100);
         credits_contact.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
         credits_contact.scaleY = text.scaleX;
 
+        credits_Zapsplat.setOrigin(1);
+        credits_Zapsplat.setDepth(100);
+        credits_Zapsplat.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        credits_Zapsplat.scaleY = text.scaleX;
+
         this.exitButton = new Button({scene:this, x:9.5, y:86, texture:'ExitButton', frame:4, scale:-0.018});
         this.exitButton.create();
         this.exitButton.pointerUp = function(){
+
+            SoundManager.playSound('ButtonSound', that);
             that.cameras.main.fadeOut(225);
             that.scene.get("creditsMenu").time.addEvent({delay: 510, callback: function(){that.scene.start('mainMenu');}, callbackScope:this, loop:false});
         }

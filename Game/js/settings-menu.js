@@ -12,6 +12,7 @@
 import UsefulMethods from '../js/useful-methods.js';
 import Slider from '../js/slider.js';
 import Button from '../js/button.js';
+import SoundManager from './sound-manager.js';
 
 export default class SettingsMenu extends Phaser.Scene{
     constructor(){
@@ -73,6 +74,8 @@ export default class SettingsMenu extends Phaser.Scene{
         this.exitButton = new Button({scene:this, x:89.5, y:86, texture:'ExitButton', frame:4, scale:0.018});
         this.exitButton.create();
         this.exitButton.pointerUp = function(){
+
+            SoundManager.playSound('ButtonSound', that);
             that.cameras.main.fadeOut(225);
             that.scene.get("settingsMenu").time.addEvent({delay: 510, callback: function(){that.scene.start('mainMenu');}, callbackScope:this, loop:false});
         }
@@ -88,7 +91,8 @@ export default class SettingsMenu extends Phaser.Scene{
         this.exitButton.update(delta);
 
         this.sys.game.globalVolume = this.masterVolume.value / 5;
-        this.sys.game.musicVolume = this.musicVolume.value / 5;
-        this.sys.game.sfxVolume = this.sfxVolume.value / 5;
+        this.sys.game.musicVolume  = this.musicVolume.value / 5;
+        this.sys.game.currentMusic.setVolume(this.sys.game.musicVolume * this.sys.game.globalVolume);
+        this.sys.game.sfxVolume    = this.sfxVolume.value / 5;
     }
 }
