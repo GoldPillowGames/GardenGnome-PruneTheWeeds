@@ -360,10 +360,10 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                             this.slowMotion = 1;
                             this.scene.cameraZoom = 0.9;
                             this.scene.cameras.main.setFollowOffset(this.scene.cameras.main.offsetX);
-                            this.scene.cameras.main.rotateTo(0, true, 800, 'Cubic.easeOut');
-                            this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 800, 'Expo.easeOut');
+                            this.scene.cameras.main.rotateTo(0, true, 200, 'Cubic.easeOut');
+                            this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 200, 'Expo.easeOut');
 
-                            this.scene.restoreLerp(1, 600);
+                            this.scene.restoreLerp(1, 200, true);
 
                             this.scene.player.score++; //+= this.maxHP * 10;
 
@@ -381,7 +381,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     die() {
         this.isAboutToDie = true;
 
-        this.scene.player.canMove = true;
         this.scene.tweens.timeScale = 1;
 
         this.staminaBar.destroy();

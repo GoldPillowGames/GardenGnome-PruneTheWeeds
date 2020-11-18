@@ -282,7 +282,7 @@ export default class level1 extends Phaser.Scene {
     this.enemies = [];
 
     this.enemies.push(new Enemy({
-      scene: this, x: (this.floors[0].x + (this.floors[0].width) * (this.floors[0].scaleX) * 0.5), y: 75,
+      scene: this, x: (this.floors[0].x + (this.floors[0].width) * (this.floors[0].scaleX) * 0.5), y: 400,
       texture: 'IdlePlant',
       frame: 0,
       attackTime: 0.45,
@@ -354,6 +354,17 @@ export default class level1 extends Phaser.Scene {
       delay: time,
       callback: () => {
         that.cameras.main.setLerp(value, value);
+      }
+    });
+  }
+
+  restoreLerp(value, time, canMove) {
+    var that = this;
+    this.time.addEvent({
+      delay: time,
+      callback: () => {
+        that.cameras.main.setLerp(value, value);
+        that.player.canMove = canMove;
       }
     });
   }
