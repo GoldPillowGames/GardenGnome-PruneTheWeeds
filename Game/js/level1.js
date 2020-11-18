@@ -49,6 +49,9 @@ export default class level1 extends Phaser.Scene {
     this.combatHappening = false;
     this.currentEnemy;
 
+    this.currentFloor = 0;
+    this.nextFloor = 3;
+
     this.firstCombat = true;
     this.hardMode = this.scene.get("mainMenu").hardMode;
 
@@ -344,8 +347,10 @@ export default class level1 extends Phaser.Scene {
 
     this.floors[this.currentFloor].x = this.floors[0].width * this.nextFloor * this.floors[0].scaleX;
 
-    //this.props[this.currentFloor][0].x = this.floors[0].width * this.nextFloor * this.floors[0].scaleX;
-    //this.props[this.currentFloor][1].x = this.floors[0].width * this.nextFloor * this.floors[0].scaleX;
+    this.props[this.currentFloor][0].x = this.floors[0].width * this.nextFloor * this.floors[this.currentFloor].scaleX;
+    this.props[this.currentFloor][1].x = this.floors[0].width * this.nextFloor * this.floors[this.currentFloor].scaleX;
+
+    console.log(this.currentfloor);
 
     var initialPosition = this.floors[this.currentFloor].x;
 
@@ -450,6 +455,7 @@ export default class level1 extends Phaser.Scene {
     var enemy = this.enemies[this.nextFloor];
     var combat = function () {
       this.player.canMove = false;
+      this.player.anims.play('GnomeStopAnim');
       
       this.currentEnemy = enemy;
       this.combatHappening = true;
@@ -485,8 +491,6 @@ export default class level1 extends Phaser.Scene {
     this.props = [];
 
     var floorDistance = 2289;
-    this.currentFloor = 0;
-    this.nextFloor = 3;
 
     this.skys.push(this.add.sprite(UsefulMethods.RelativePosition(0, "x", this), UsefulMethods.RelativePosition(105, "y", this), 'BaseSky1',));
     this.skys[0].setDepth(-11);
@@ -659,6 +663,7 @@ export default class level1 extends Phaser.Scene {
     this.enemies.forEach(element => {
       var combat = function () {
         that.player.canMove = false;
+        that.player.anims.play('GnomeStopAnim');
         
         that.currentEnemy = element;
         that.combatHappening = true;

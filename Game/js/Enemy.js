@@ -305,6 +305,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                         this.firstAttack = false;*/
                     this.scene.player.anims.play('GnomeAttackAnim');
                     //};
+
+                    // Reproducir sonido hachazo.
                 }
                 else {
                     var that = this;
@@ -327,34 +329,37 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     });
 
                     this.scene.player.anims.play('GnomeAttackAnimLast');
-                    this.scene.cameras.main.rotateTo(this.scene.cameraRotationWhenKilling, true, 399, 'Expo.easeOut');
-                    this.scene.cameras.main.zoomTo(this.scene.cameraZoomWhenKilling, 399, 'Expo.easeOut');
+                    this.scene.cameras.main.rotateTo(this.scene.cameraRotationWhenKilling, true, 599, 'Cubic.easeOut');
+                    this.scene.cameras.main.zoomTo(this.scene.cameraZoomWhenKilling, 599, 'Expo.easeOut');
+                    this.scene.uiContainer.setScrollFactor(1);
 
                     this.isDying = true;
                     this.scene.player.anims.pause();
                     this.scene.combatHappening = false;
                     this.scene.arrow.setAlpha(0);
 
-                    this.slowMotion = 0.1;
+                    this.slowMotion = 0.05;
                     this.scene.tweens.timeScale = this.slowMotion;
 
                     this.scene.time.addEvent({
-                        delay: 150,
+                        delay: 225,
                         callback: () => {
                             this.scene.player.anims.resume();
+                            // Reproducir sonido hachazo.
                         }
                     });
 
                     this.scene.time.addEvent({
-                        delay: 400,
+                        delay: 600,
                         callback: () => {
                             this.slowMotion = 1;
                             this.scene.cameraZoom = 0.9;
                             this.scene.cameras.main.setLerp(0, 0);
                             this.scene.cameras.main.setFollowOffset(0);
                             this.scene.cameras.main.startFollow(this.scene.player, true);
-                            this.scene.cameras.main.rotateTo(0, true, 500, 'Expo.easeOut');
-                            this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 500, 'Expo.easeOut');
+                            this.scene.cameras.main.rotateTo(0, true, 800, 'Cubic.easeOut');
+                            this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 800, 'Expo.easeOut');
+                            this.scene.uiContainer.setScrollFactor(0);
                         }
                     });
 
