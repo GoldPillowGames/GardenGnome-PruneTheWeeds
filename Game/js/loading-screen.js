@@ -54,6 +54,8 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.audio('menu-theme', 'assets/audio/menu-theme.wav');
         this.load.audio('battle-theme1', 'assets/audio/battle-theme1.wav');
 
+        this.load.audio('ButtonSound', 'assets/menu sounds/papersound4.mp3');
+
         this.load.spritesheet('Character', 'assets/test/spritesheet-1.png', {
             frameWidth: 64,
             frameHeight: 64

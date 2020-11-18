@@ -157,6 +157,8 @@ export default class MainMenu extends Phaser.Scene {
         this.difficultyButton1 = new Button({ scene: this, x: 40, y: 120, texture: 'Easy-Button', frame: 4, scale: 0.0225 });
         this.difficultyButton1.create();
         this.difficultyButton1.pointerUp = function () {
+            SoundManager.playSound('ButtonSound', that);
+
             that.hardMode = false;
             that.cameras.main.fadeOut(200);
             SoundManager.stopMusic(that.sys.game.currentMusic);
@@ -166,6 +168,8 @@ export default class MainMenu extends Phaser.Scene {
         this.difficultyButton2 = new Button({ scene: this, x: 60, y: 120, texture: 'Hard-Button', frame: 4, scale: 0.0225 });
         this.difficultyButton2.create();
         this.difficultyButton2.pointerUp = function () {
+            SoundManager.playSound('ButtonSound', that);
+
             that.hardMode = true;
             that.cameras.main.fadeOut(200);
             SoundManager.stopMusic(that.sys.game.currentMusic);
@@ -179,6 +183,8 @@ export default class MainMenu extends Phaser.Scene {
         this.level1Button = new Button({ scene: this, x: 40, y: 120, texture: 'Level-1', frame: 4, scale: 0.0225 });
         this.level1Button.create();
         this.level1Button.pointerUp = function () {
+            SoundManager.playSound('ButtonSound', that);
+
             text.setText("Select a Difficulty Level");
             levelName = 'Level_1';
             that.ShowButtons(difficultyButtons);
@@ -188,6 +194,8 @@ export default class MainMenu extends Phaser.Scene {
         this.level2Button = new Button({ scene: this, x: 60, y: 120, texture: 'Level-2', frame: 4, scale: 0.0225 });
         this.level2Button.create();
         this.level2Button.pointerUp = function () {
+            SoundManager.playSound('ButtonSound', that);
+
             text.setText("Select a Difficulty Level");
             that.ShowButtons(difficultyButtons);
             levelName = 'platformTesting';
@@ -211,6 +219,7 @@ export default class MainMenu extends Phaser.Scene {
         this.playButton = new Button({ scene: this, x: 50, y: 60, texture: 'Play-Button', frame: 4, scale: 0.0225 });
         this.playButton.create();
         this.playButton.pointerUp = function () {
+            SoundManager.playSound('ButtonSound', that);
             text.setText("Select a Level");
             text.y = UsefulMethods.RelativeScale(110, "y", this);
             text.setDepth(101);
@@ -221,6 +230,7 @@ export default class MainMenu extends Phaser.Scene {
         this.settingsButton = new Button({ scene: this, x: 20, y: 60, texture: 'Settings-Button', frame: 4, scale: 0.02 });
         this.settingsButton.create();
         this.settingsButton.pointerUp = function () {
+            SoundManager.playSound('ButtonSound', that);
             that.cameras.main.fadeOut(225);
             //SoundManager.stopMusic(that.currentMusic);
             that.scene.get("mainMenu").time.addEvent({ delay: 510, callback: function () { that.scene.start("settingsMenu"); }, callbackScope: this, loop: false });
@@ -231,6 +241,7 @@ export default class MainMenu extends Phaser.Scene {
         this.creditsButton.pointerUp = function () {
             // Credits
             that.cameras.main.fadeOut(225);
+            SoundManager.playSound('ButtonSound', that);
             //SoundManager.stopMusic(that.currentMusic);
             that.scene.get("mainMenu").time.addEvent({ delay: 510, callback: function () { that.scene.start("creditsMenu"); }, callbackScope: this, loop: false });
         }
