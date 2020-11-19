@@ -40,7 +40,7 @@ export default class CreditsMenu extends Phaser.Scene{
             background.setPipeline('Light2D');
         }
         
-
+        
         
 
         background.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
@@ -54,7 +54,26 @@ export default class CreditsMenu extends Phaser.Scene{
             strokeThickness: 15
         }
 
-        let text = this.add.text(UsefulMethods.RelativePosition(50, 'x', this), UsefulMethods.RelativePosition(15, 'y', this), 'CREDITS', style);
+        let zapsplatText = 'Additional sound effects from https://www.zapsplat.com';
+        let contactText = 'CONTACT: goldpillowgames@gmail.com';
+        let creditsTitle = 'CREDITS';
+
+        switch(this.sys.game.language){
+            case "en":
+                zapsplatText = 'Additional sound effects from https://www.zapsplat.com';
+                contactText = 'CONTACT: goldpillowgames@gmail.com';
+                creditsTitle = 'CREDITS';
+                break;
+            case "es":
+                zapsplatText = 'Efectos de sonido adicionales de https://www.zapsplat.com';
+                contactText = 'CONTACTO: goldpillowgames@gmail.com';
+                creditsTitle = 'CRÉDITOS';
+                break;
+            default:
+                break;
+        }
+
+        let text = this.add.text(UsefulMethods.RelativePosition(50, 'x', this), UsefulMethods.RelativePosition(15, 'y', this), creditsTitle, style);
 
         text.setOrigin(0.5);
         text.setDepth(100);
@@ -73,6 +92,8 @@ export default class CreditsMenu extends Phaser.Scene{
         let y = 33.5;
         let y_increment = 7.5;
 
+        
+
         let credits_german = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y, 'y', this), 'Germán López Gutiérrez', creditsStyle);
         let credits_fernando = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), 'Fernando Martín Espina', creditsStyle);
         y_increment += 7.5;
@@ -82,9 +103,9 @@ export default class CreditsMenu extends Phaser.Scene{
         y_increment += 7.5;
         let credits_jorge = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), 'Jorge Sánchez Sánchez', creditsStyle);
         y_increment += 11.5;
-        let credits_Zapsplat = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), 'Additional sound effects from https://www.zapsplat.com', creditsStyle);
+        let credits_Zapsplat = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), zapsplatText, creditsStyle);
         y_increment += 11.5;
-        let credits_contact = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), 'CONTACT: goldpillowgames@gmail.com', creditsStyle);
+        let credits_contact = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), contactText, creditsStyle);
 
 
         credits_german.setOrigin(1);

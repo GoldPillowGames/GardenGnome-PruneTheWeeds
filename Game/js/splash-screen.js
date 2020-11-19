@@ -27,6 +27,7 @@ export default class SplashScreen extends Phaser.Scene {
     this.sys.game.sfxVolume = 0.6;
     this.sys.game.score = 0;
     this.sys.game.levelIndex = 1;
+    this.sys.game.language = "en";
   }
 
   // Funcion create, que crea los elementos del propio juego.

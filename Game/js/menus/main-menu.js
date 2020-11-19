@@ -181,13 +181,29 @@ export default class MainMenu extends Phaser.Scene {
         difficultyButtons = [this.difficultyButton1, this.difficultyButton2];
         //#endregion
 
+        let selectionText = "Select a Level";
+        let difficultyText = "Select a Difficulty Level";
+
+        switch(this.sys.game.language){
+            case "en":
+                selectionText = "Select a Level";
+                difficultyText = "Select a Difficulty Level";
+                break;
+            case "es":
+                selectionText = "Selecciona un Nivel";
+                difficultyText = "Selecciona un Nivel de Dificultad";
+                break;
+            default:
+                break;
+        }
+
         //#region Botones de selección de nivel
         this.level1Button = new Button({ scene: this, x: 40, y: 120, texture: 'Level-1', frame: 4, scale: 0.0225 });
         this.level1Button.create();
         this.level1Button.pointerUp = function () {
             SoundManager.playSound('ButtonSound', that);
 
-            text.setText("Select a Difficulty Level");
+            text.setText(difficultyText);
             levelName = 'Level_1';
             that.ShowButtons(difficultyButtons);
             this.playPressedButtonArray(levelButtons);
@@ -198,7 +214,7 @@ export default class MainMenu extends Phaser.Scene {
         this.level2Button.pointerUp = function () {
             SoundManager.playSound('ButtonSound', that);
 
-            text.setText("Select a Difficulty Level");
+            text.setText(difficultyText);
             that.ShowButtons(difficultyButtons);
             levelName = 'Level_2';
             this.playPressedButtonArray(levelButtons);
@@ -222,7 +238,7 @@ export default class MainMenu extends Phaser.Scene {
         this.playButton.create();
         this.playButton.pointerUp = function () {
             SoundManager.playSound('ButtonSound', that);
-            text.setText("Select a Level");
+            text.setText(selectionText);
             text.y = UsefulMethods.RelativeScale(110, "y", this);
             text.setDepth(101);
             that.ShowButtons(levelButtons);

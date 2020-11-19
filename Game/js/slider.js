@@ -19,18 +19,18 @@ export default class Slider extends Phaser.GameObjects.Container {
         
         let style = {
             fontFamily: 'amazingkids_font', 
-            fontSize: '65px',
+            fontSize: '50px',
             color: '#e6fcf5',
             stroke: '#0e302f',
             strokeThickness: 12
         }
 
-        var text = scene.add.text(UsefulMethods.RelativePosition(x, 'x', scene), UsefulMethods.RelativePosition(y, 'y', scene), '', style);
-        text.setOrigin(0, 0.45);
-        text.setText(sliderText);
-        text.setDepth(100);
-        text.scaleX = UsefulMethods.RelativeScale(0.08, 'x', scene)
-        text.scaleY = text.scaleX;
+        this.text = scene.add.text(UsefulMethods.RelativePosition(x, 'x', scene), UsefulMethods.RelativePosition(y, 'y', scene), '', style);
+        this.text.setOrigin(0, 0.45);
+        this.text.setText(sliderText);
+        this.text.setDepth(100);
+        this.text.scaleX = UsefulMethods.RelativeScale(0.08, 'x', scene)
+        this.text.scaleY = this.text.scaleX;
 
         // this.minus.scaleX = 0.135;
         // this.minus.scaleY = this.minus.scaleX;

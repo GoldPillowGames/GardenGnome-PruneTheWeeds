@@ -81,6 +81,9 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('AxeIcon', 'assets/main-menu/score-icon.png');
         this.load.image('AxeIconBorderless', 'assets/main-menu/score-icon-borderless.png');
 
+        this.load.image('arrowRight' , 'assets/main-menu/right.png');
+        this.load.image('arrowLeft' , 'assets/main-menu/left.png');
+
         this.load.image('Exit' , 'assets/props/exit.png');
 
         this.loadAssetsEnemies();
