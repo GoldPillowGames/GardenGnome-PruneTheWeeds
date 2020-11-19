@@ -4,7 +4,7 @@ import SoundManager from './sound-manager.js';
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(data) {
         // #region Contructor
-        let { scene, x, y, texture, frame, HP, tint } = data;
+        let { scene, x, y, texture, frame, HP, tint, tintParry } = data;
         super(scene, x, y, texture, frame);
         // #endregion
 
@@ -22,6 +22,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.velocity = 360;
 
         this.tinte = tint;
+        this.tintParry = tintParry;
 
         this.parrying = false;
 
@@ -68,29 +69,26 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
                 if (this.scene.arrow.angle == -90 && (pointer.y - this.scene.inputManager.initialMouseY < 0 && Math.abs(pointer.y - this.scene.inputManager.initialMouseY) > Math.abs(pointer.x - this.scene.inputManager.initialMouseX))) {
                     if (this.parrying) {
-                        this.scene.currentEnemy.playerHasParried();
+
                         this.anims.play('GnomeParryUp');
-                        this.parryLittleMovement();
+                        this.doParry();
                     }
                 }
                 else if (this.scene.arrow.angle == 90 && (pointer.y - this.scene.inputManager.initialMouseY > 0 && Math.abs(pointer.y - this.scene.inputManager.initialMouseY) > Math.abs(pointer.x - this.scene.inputManager.initialMouseX))) {
                     if (this.parrying) {
-                        this.scene.currentEnemy.playerHasParried();
                         this.anims.play('GnomeParryDown');
-                        this.parryLittleMovement();
+                        this.doParry();
                     }
                 } else if (this.scene.hardMode) {
                     if (this.scene.arrow.angle == 0 && (pointer.x - this.scene.inputManager.initialMouseX > 0 && Math.abs(pointer.x - this.scene.inputManager.initialMouseX) > Math.abs(pointer.y - this.scene.inputManager.initialMouseY))) {
                         if (this.parrying) {
-                            this.scene.currentEnemy.playerHasParried();
                             this.anims.play('GnomeParryUp');
-                            this.parryLittleMovement();
+                            this.doParry();
                         }
                     } else if (this.scene.arrow.angle == -180 && (pointer.x - this.scene.inputManager.initialMouseX < 0 && Math.abs(pointer.x - this.scene.inputManager.initialMouseX) > Math.abs(pointer.y - this.scene.inputManager.initialMouseY))) {
                         if (this.parrying) {
-                            this.scene.currentEnemy.playerHasParried();
                             this.anims.play('GnomeParryDown');
-                            this.parryLittleMovement();
+                            this.doParry();
                         }
                     }
                 }
@@ -296,33 +294,30 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
             if (this.scene.arrow.angle == -90 && this.scene.inputManager.upButton.isDown) {
 
-                this.scene.currentEnemy.playerHasParried();
                 this.anims.play('GnomeParryUp');
-                this.parryLittleMovement()
+                this.doParry()
 
             }
             else if (this.scene.arrow.angle == 90 && this.scene.inputManager.downButton.isDown) {
-
-                this.scene.currentEnemy.playerHasParried();
                 this.anims.play('GnomeParryDown');
-                this.parryLittleMovement()
+                this.doParry()
             } else if (this.scene.hardMode) {
                 if (this.scene.arrow.angle == 0 && this.scene.inputManager.rightButton.isDown) {
 
-                    this.scene.currentEnemy.playerHasParried();
                     this.anims.play('GnomeParryUp');
-                    this.parryLittleMovement()
+                    this.doParry()
                 } else if (this.scene.arrow.angle == -180 && this.scene.inputManager.leftButton.isDown) {
 
-                    this.scene.currentEnemy.playerHasParried();
                     this.anims.play('GnomeParryDown');
-                    this.parryLittleMovement()
+                    this.doParry()
                 }
             }
         }
     }
 
-    parryLittleMovement() {
+    doParry() {
+        SoundManager.playSound('parrySound', this.scene);
+        this.scene.currentEnemy.playerHasParried();
         var that = this;
         this.scene.tweens.add({
             targets: that,
@@ -333,7 +328,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             yoyo: true,
             repeat: 0,
             onStart: function () {
-                that.setTint(0xE3E3E3);
+                that.setTint(that.tintParry);
             },
             onComplete: function () {
                 that.setTint(that.tinte);

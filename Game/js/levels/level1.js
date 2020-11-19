@@ -60,7 +60,9 @@ export default class level1 extends Phaser.Scene {
   }
 
   create() {
+
     this.color = Phaser.Display.Color.HexStringToColor('0xffffff').color;
+    this.colorParry = Phaser.Display.Color.HexStringToColor('0xe3e3e3').color;
 
     var that = this;
     //let that = this;
@@ -151,7 +153,7 @@ export default class level1 extends Phaser.Scene {
     house.scaleY = house.scaleX;
 
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2, HP: 5, tint: this.color });
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2, HP: 5, tint: this.color, tintParry: this.colorParry });
     this.player.create();
     this.player.body.setOffset(0, -20);
     // this.player.onDie = () => {SoundManager.stopMusic(that.sys.game.currentMusic);}
@@ -177,12 +179,12 @@ export default class level1 extends Phaser.Scene {
 
     this.InitFloor();
 
-    this.exitButton = new Button({ scene: this, x: 100, y: 3.8, texture: 'Exit', frame: 0, scale: 0.0125 });
+    this.exitButton = new Button({ scene: this, x: 100, y: 3.8, texture: 'Exit', frame: 0, scale: 0.0125, multipleUse: true});
     this.exitButton.create();
     this.exitButton.setScrollFactor(0);
     this.exitButton.touchableArea.setScrollFactor(0);
 
-    this.confButton = new Button({ scene: this, x: 66.66, y: 66.66, texture: 'Tick', frame: 0, scale: 0.025 });
+    this.confButton = new Button({ scene: this, x: 66.66, y: 66.66, texture: 'Tick', frame: 0, scale: 0.025, multipleUse: true });
     this.confButton.create();
     this.confButton.setScrollFactor(0);
     this.confButton.touchableArea.setScrollFactor(0);
@@ -198,13 +200,25 @@ export default class level1 extends Phaser.Scene {
 
     }
 
-    this.exitText = this.add.text(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(33.33, "y", this), "Are you sure you want to return?", { fontFamily: '"amazingkids_font"', fontSize: 48, color: 'white' });
+    let exitTextVar;
+    switch(this.sys.game.language){
+      case "en":
+          exitTextVar = "Are you sure you want to return?";
+          break;
+      case "es":
+          exitTextVar = "¿Estás seguro de que quieres salir?";
+          break;
+      default:
+          break;
+  }
+
+    this.exitText = this.add.text(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(33.33, "y", this), exitTextVar, { fontFamily: '"amazingkids_font"', fontSize: 48, color: 'white' });
     this.exitText.setDepth(1100);
     this.exitText.setScrollFactor(0);
     this.exitText.setOrigin(0.5);
     this.exitText.setVisible(false);
 
-    this.denyButton = new Button({ scene: this, x: 33.33, y: 66.66, texture: 'Cross', frame: 0, scale: 0.025 });
+    this.denyButton = new Button({ scene: this, x: 33.33, y: 66.66, texture: 'Cross', frame: 0, scale: 0.025, multipleUse: true});
     this.denyButton.create();
     this.denyButton.setScrollFactor(0);
     this.denyButton.touchableArea.setScrollFactor(0);
@@ -361,7 +375,7 @@ export default class level1 extends Phaser.Scene {
     this.enemies = [];
 
     this.enemies.push(new Enemy({
-      scene: this, x: (this.floors[0].x + (this.floors[0].width) * (this.floors[0].scaleX) * 0.5), y: 75,
+      scene: this, x: (this.floors[0].x + (this.floors[0].width) * (this.floors[0].scaleX) * 0.5), y: UsefulMethods.RelativePosition(90, "y", this),
       texture: 'IdlePlant',
       frame: 0,
       attackTime: 0.45,

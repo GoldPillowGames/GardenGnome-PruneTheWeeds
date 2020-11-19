@@ -14,6 +14,7 @@ import SoundManager from '../sound-manager.js';
 import Enemy from '../enemy.js';
 import Button from '../button.js';
 import Player from '../player.js';
+import Cloud from '../cloud.js';
 import InputManager from '../input-manager.js';
 import UIContainer from '../ui-container.js';
 
@@ -32,7 +33,7 @@ export default class level2 extends Phaser.Scene {
   preload() {
 
     // #region VARIABLES
-    this.debugMode = true;
+    this.debugMode = false;
 
     //this.sys.game.config.width = 100;
 
@@ -43,7 +44,6 @@ export default class level2 extends Phaser.Scene {
 
     this.cameraZoomInCombat = 1.1;
     this.cameraZoomWhenKilling = 1.3;
-    this.cameraOffsetInCombat = 100;
     this.cameraRotationWhenKilling = 0.01;
 
     this.combatHappening = false;
@@ -60,74 +60,167 @@ export default class level2 extends Phaser.Scene {
   }
 
   create() {
-    this.color = Phaser.Display.Color.HexStringToColor('0xB88ADC').color;
 
+    this.color = Phaser.Display.Color.HexStringToColor('0xB88ADC').color;
+    this.colorParry = Phaser.Display.Color.HexStringToColor('0xa57cc4').color;
     var that = this;
     //let that = this;
     this.cameras.main.fadeIn(1000);
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
+
+
+
+    let walkText;
+    let parryText;
+    let attackText;
+
+    if (!(this.sys.game.device.os.android || this.sys.game.device.os.iOS || this.sys.game.device.os.iPad || this.sys.game.device.os.iPhone)) {
+      switch (this.sys.game.language) {
+        case "en":
+          walkText = "Press D to walk.";
+          parryText = "Press the directional arrows in the direction of the attack!";
+          attackText = "Press the spacebar to attack the enemy when he is tired!";
+          break;
+        case "es":
+          walkText = "Pulsa D para caminar.";
+          parryText = "¡Pulsa las flechas de dirección en la dirección del ataque!";
+          attackText = "¡Pulsa la barra espaciadora para atacar cuando el enemigo esté cansado!";
+          break;
+        default:
+          break;
+      }
+    } else {
+      switch (this.sys.game.language) {
+        case "en":
+          walkText = "Slide your finger to walk.";
+          parryText = "Slide your finger in the direction of the attack!";
+          attackText = "Touch the screen to attack the enemy when he is tired!";
+          break;
+        case "es":
+          walkText = "Desliza tu dedo para caminar.";
+          parryText = "¡Desliza tu dedo en la dirección del ataque!";
+          attackText = "¡Pulsa la pantalla para atacar cuando el enemigo esté cansado!";
+          break;
+        default:
+          break;
+      }
+    }
+
+    let style = {
+      fontFamily: 'amazingkids_font',
+      fontSize: '34px',
+      color: '#e6fcf5',
+      stroke: '#0e302f',
+      strokeThickness: 12
+    }
+
+    this.text = this.add.text(UsefulMethods.RelativePosition(15, 'x', this), UsefulMethods.RelativePosition(127.5, 'y', this), '', style);
+    this.text.setOrigin(0.5, 0.45);
+    this.text.setText(walkText);
+    this.text.setDepth(100);
+    this.text.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+    this.text.scaleY = this.text.scaleX;
+
+    this.text = this.add.text(UsefulMethods.RelativePosition(85, 'x', this), UsefulMethods.RelativePosition(125, 'y', this), '', style);
+    this.text.setOrigin(0.5, 0.45);
+    this.text.setText(parryText);
+    this.text.setDepth(100);
+    this.text.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+    this.text.scaleY = this.text.scaleX;
+
+    this.text = this.add.text(UsefulMethods.RelativePosition(85, 'x', this), UsefulMethods.RelativePosition(132.5, 'y', this), '', style);
+    this.text.setOrigin(0.5, 0.45);
+    this.text.setText(attackText);
+    this.text.setDepth(100);
+    this.text.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+    this.text.scaleY = this.text.scaleX;
+
+
     SoundManager.playMusic('theme1', this);
 
     this.darkBackground = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'DarkBackground');
-    this.darkBackground.setOrigin(0.5);
+    this.darkBackground.setOrigin(0.5, 0.5);
     this.darkBackground.setDepth(1000);
     this.darkBackground.setAlpha(0);
     this.darkBackground.setScrollFactor(0);
     this.darkBackground.active = false;
-    this.darkBackground.scaleX = UsefulMethods.RelativeScale(100, "x", this);
-    this.darkBackground.scaleY = UsefulMethods.RelativeScale(100, "y", this);
+    this.darkBackground.scaleX = UsefulMethods.RelativeScale(0.5, "x", this);
+    this.darkBackground.scaleY = UsefulMethods.RelativeScale(0.5, "y", this);
 
-    var house = this.add.sprite(UsefulMethods.RelativePosition(-35, "x", this), UsefulMethods.RelativePosition(83, "y", this), "House").setOrigin(0.5, 0.5).setDepth(8);
+    var house = this.add.sprite(UsefulMethods.RelativePosition(-35, "x", this), UsefulMethods.RelativePosition(83, "y", this), "House").setOrigin(0.5, 0.5).setDepth(12);
     house.scaleX = UsefulMethods.RelativeScale(0.079, "x", this);
     house.scaleY = house.scaleX;
-    house.setTint(0xB88ADC);
+    house.setTint(this.color);
 
     // Se crea el objeto player en la escena.
-
-    
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2 , HP: 5, tint: this.color});
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2, HP: 5, tint: this.color, tintParry: this.colorParry});
     this.player.create();
     this.player.body.setOffset(0, -20);
-    this.player.setTint(0x9DA5C4);
+    this.player.setTint(this.color);
     // this.player.onDie = () => {SoundManager.stopMusic(that.sys.game.currentMusic);}
+
+    // this.clouds = [];
+    // this.clouds.push(new Cloud({ scene: this, x: UsefulMethods.RelativePosition(25, 'x', this), y: UsefulMethods.RelativePosition(50, 'y', this), texture: 'cloud', frame: 0 }));
+    // this.clouds.push(new Cloud({ scene: this, x: UsefulMethods.RelativePosition(75, 'x', this), y: UsefulMethods.RelativePosition(60, 'y', this), texture: 'cloud', frame: 0 }));
+    // this.clouds.push(new Cloud({ scene: this, x: UsefulMethods.RelativePosition(125, 'x', this), y: UsefulMethods.RelativePosition(55, 'y', this), texture: 'cloud', frame: 0 }));
+    // this.clouds.push(new Cloud({ scene: this, x: UsefulMethods.RelativePosition(175, 'x', this), y: UsefulMethods.RelativePosition(65, 'y', this), texture: 'cloud', frame: 0 }));
+
+    // this.clouds.forEach(element => { element.create(); });
+
+    /*var cloud2 = this.add.sprite(UsefulMethods.RelativePosition(75, 'x', this), UsefulMethods.RelativePosition(50, 'y', this), "cloud");
+    cloud2.scaleX = UsefulMethods.RelativeScale(0.03, 'x', this);
+    cloud2.scaleY = cloud2.scaleX;*/
 
     this.inputManager = new InputManager(this);
     this.inputManager.create();
     this.SetupCamera();
-    this.uiContainer = new UIContainer({ scene: this, x: this.width / 2, y: this.height / 2});
-    
+    this.uiContainer = new UIContainer({ scene: this, x: this.width / 2, y: this.height / 2 });
+
     this.uiContainer.create();
 
     this.InitFloor();
 
-    this.exitButton = new Button({ scene: this, x: 100, y: 3.8,  texture: 'Exit', frame: 0, scale: 0.0125});
+    this.exitButton = new Button({ scene: this, x: 100, y: 3.8, texture: 'Exit', frame: 0, scale: 0.0125 , multipleUse: true});
     this.exitButton.create();
     this.exitButton.setScrollFactor(0);
     this.exitButton.touchableArea.setScrollFactor(0);
 
-    this.confButton = new Button({ scene: this, x: 66.66, y: 66.66,  texture: 'Tick', frame: 0, scale: 0.025});
+    this.confButton = new Button({ scene: this, x: 66.66, y: 66.66, texture: 'Tick', frame: 0, scale: 0.025 , multipleUse: true});
     this.confButton.create();
     this.confButton.setScrollFactor(0);
     this.confButton.touchableArea.setScrollFactor(0);
     this.confButton.setAlpha(0);
     this.confButton.touchableArea.setAlpha(0)
 
-    this.confButton.pointerUp = function(){
+    this.confButton.pointerUp = function () {
       UsefulMethods.print("Pointerup1");
       that.cameras.main.fadeOut(200);
       SoundManager.playSound('ButtonSound', that);
-      that.scene.get("Level_"+that.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { that.scene.start("mainMenu"); }, callbackScope: this, loop: false });
-    
-      
+      that.scene.get("Level_" + that.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { that.scene.start("mainMenu"); }, callbackScope: this, loop: false });
+
+
     }
 
-    this.exitText = this.add.text(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(33.33, "y", this), "Are you sure you want to return?", { fontFamily: '"amazingkids_font"', fontSize: 48, color: 'white' });
+    let exitTextVar;
+    switch(this.sys.game.language){
+      case "en":
+          exitTextVar = "Are you sure you want to return?";
+          break;
+      case "es":
+          exitTextVar = "¿Estás seguro de que quieres salir?";
+          break;
+      default:
+          break;
+  }
+
+    this.exitText = this.add.text(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(33.33, "y", this), exitTextVar, { fontFamily: '"amazingkids_font"', fontSize: 48, color: 'white' });
+    
     this.exitText.setDepth(1100);
     this.exitText.setScrollFactor(0);
     this.exitText.setOrigin(0.5);
     this.exitText.setVisible(false);
 
-    this.denyButton = new Button({ scene: this, x: 33.33, y: 66.66,  texture: 'Cross', frame: 0, scale: 0.025});
+    this.denyButton = new Button({ scene: this, x: 33.33, y: 66.66, texture: 'Cross', frame: 0, scale: 0.025 , multipleUse: true});
     this.denyButton.create();
     this.denyButton.setScrollFactor(0);
     this.denyButton.touchableArea.setScrollFactor(0);
@@ -139,49 +232,49 @@ export default class level2 extends Phaser.Scene {
 
     //this.denyButton.setAlpha(100);
     //that.denyButton.removeInteractive();
-  
+
 
     this.denyButton.pointerUp = function () {
       SoundManager.playSound('ButtonSound', that);
       that.darkBackground.active = false;
-          that.darkBackground.setAlpha(0);
-          that.player.canMove = true;
+      that.darkBackground.setAlpha(0);
+      that.player.canMove = true;
 
-          that.confButton.setAlpha(0);
-          that.confButton.touchableArea.setAlpha(0);
-          that.denyButton.setAlpha(0);
-          that.denyButton.touchableArea.setAlpha(0);
-          that.exitText.setVisible(false);
+      that.confButton.setAlpha(0);
+      that.confButton.touchableArea.setAlpha(0);
+      that.denyButton.setAlpha(0);
+      that.denyButton.touchableArea.setAlpha(0);
+      that.exitText.setVisible(false);
     }
 
     this.exitButton.pointerUp = function () {
       SoundManager.playSound('ButtonSound', that);
       UsefulMethods.print("Pointerup3");
-        if(!that.darkBackground.active){
-          that.darkBackground.active = true;
-          that.darkBackground.setAlpha(100);
-          that.player.canMove = false;
+      if (!that.darkBackground.active) {
+        that.darkBackground.active = true;
+        that.darkBackground.setAlpha(100);
+        that.player.canMove = false;
 
-          that.confButton.setAlpha(100);
-          that.confButton.touchableArea.setAlpha(0.1);
-          that.denyButton.setAlpha(100);
-          that.denyButton.touchableArea.setAlpha(0.1);
+        that.confButton.setAlpha(100);
+        that.confButton.touchableArea.setAlpha(0.1);
+        that.denyButton.setAlpha(100);
+        that.denyButton.touchableArea.setAlpha(0.1);
 
-          that.exitText.setVisible(true);
+        that.exitText.setVisible(true);
 
-        }else{
-          that.darkBackground.active = false;
-          that.darkBackground.setAlpha(0);
-          that.player.canMove = true;
+      } else {
+        that.darkBackground.active = false;
+        that.darkBackground.setAlpha(0);
+        that.player.canMove = true;
 
-          that.confButton.setAlpha(0);
-          that.confButton.touchableArea.setAlpha(0);
-          that.denyButton.setAlpha(0);
-          that.denyButton.touchableArea.setAlpha(0);
+        that.confButton.setAlpha(0);
+        that.confButton.touchableArea.setAlpha(0);
+        that.denyButton.setAlpha(0);
+        that.denyButton.touchableArea.setAlpha(0);
 
-          that.exitText.setVisible(false);
-        }
-        
+        that.exitText.setVisible(false);
+      }
+
     }
 
     //Creamos los enemigos
@@ -261,7 +354,6 @@ export default class level2 extends Phaser.Scene {
     var initialPosition = -40;
     this.fences.push(this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFenceNight'));
     var fence = this.fences[0];
-    //fence.setTint(this.color);
     fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
     fence.scaleY = fence.scaleX;
     fence.setDepth(-8);
@@ -272,7 +364,6 @@ export default class level2 extends Phaser.Scene {
     while (fence.x < this.floors[0].width * this.floors[0].scaleX * 3) {
       initialPosition += 12;
       fence = this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFenceNight');
-      //fence.setTint(this.color);
       this.fences.push(fence);
       fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
       fence.scaleY = fence.scaleX;
@@ -286,7 +377,7 @@ export default class level2 extends Phaser.Scene {
     this.enemies = [];
 
     this.enemies.push(new Enemy({
-      scene: this, x: (this.floors[0].x + (this.floors[0].width) * (this.floors[0].scaleX) * 0.5), y: 75,
+      scene: this, x: (this.floors[0].x + (this.floors[0].width) * (this.floors[0].scaleX) * 0.5), y: UsefulMethods.RelativePosition(90, "y", this),
       texture: 'IdlePlant',
       frame: 0,
       attackTime: 0.45,
@@ -297,6 +388,7 @@ export default class level2 extends Phaser.Scene {
       attackAnimation: 'PlantAttackAnim',
       tint: this.color
     }));
+
 
     this.anims.create({
       key: 'CarnivoreFlowerIdle',
@@ -329,7 +421,7 @@ export default class level2 extends Phaser.Scene {
 
     this.enemies.push(new Enemy({
       scene: this, x: (this.floors[2].x + (this.floors[2].width) * (this.floors[2].scaleX) * 0.5), y: 75,
-      texture: 'IdleMushroom', frame: 0, attackTime: 0.45, window: 0.55, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim',tint: this.color
+      texture: 'IdleMushroom', frame: 0, attackTime: 0.45, window: 0.55, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim', tint: this.color
     }));
 
     this.arrow = this.add.sprite(this.enemies[0].x, this.enemies[0].y - UsefulMethods.RelativePosition(15, 'y', this), 'Arrow');
@@ -339,9 +431,9 @@ export default class level2 extends Phaser.Scene {
     this.arrow.setDepth(15);
 
     this.enemies.forEach(element => { 
-      element.create();
-      element.setTint(0xB88ADC);
-     });
+      element.create(); 
+      element.setTint(this.color);
+    });
   }
 
   /**
@@ -353,8 +445,29 @@ export default class level2 extends Phaser.Scene {
     this.cameras.main.zoomTo(this.cameraZoom, 0);
     // La cámara sigue al jugador
     this.cameras.main.startFollow(this.player, true);
+    this.cameras.main.setFollowOffset(-150);
   }
 
+  restoreLerp(value, time) {
+    var that = this;
+    this.time.addEvent({
+      delay: time,
+      callback: () => {
+        that.cameras.main.setLerp(value, value);
+      }
+    });
+  }
+
+  restoreLerp(value, time, canMove) {
+    var that = this;
+    this.time.addEvent({
+      delay: time,
+      callback: () => {
+        that.cameras.main.setLerp(value, value);
+        that.player.canMove = canMove;
+      }
+    });
+  }
 
   RepeatElement(element, distance, times, yCoord, depth) {
     for (var i = 0; i < times; i++) {
@@ -403,7 +516,7 @@ export default class level2 extends Phaser.Scene {
 
     // this.nextFloor.setPipeline('Light2D');
 
-    var randomEnemy = Phaser.Math.Between(1, 5);
+    var randomEnemy = Phaser.Math.Between(1, 4);
     switch (randomEnemy) {
       case 1:
         this.enemies.push(new Enemy({
@@ -476,17 +589,18 @@ export default class level2 extends Phaser.Scene {
         }));
         break;
     }
-    this.enemies[this.nextFloor].setTint(0xB88ADC);
+
     this.physics.add.collider(this.enemies[this.nextFloor], this.floors[this.currentFloor]);
     this.physics.add.collider(this.enemies[this.nextFloor].collision, this.floors[this.currentFloor]);
     this.enemies[this.nextFloor].create();
+    this.enemies[this.nextFloor].setTint(this.color);
 
     var enemy = this.enemies[this.nextFloor];
     var combat = function () {
       this.player.canMove = false;
       this.player.anims.play('GnomeStopAnim');
       SoundManager.playMusic('battle-theme1', this);
-      
+
       this.currentEnemy = enemy;
       this.combatHappening = true;
 
@@ -495,7 +609,6 @@ export default class level2 extends Phaser.Scene {
       enemy.collision.destroy();
 
       this.cameras.main.setLerp(0.09, 0.09);
-      this.cameras.main.setFollowOffset(-this.cameraOffsetInCombat);
       this.cameras.main.zoomTo(this.cameraZoomInCombat, 300, 'Sine.easeInOut');
 
       this.newFloor();
@@ -606,9 +719,8 @@ export default class level2 extends Phaser.Scene {
         Math.random() <= 0.8 ? sprites[0] : sprites[(Math.floor((1 + Math.random() * (sprites.length - 1))))]);
 
       object.setOrigin(0.5, 1);
-      
       //object.setPipeline('Light2D');
-      object.scaleX = UsefulMethods.RelativeScale(0.04, "x", this);
+      object.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
       object.scaleY = object.scaleX;
       object.scaleX = Math.random() <= 0.5 ? object.scaleX : -object.scaleX;
 
@@ -665,7 +777,7 @@ export default class level2 extends Phaser.Scene {
     this.physics.add.collider(this.player, this.floors[1]);
     this.physics.add.collider(this.player, this.floors[2]);
     this.physics.add.collider(this.player, this.floor3);
-    
+
     this.enemies.forEach(element => {
 
       this.floors.forEach(element2 => {
@@ -698,13 +810,12 @@ export default class level2 extends Phaser.Scene {
         SoundManager.playMusic('battle-theme1', this);
         that.currentEnemy = element;
         that.combatHappening = true;
-        
+
         element.attack();
         element.createBars();
         element.collision.destroy();
 
         this.cameras.main.setLerp(0.09, 0.09);
-        that.cameras.main.setFollowOffset(-that.cameraOffsetInCombat);
         that.cameras.main.zoomTo(that.cameraZoomInCombat, 300, 'Sine.easeInOut');
 
         if (!this.firstCombat) {
@@ -734,6 +845,8 @@ export default class level2 extends Phaser.Scene {
   update(delta) {
     SoundManager.update(this);
 
+    //this.clouds.forEach(element => { element.update(); });
+
     this.scoreText.setText(this.player.score);
 
     //Si currentEnemy existe (lo hace en caso de estar en un combate) se actualizan los textos con sus datos para testear.
@@ -752,16 +865,6 @@ export default class level2 extends Phaser.Scene {
     this.whiteHealthBar.scaleX = UsefulMethods.lerp(this.whiteHealthBar.scaleX, this.healthBar.scaleX, 0.15);
     // #region Teclas y movimiento
     this.player.update(delta);
-  }
-
-  restoreLerp(value, time) {
-    var that = this;
-    this.time.addEvent({
-      delay: time,
-      callback: () => {
-        that.cameras.main.setLerp(value, value);
-      }
-    });
   }
 
 }
