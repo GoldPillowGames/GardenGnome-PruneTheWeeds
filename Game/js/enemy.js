@@ -44,18 +44,19 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         switch (texture) {
             case 'IdlePlant':
                 UsefulMethods.print("planta");
-                this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(1, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
+                this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(1, "x", scene), y, texture, frame);
                 break;
             case 'IdleMushroom':
-                this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(3.5, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
+                this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(3.5, "x", scene), y, texture, frame);
                 break;
             default:
-                this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(7.5, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
+                this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(7.5, "x", scene), y, texture, frame);
                 break;
         }
 
         //this.collision = this.scene.physics.add.sprite(x - UsefulMethods.RelativePosition(10, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture, frame);
         this.collision.setAlpha(0);
+        this.collision.setOrigin(this.collision.originX, 1);
 
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
@@ -154,8 +155,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             onComplete: function () {
 
             },
-            onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
-            onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+            onYoyo: function () {  },
+            onRepeat: function () {  },
         });
     }
 
@@ -253,8 +254,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 that.setTint(that.tinte);
                 UsefulMethods.print("Tinte" + that.tinte);
             },
-            onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
-            onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+            onYoyo: function () {  },
+            onRepeat: function () {  },
         });
 
     }

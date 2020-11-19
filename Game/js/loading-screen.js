@@ -71,6 +71,7 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.audio('finalAttack1', 'assets/audio/sfx/final-attack.mp3');
         this.load.audio('gnomeDamaged1', 'assets/audio/sfx/gnomeDamaged1.wav');
         this.load.audio('walkSound', 'assets/audio/sfx/walkingSound.mp3');
+        this.load.audio('parrySound', 'assets/audio/sfx/parrysound.wav');
 
         this.load.image('SettingsBackground', ['assets/main-menu/settings-background.png', 'assets/main-menu/settings-background_n3.png']);
         this.load.image('SliderBar', 'assets/main-menu/slider-bar.png');

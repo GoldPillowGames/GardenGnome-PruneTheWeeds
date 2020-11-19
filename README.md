@@ -184,7 +184,7 @@ Nada más empezar, crea al jugador, el escenario, los 3 primeros enemigos y todo
 
 #### Script del nivel 2 
 
-Nada más empezar, crea al jugador, el escenario, los 3 primeros enemigos y todos los elementos de la interfaz (algunos empezarán ocultos). Cada vez que el jugador derrote a un enemigo (a excepción del primero) se generará nuevo terreno y un nuevo enemigo en la dirección X de la escena, para que el nivel sea infinito. Para generar este nuevo terreno se utilizan aquellos objetos que se encuentren a la izquierda del jugador, por lo que nunca los iba a volver a ver. De esta forma se evitan problemas de rendimiento al no tener cada vez más objetos en la escena, y al no tener que eliminarlos e instanciarlos de nuevo cada vez que se quiera hacer avanzar el terreno. Para crear los enemigos se utiliza la clase Enemy, y se les asigna una función que se ejecutará cuando el jugador se acerque suficiente, para iniciar el combate. Los enemigos se generan de forma aleatoria cada vez (a excepción de los 3 primeros). 
+El funcionamiento es parecido al del nivel 1, pero con un nuevo enemigo, con sus características correspondientes, y un aspecto visual diferente.
 
 #### Script del enemigo
 
