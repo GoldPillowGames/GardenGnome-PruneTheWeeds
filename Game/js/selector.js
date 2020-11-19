@@ -15,7 +15,7 @@ export default class Selector extends Phaser.GameObjects.Container {
 
 
         var posX = 45;
-        this.minus = new Button({scene:scene, x:x + posX, y:y, texture: minusTexture, frame:4, scale:0.0115});
+        this.minus = new Button({scene:scene, x:x + posX, y:y, texture: minusTexture, frame:4, scale:0.0115, multipleUse: true});
         
         let style = {
             fontFamily: 'amazingkids_font', 
@@ -47,7 +47,7 @@ export default class Selector extends Phaser.GameObjects.Container {
         this.valueText.scaleX = UsefulMethods.RelativeScale(0.08, 'x', scene)
         this.valueText.scaleY = this.valueText.scaleX;
 
-        this.plus = new Button({scene:scene, x:x+posX+32, y:y, texture: plusTexture, frame:4, scale:0.0115});
+        this.plus = new Button({scene:scene, x:x+posX+32, y:y, texture: plusTexture, frame:4, scale:0.0115, multipleUse: true});
         this.options = options;
     }
 
