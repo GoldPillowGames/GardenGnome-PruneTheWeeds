@@ -21,7 +21,21 @@ export default class SoundManager {
     });
   }
 
+  static stopMusic(scene, time) {
+    var music = scene.sys.game.currentMusic;
+    scene.sys.game.currentMusic = null;
+    scene.tweens.add({
+      targets: music,
+      volume: 0,
+      duration: time,
+    });
+  }
+
   static playMusic(musicName, scene) {
+    if (scene.sys.game.currentMusic === scene.sound.get(musicName)) {
+      return;
+    }
+      
     if (scene.sys.game.currentMusic != null) {
       var previousMusic = scene.sys.game.currentMusic;
       scene.tweens.add({
