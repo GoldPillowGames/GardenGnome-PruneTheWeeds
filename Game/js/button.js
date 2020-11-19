@@ -25,6 +25,8 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
         this.pointerUpScale = 0.03;
         // #endregion
 
+        this.activated = true;
+
         this.scene.add.existing(this);
 
         
@@ -66,7 +68,11 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
         this.touchableArea.on('pointerup', function(){
             if (that.pressed === true) {
                 that.pressed = false;
-                that.pointerUp();
+                if(that.activated){
+                    that.activated = false;
+                    that.pointerUp();
+                }
+                
                 if(!(this.scene.sys.game.device.os.android || this.scene.sys.game.device.os.iOS || this.scene.sys.game.device.os.iPad || this.scene.sys.game.device.os.iPhone)){
                     that.playPointerUpAnim(that);
                 }else{
