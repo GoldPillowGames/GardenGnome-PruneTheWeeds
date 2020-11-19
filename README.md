@@ -54,6 +54,7 @@ El objetivo es llegar a un acuerdo con una compañía conocida, en el que la com
 - **Motivo:** La mecánica del parry como elemento clave en el sistema de combate. 
 
 ### Elevator Pitch
+Garden Gnome: Prune the Weeds es un juego arcade para un solo jugador donde se debe avanzar por un escenario procedimental en 2 dimensiones eliminando enemigos, siendo la mecánica principal el contraataque, la cual toma inspiración en juegos como Sekiro: Shadows Die Twice. El juego se ha desarrollado haciendo uso de Javascript moderno orientado a objetos y el framework Phaser 3, lo cual ha agilizado el avance del proyecto y ha permitido que sea jugable en navegadores como Google Chrome y Firefox. El diseño visual del juego se basa en elementos de la naturaleza y la jardinería, concluyendo en un resultado simpático y amigable para todos los públicos, cumpliendo el juego los requisitos para obtener un hipotético Pegi 3, lo que permite que la suma de todos estos puntos dé lugar a un juego divertido y apto para el público objetivo. 
 
 ### Descripción general del proyecto
 El juego consiste en el avance de un personaje en un mundo de fantasía, partiendo de su reino hasta llegar al castillo de la maldad, donde el protagonista se enfrentará al mayor de los males.
