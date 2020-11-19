@@ -42,7 +42,7 @@ El objetivo es llegar a un acuerdo con una compañía conocida, en el que la com
 | Elvira Gutiérrez Bartolomé  | 1. Photoshop | 20€ |
 | Germán López Gutiérrez  | 1. Gimp | 0€ |
 | Fernando Martín Espina  | 1. Gimp | 0€ |
-|  | **Coste Total**  | 101€ |
+|  | **Coste Total**  | 87.50€ |
 
 ### Influencias 
 
