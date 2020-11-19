@@ -1,4 +1,5 @@
-# Garden Gnome: Prune the weeds
+![Logo](https://user-images.githubusercontent.com/44704611/99666511-620fc500-2a6b-11eb-8b4b-4eccd9de9838.png)
+
 ## Visión General
 ### Tema
 La maestría del contraataque como arte. 
@@ -17,11 +18,12 @@ El objetivo es llegar a un acuerdo con una compañía conocida, en el que la com
 
 #### Canvas
 
-![Canvas](https://user-images.githubusercontent.com/44704611/99603198-1cb7ad00-2a03-11eb-8228-9efa5c9d873e.png)
+![ModeloCanvas (1)](https://user-images.githubusercontent.com/44704611/99667252-6ab4cb00-2a6c-11eb-80c0-36070c903d7f.png)
+
 
 ### Alcance del proyecto 
 #### Tiempo y coste
-- **Coste principal:** 101 € 
+- **Coste principal:** 87.50 € 
 - **Tiempo:** 7 semanas 
 #### Equipo
 | Nombre | Roles |
@@ -35,8 +37,8 @@ El objetivo es llegar a un acuerdo con una compañía conocida, en el que la com
 #### Licencias y Hardware
 | Nombre | Software / Licencia | Coste Total
 | ----------- | ----------- | ----------- |
-| Ignacio Atance Loras  | 1. Clip Studio Paint | 21€ |
-| Jorge Sánchez Sánchez  | 1. Clip Studio Paint<br/> 2. Aseprite | 60€ |
+| Ignacio Atance Loras  | 1. Clip Studio Paint | 22.50€ |
+| Jorge Sánchez Sánchez  | 1. Clip Studio Paint<br/> 2. Aseprite | 45€ |
 | Elvira Gutiérrez Bartolomé  | 1. Photoshop | 20€ |
 | Germán López Gutiérrez  | 1. Gimp | 0€ |
 | Fernando Martín Espina  | 1. Gimp | 0€ |
