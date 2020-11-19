@@ -88,7 +88,7 @@ export default class level2 extends Phaser.Scene {
     this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2 , HP: 5, tint: this.color});
     this.player.create();
     this.player.body.setOffset(0, -20);
-    this.player.setTint(0xB88ADC);
+    this.player.setTint(0x9DA5C4);
     // this.player.onDie = () => {SoundManager.stopMusic(that.sys.game.currentMusic);}
 
     this.inputManager = new InputManager(this);
@@ -262,7 +262,7 @@ export default class level2 extends Phaser.Scene {
     var initialPosition = -40;
     this.fences.push(this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence'));
     var fence = this.fences[0];
-    //fence.setTint(0xB88ADC);
+    fence.setTint(this.color);
     fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
     fence.scaleY = fence.scaleX;
     fence.setDepth(-8);
@@ -273,7 +273,7 @@ export default class level2 extends Phaser.Scene {
     while (fence.x < this.floors[0].width * this.floors[0].scaleX * 3) {
       initialPosition += 12;
       fence = this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence');
-      fence.setTint(0xB88ADC);
+      fence.setTint(this.color);
       this.fences.push(fence);
       fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
       fence.scaleY = fence.scaleX;
