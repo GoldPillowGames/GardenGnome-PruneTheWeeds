@@ -231,6 +231,10 @@ Contiene 2 funciones, para reproducir música y audio respectivamente. También 
 
 Permite elegir entre varias opciones preestablecidas por los programadores (por ejemplo, entre varios idiomas). 
 
+#### Script de la nube 
+
+Permite instanciar nubes en las escenas. Controla el comportamiento de las mismas. 
+
 ## Animación
 
 ### Personaje principal  
