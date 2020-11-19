@@ -78,14 +78,7 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     create() {
-        if(!this.sys.game.currentMusic){
-            this.sys.game.currentMusic = SoundManager.playMusic('menu-theme', this);
-        }else{
-            if(this.sys.game.currentMusic.volume <= 0){
-                this.sys.game.currentMusic = SoundManager.playMusic('menu-theme', this);
-            }
-        }
-        
+        SoundManager.playMusic('menu-theme', this);
 
         this.width = this.sys.game.config.width;
         this.height = this.sys.game.config.height;
@@ -163,7 +156,6 @@ export default class MainMenu extends Phaser.Scene {
 
             that.hardMode = false;
             that.cameras.main.fadeOut(200);
-            SoundManager.stopMusic(that.sys.game.currentMusic);
             that.scene.get("mainMenu").time.addEvent({ delay: 210, callback: function () { that.scene.start(levelName); }, callbackScope: this, loop: false });
         }
 
@@ -174,7 +166,6 @@ export default class MainMenu extends Phaser.Scene {
 
             that.hardMode = true;
             that.cameras.main.fadeOut(200);
-            SoundManager.stopMusic(that.sys.game.currentMusic);
             that.scene.get("mainMenu").time.addEvent({ delay: 210, callback: function () { that.scene.start(levelName); }, callbackScope: this, loop: false });
         }
 
@@ -321,6 +312,7 @@ export default class MainMenu extends Phaser.Scene {
     }
 
     update(delta) {
+        SoundManager.update(this);
         this.buttons.forEach(element => {
             element.update(delta);
         });

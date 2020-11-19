@@ -1,5 +1,6 @@
 import UsefulMethods from '../useful-methods.js';
 import Button from '../button.js';
+import SoundManager from '../sound-manager.js';
 
 // Clase correspondiente a la escena de splash screen.
 export default class GameOver extends Phaser.Scene {
@@ -113,7 +114,7 @@ export default class GameOver extends Phaser.Scene {
   }
 
   update() {
-
+    SoundManager.update(this);
   }
 
 }

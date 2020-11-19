@@ -348,6 +348,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     this.slowMotion = 0.05;
                     this.scene.tweens.timeScale = this.slowMotion;
 
+                    SoundManager.stopMusic(this.scene);
+
                     this.scene.time.addEvent({
                         delay: 225,
                         callback: () => {
@@ -359,12 +361,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     this.scene.time.addEvent({
                         delay: 600,
                         callback: () => {
-                            SoundManager.stopMusic(this.scene.sys.game.currentMusic);
-                            this.scene.sys.game.currentMusic = SoundManager.playMusic('theme1', this.scene);
                             this.slowMotion = 1;
+                            SoundManager.playMusic('theme1', this.scene);
                             this.scene.cameraZoom = 0.9;
-                            
-                            this.scene.cameras.main.setFollowOffset(this.scene.cameras.main.offsetX);
                             this.scene.cameras.main.rotateTo(0, true, 200, 'Cubic.easeOut');
                             this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 200, 'Expo.easeOut');
 

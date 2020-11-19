@@ -43,7 +43,6 @@ export default class level1 extends Phaser.Scene {
 
     this.cameraZoomInCombat = 1.1;
     this.cameraZoomWhenKilling = 1.3;
-    this.cameraOffsetInCombat = 100;
     this.cameraRotationWhenKilling = 0.01;
 
     this.combatHappening = false;
@@ -66,7 +65,7 @@ export default class level1 extends Phaser.Scene {
     //let that = this;
     this.cameras.main.fadeIn(1000);
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
-    this.sys.game.currentMusic = SoundManager.playMusic('theme1', this);
+    SoundManager.playMusic('theme1', this);
 
     this.darkBackground = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'DarkBackground');
     this.darkBackground.setOrigin(0.5,0.5);
@@ -112,7 +111,6 @@ export default class level1 extends Phaser.Scene {
       UsefulMethods.print("Pointerup1");
       that.cameras.main.fadeOut(200);
       SoundManager.playSound('ButtonSound', that);
-      SoundManager.stopMusic(that.sys.game.currentMusic);
       that.scene.get("Level_"+that.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { that.scene.start("mainMenu"); }, callbackScope: this, loop: false });
     
       
@@ -345,6 +343,7 @@ export default class level1 extends Phaser.Scene {
     this.cameras.main.zoomTo(this.cameraZoom, 0);
     // La cámara sigue al jugador
     this.cameras.main.startFollow(this.player, true);
+    this.cameras.main.setFollowOffset(-150);
   }
 
   restoreLerp(value, time) {
@@ -497,8 +496,7 @@ export default class level1 extends Phaser.Scene {
     var combat = function () {
       this.player.canMove = false;
       this.player.anims.play('GnomeStopAnim');
-      SoundManager.stopMusic(this.sys.game.currentMusic);
-      this.sys.game.currentMusic = SoundManager.playMusic('battle-theme1', this);
+      SoundManager.playMusic('battle-theme1', this);
 
       this.currentEnemy = enemy;
       this.combatHappening = true;
@@ -508,7 +506,6 @@ export default class level1 extends Phaser.Scene {
       enemy.collision.destroy();
 
       this.cameras.main.setLerp(0.09, 0.09);
-      this.cameras.main.setFollowOffset(-this.cameraOffsetInCombat);
       this.cameras.main.zoomTo(this.cameraZoomInCombat, 300, 'Sine.easeInOut');
 
       this.newFloor();
@@ -707,8 +704,7 @@ export default class level1 extends Phaser.Scene {
       var combat = function () {
         that.player.canMove = false;
         that.player.anims.play('GnomeStopAnim');
-        SoundManager.stopMusic(this.sys.game.currentMusic);
-        this.sys.game.currentMusic = SoundManager.playMusic('battle-theme1', this);
+        SoundManager.playMusic('battle-theme1', this);
         that.currentEnemy = element;
         that.combatHappening = true;
 
@@ -717,7 +713,6 @@ export default class level1 extends Phaser.Scene {
         element.collision.destroy();
 
         this.cameras.main.setLerp(0.09, 0.09);
-        that.cameras.main.setFollowOffset(-that.cameraOffsetInCombat);
         that.cameras.main.zoomTo(that.cameraZoomInCombat, 300, 'Sine.easeInOut');
 
         if (!this.firstCombat) {
@@ -745,6 +740,8 @@ export default class level1 extends Phaser.Scene {
    * Método que se ejecuta constantemente, en el de momento solo están los controles de movimiento.
    */
   update(delta) {
+    SoundManager.update(this);
+
     this.scoreText.setText(this.player.score);
 
     //Si currentEnemy existe (lo hace en caso de estar en un combate) se actualizan los textos con sus datos para testear.

@@ -188,7 +188,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     die() {
         if (!this.isDead) {
             //this.onDie();
-            SoundManager.stopMusic(this.scene.sys.game.currentMusic);
             // UsefulMethods.print("El jugador muere. Pasa lo que tenga que pasar.");
             this.scene.sys.game.score = this.score;
             this.scene.cameras.main.fadeOut(150);
@@ -292,26 +291,48 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
                 this.scene.currentEnemy.playerHasParried();
                 this.anims.play('GnomeParryUp');
+                this.parryLittleMovement()
 
             }
             else if (this.scene.arrow.angle == 90 && this.scene.inputManager.downButton.isDown) {
 
                 this.scene.currentEnemy.playerHasParried();
                 this.anims.play('GnomeParryDown');
-
+                this.parryLittleMovement()
             } else if (this.scene.hardMode) {
                 if (this.scene.arrow.angle == 0 && this.scene.inputManager.rightButton.isDown) {
 
                     this.scene.currentEnemy.playerHasParried();
                     this.anims.play('GnomeParryUp');
-
+                    this.parryLittleMovement()
                 } else if (this.scene.arrow.angle == -180 && this.scene.inputManager.leftButton.isDown) {
 
                     this.scene.currentEnemy.playerHasParried();
                     this.anims.play('GnomeParryDown');
-
+                    this.parryLittleMovement()
                 }
             }
         }
+    }
+
+    parryLittleMovement() {
+        var that = this;
+        this.scene.tweens.add({
+            targets: that,
+            x: that.x - 15,
+            ease: 'Power1',
+
+            duration: 85,
+            yoyo: true,
+            repeat: 0,
+            onStart: function () {
+
+            },
+            onComplete: function () {
+
+            },
+            onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
+            onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+        });
     }
 }
