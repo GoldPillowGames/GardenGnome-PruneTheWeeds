@@ -17,16 +17,18 @@ export default class SoundManager {
     scene.tweens.add({
       targets: music,
       volume: 0,
-      duration: 5
+      duration: 5,
     });
   }
 
   static playMusic(musicName, scene) {
     if (scene.sys.game.currentMusic != null) {
+      var previousMusic = scene.sys.game.currentMusic;
       scene.tweens.add({
         targets: scene.sys.game.currentMusic,
         volume: 0,
-        duration: 500
+        duration: 500,
+        onComplete: function() {previousMusic.pause();}
       });
     }
 
