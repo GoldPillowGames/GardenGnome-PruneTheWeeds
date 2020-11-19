@@ -134,6 +134,19 @@ En cuanto a la transición inicial, esta comienza con un fade in de 200 milisegu
 
 Si se pulsa el botón de jugar (el del centro), los 3 botones desaparecerán con una animación, para aparecer otros 2 botones. Aquí el jugador podrá elegir entre uno de los 2 escenarios disponibles para jugar. Cuando esto suceda, de nuevo desaparecerán los botones y aparecerán otros nuevos para elegir la dificultad. Será entonces cuando el jugador elija la dificultad, se producirá un fade out de 200 milisegundos, y empezará la partida. 
 
+### Menú de opciones
+
+En el menú de opciones, se puede configurar el volumen global del juego, y los volúmenes de los efectos de sonido y de la música por separado, para que se pueda configurar la mezcla al gusto del jugador. 
+
+También se podrá elegir el idioma, entre el inglés y el español, y habrá un botón para volver al menú principal. 
+
+### Menú de créditos y contacto
+
+En la escena de créditos y contacto, se mostrarán los autores del proyecto, las referencias necesarias y una forma de contacto por correo electrónico, para poder comunicarse con los desarrolladores. 
+
+También habrá un botón para volver al menú principal. 
+
+
 ## Assets necesarios
 
 ### Diseños 2D
