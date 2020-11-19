@@ -1,0 +1,255 @@
+{
+  "frames": {
+    "Andar 910x860/Línea de tiempo 1_0000.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "sourceSize": {
+        "w": 910,
+        "h": 860
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Andar 910x860/Línea de tiempo 1_0001.png": {
+      "frame": {
+        "x": 910,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "sourceSize": {
+        "w": 910,
+        "h": 860
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Andar 910x860/Línea de tiempo 1_0002.png": {
+      "frame": {
+        "x": 1820,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "sourceSize": {
+        "w": 910,
+        "h": 860
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Andar 910x860/Línea de tiempo 1_0003.png": {
+      "frame": {
+        "x": 2730,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "sourceSize": {
+        "w": 910,
+        "h": 860
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Andar 910x860/Línea de tiempo 1_0004.png": {
+      "frame": {
+        "x": 3640,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "sourceSize": {
+        "w": 910,
+        "h": 860
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Andar 910x860/Línea de tiempo 1_0005.png": {
+      "frame": {
+        "x": 4550,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "sourceSize": {
+        "w": 910,
+        "h": 860
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Andar 910x860/Línea de tiempo 1_0006.png": {
+      "frame": {
+        "x": 0,
+        "y": 860,
+        "w": 910,
+        "h": 860
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "sourceSize": {
+        "w": 910,
+        "h": 860
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Andar 910x860/Línea de tiempo 1_0007.png": {
+      "frame": {
+        "x": 910,
+        "y": 860,
+        "w": 910,
+        "h": 860
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "sourceSize": {
+        "w": 910,
+        "h": 860
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Andar 910x860/Línea de tiempo 1_0008.png": {
+      "frame": {
+        "x": 1820,
+        "y": 860,
+        "w": 910,
+        "h": 860
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "sourceSize": {
+        "w": 910,
+        "h": 860
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "Andar 910x860/Línea de tiempo 1_0009.png": {
+      "frame": {
+        "x": 2730,
+        "y": 860,
+        "w": 910,
+        "h": 860
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 910,
+        "h": 860
+      },
+      "sourceSize": {
+        "w": 910,
+        "h": 860
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "meta": {
+    "app": "http://free-tex-packer.com",
+    "version": "0.6.6",
+    "image": "enano ANDANDO.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 5460,
+      "h": 1720
+    },
+    "scale": 1
+  }
+}
