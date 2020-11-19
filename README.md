@@ -16,10 +16,13 @@ El objetivo es llegar a un acuerdo con una compañía conocida, en el que la com
 
 ![Modelo_Empatia_Gold_Pillow_Games](https://user-images.githubusercontent.com/44704611/99603174-11648180-2a03-11eb-8e79-f300098ddc1d.png)
 
-#### Canvas
+#### Canvas:
 
 ![ModeloCanvas (1)](https://user-images.githubusercontent.com/44704611/99667252-6ab4cb00-2a6c-11eb-80c0-36070c903d7f.png)
 
+#### Caja de herramientas:
+
+![Caja de herramientas](https://user-images.githubusercontent.com/44704611/99704363-951c7d80-2a98-11eb-8d14-9bbd86566efd.png)
 
 ### Alcance del proyecto 
 #### Tiempo y coste
