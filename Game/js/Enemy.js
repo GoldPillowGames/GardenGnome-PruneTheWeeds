@@ -307,12 +307,16 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     /*if (this.firstAttack) {
                         this.firstAttack = false;*/
                     this.scene.player.anims.play('GnomeAttackAnim');
+                    SoundManager.playSound('axeAttack', this.scene);
+                    //SoundManager.playSound('enemyDamage1', this.scene);
                     //};
 
                     // Reproducir sonido hachazo.
                 }
                 else {
                     var that = this;
+                    SoundManager.playSound('enemyDeath1', this.scene);
+                    SoundManager.playSound('finalAttack1', this.scene);
                     this.scene.tweens.add({
                         targets: that,
                         alpha: { value: 0, duration: 50, ease: 'Linear' },
@@ -359,6 +363,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                             this.scene.sys.game.currentMusic = SoundManager.playMusic('theme1', this.scene);
                             this.slowMotion = 1;
                             this.scene.cameraZoom = 0.9;
+                            
                             this.scene.cameras.main.setFollowOffset(this.scene.cameras.main.offsetX);
                             this.scene.cameras.main.rotateTo(0, true, 200, 'Cubic.easeOut');
                             this.scene.cameras.main.zoomTo(this.scene.cameraZoom, 200, 'Expo.easeOut');
@@ -380,7 +385,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
     die() {
         this.isAboutToDie = true;
-
+        
         this.scene.tweens.timeScale = 1;
 
         this.staminaBar.destroy();

@@ -29,10 +29,13 @@ export default class SoundManager{
       return currentMusic;
     }
 
-    static playSound(soundName, scene){
+    static playSound(soundName, scene, volume){
+      if(!volume){
+        volume = 1;
+      }
       scene.sound.add(soundName).play({
         mute: false,
-        volume: scene.sys.game.sfxVolume * scene.sys.game.globalVolume,
+        volume: scene.sys.game.sfxVolume * scene.sys.game.globalVolume * volume,
         rate: 1,
         detune: 0,
         seek: 0,
@@ -40,5 +43,17 @@ export default class SoundManager{
         delay: 0
       });
     }
+
+    // static playSound(soundName, scene, volume){
+    //   scene.sound.add(soundName).play({
+    //     mute: false,
+    //     volume: scene.sys.game.sfxVolume * scene.sys.game.globalVolume * volume,
+    //     rate: 1,
+    //     detune: 0,
+    //     seek: 0,
+    //     loop: false,
+    //     delay: 0
+    //   });
+    // }
 
 }

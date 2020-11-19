@@ -37,6 +37,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.scene.add.existing(this);
         this.scene.physics.add.existing(this);
+
+        this.step = 0;
+        this.isWalking = false;
         //this.setCollideWorldBounds(true);
     }
 
@@ -134,6 +137,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     hurt() {
         this.HP--;
+        SoundManager.playSound('gnomeDamaged1', this.scene);
         this.scene.healthBar.scaleX = (this.scene.player.HP / this.scene.player.maxHP);
 
         var that = this;
@@ -178,7 +182,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             });
             this.die();
         }
-        
+
     }
 
     die() {
@@ -194,6 +198,20 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(delta) {
+
+        
+        if (this.anims.currentFrame != null && this.anims.currentFrame.index === 1 && this.anims.currentAnim.key === 'GnomeWalkAnim' && this.step === 0) {
+            UsefulMethods.print(this.anims.currentFrame);
+            SoundManager.playSound('walkSound', this.scene, 0.65);
+            this.step = 1;
+        }
+
+        if (this.anims.currentFrame != null && this.anims.currentFrame.index === 6 && this.anims.currentAnim.key === 'GnomeWalkAnim' && this.step === 1) {
+            UsefulMethods.print(this.anims.currentFrame);
+            SoundManager.playSound('walkSound', this.scene, 0.65);
+            this.step = 0;
+        }
+
 
         this.parryWithKeys();
         if (this.scene.currentEnemy != null && Phaser.Input.Keyboard.JustDown(this.scene.inputManager.spaceButton)) {
@@ -241,7 +259,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         // }
 
         if (this.canMove && this.direction != 0 && this.anims.getCurrentKey() != 'GnomeWalkAnim') {
+            if(!this.isWalking){
+                this.isWalking = true;
+                this.step = 0;
+            }
             this.anims.play('GnomeWalkAnim');
+        }else{
+            if(this.isWalking){
+                this.isWalking = false;
+            }
         }
 
         // Se aplica la velocidad de movimiento al sprite
