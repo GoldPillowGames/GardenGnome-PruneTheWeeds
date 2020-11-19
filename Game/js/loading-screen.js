@@ -57,6 +57,7 @@ export default class LoadingScreen extends Phaser.Scene {
         this.load.image('House', 'assets/props/house.png');
         this.load.image('gnome-dead', ['assets/character/gnome-dead.png', 'assets/character/gnome-dead_n.png']);
         this.load.image('gnome-hurt', ['assets/character/gnome-hurt.png', 'assets/character/gnome-hurt_n.png']);
+        this.load.image('cloud', 'assets/props/cloud.png');
 
         this.load.audio('theme1', 'assets/audio/level1.wav');
         this.load.audio('menu-theme', 'assets/audio/menu-theme.wav');

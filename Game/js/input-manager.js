@@ -146,6 +146,8 @@ export default class InputManager {
     }
 
     update() {
+        if (!this.isJoystickVisible())
+            return;
         var module = UsefulMethods.vectorModule(this.pointerX - this.initialMouseX, this.pointerY - this.initialMouseY);
 
         var xMax, yMax;

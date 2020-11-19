@@ -14,6 +14,7 @@ import SoundManager from '../sound-manager.js';
 import Enemy from '../enemy.js';
 import Button from '../button.js';
 import Player from '../player.js';
+import Cloud from '../cloud.js';
 import InputManager from '../input-manager.js';
 import UIContainer from '../ui-container.js';
 
@@ -32,7 +33,7 @@ export default class level1 extends Phaser.Scene {
   preload() {
 
     // #region VARIABLES
-    this.debugMode = true;
+    this.debugMode = false;
 
     //this.sys.game.config.width = 100;
 
@@ -66,14 +67,14 @@ export default class level1 extends Phaser.Scene {
     this.cameras.main.fadeIn(1000);
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
 
-    
+
 
     let walkText;
     let parryText;
     let attackText;
 
-    if(!(this.sys.game.device.os.android || this.sys.game.device.os.iOS || this.sys.game.device.os.iPad || this.sys.game.device.os.iPhone)){
-      switch(this.sys.game.language){
+    if (!(this.sys.game.device.os.android || this.sys.game.device.os.iOS || this.sys.game.device.os.iPad || this.sys.game.device.os.iPhone)) {
+      switch (this.sys.game.language) {
         case "en":
           walkText = "Press D to walk.";
           parryText = "Press the directional arrows in the direction of the attack!";
@@ -87,8 +88,8 @@ export default class level1 extends Phaser.Scene {
         default:
           break;
       }
-    }else{
-      switch(this.sys.game.language){
+    } else {
+      switch (this.sys.game.language) {
         case "en":
           walkText = "Slide your finger to walk.";
           parryText = "Slide your finger in the direction of the attack!";
@@ -145,7 +146,7 @@ export default class level1 extends Phaser.Scene {
     this.darkBackground.scaleX = UsefulMethods.RelativeScale(0.5, "x", this);
     this.darkBackground.scaleY = UsefulMethods.RelativeScale(0.5, "y", this);
 
-    var house = this.add.sprite(UsefulMethods.RelativePosition(-35, "x", this), UsefulMethods.RelativePosition(83, "y", this), "House").setOrigin(0.5, 0.5).setDepth(8);
+    var house = this.add.sprite(UsefulMethods.RelativePosition(-35, "x", this), UsefulMethods.RelativePosition(83, "y", this), "House").setOrigin(0.5, 0.5).setDepth(12);
     house.scaleX = UsefulMethods.RelativeScale(0.079, "x", this);
     house.scaleY = house.scaleX;
 
@@ -154,6 +155,18 @@ export default class level1 extends Phaser.Scene {
     this.player.create();
     this.player.body.setOffset(0, -20);
     // this.player.onDie = () => {SoundManager.stopMusic(that.sys.game.currentMusic);}
+
+    this.clouds = [];
+    this.clouds.push(new Cloud({ scene: this, x: UsefulMethods.RelativePosition(25, 'x', this), y: UsefulMethods.RelativePosition(50, 'y', this), texture: 'cloud', frame: 0 }));
+    this.clouds.push(new Cloud({ scene: this, x: UsefulMethods.RelativePosition(75, 'x', this), y: UsefulMethods.RelativePosition(60, 'y', this), texture: 'cloud', frame: 0 }));
+    this.clouds.push(new Cloud({ scene: this, x: UsefulMethods.RelativePosition(125, 'x', this), y: UsefulMethods.RelativePosition(55, 'y', this), texture: 'cloud', frame: 0 }));
+    this.clouds.push(new Cloud({ scene: this, x: UsefulMethods.RelativePosition(175, 'x', this), y: UsefulMethods.RelativePosition(65, 'y', this), texture: 'cloud', frame: 0 }));
+
+    this.clouds.forEach(element => { element.create(); });
+
+    /*var cloud2 = this.add.sprite(UsefulMethods.RelativePosition(75, 'x', this), UsefulMethods.RelativePosition(50, 'y', this), "cloud");
+    cloud2.scaleX = UsefulMethods.RelativeScale(0.03, 'x', this);
+    cloud2.scaleY = cloud2.scaleX;*/
 
     this.inputManager = new InputManager(this);
     this.inputManager.create();
@@ -810,6 +823,8 @@ export default class level1 extends Phaser.Scene {
    */
   update(delta) {
     SoundManager.update(this);
+
+    this.clouds.forEach(element => { element.update(); });
 
     this.scoreText.setText(this.player.score);
 

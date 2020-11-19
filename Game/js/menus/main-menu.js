@@ -20,6 +20,7 @@ export default class MainMenu extends Phaser.Scene {
 
     preload() {
         this.hardMode = false;
+        this.isLeaving = false;
     }
 
     RepeatElement(element, distance, times, yCoord, depth) {
@@ -157,6 +158,7 @@ export default class MainMenu extends Phaser.Scene {
             that.hardMode = false;
             that.cameras.main.fadeOut(200);
             that.scene.get("mainMenu").time.addEvent({ delay: 210, callback: function () { that.scene.start(levelName); }, callbackScope: this, loop: false });
+            that.isLeaving = true;
         }
 
         this.difficultyButton2 = new Button({ scene: this, x: 60, y: 120, texture: 'Hard-Button', frame: 4, scale: 0.0225 });

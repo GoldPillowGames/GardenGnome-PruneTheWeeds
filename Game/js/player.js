@@ -70,23 +70,27 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                     if (this.parrying) {
                         this.scene.currentEnemy.playerHasParried();
                         this.anims.play('GnomeParryUp');
+                        this.parryLittleMovement();
                     }
                 }
                 else if (this.scene.arrow.angle == 90 && (pointer.y - this.scene.inputManager.initialMouseY > 0 && Math.abs(pointer.y - this.scene.inputManager.initialMouseY) > Math.abs(pointer.x - this.scene.inputManager.initialMouseX))) {
                     if (this.parrying) {
                         this.scene.currentEnemy.playerHasParried();
                         this.anims.play('GnomeParryDown');
+                        this.parryLittleMovement();
                     }
                 } else if (this.scene.hardMode) {
                     if (this.scene.arrow.angle == 0 && (pointer.x - this.scene.inputManager.initialMouseX > 0 && Math.abs(pointer.x - this.scene.inputManager.initialMouseX) > Math.abs(pointer.y - this.scene.inputManager.initialMouseY))) {
                         if (this.parrying) {
                             this.scene.currentEnemy.playerHasParried();
                             this.anims.play('GnomeParryUp');
+                            this.parryLittleMovement();
                         }
                     } else if (this.scene.arrow.angle == -180 && (pointer.x - this.scene.inputManager.initialMouseX < 0 && Math.abs(pointer.x - this.scene.inputManager.initialMouseX) > Math.abs(pointer.y - this.scene.inputManager.initialMouseY))) {
                         if (this.parrying) {
                             this.scene.currentEnemy.playerHasParried();
                             this.anims.play('GnomeParryDown');
+                            this.parryLittleMovement();
                         }
                     }
                 }
@@ -325,14 +329,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             x: that.x - 15,
             ease: 'Power1',
 
-            duration: 85,
+            duration: 90,
             yoyo: true,
             repeat: 0,
             onStart: function () {
-
+                that.setTint(0xE3E3E3);
             },
             onComplete: function () {
-
+                that.setTint(that.tinte);
+                UsefulMethods.print(that.tinte)
             },
             onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
             onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
