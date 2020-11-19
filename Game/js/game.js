@@ -41,3 +41,10 @@ var config = {
 
 var game = new Phaser.Game(config);
 
+game.globalVolume = 0.6;
+game.musicVolume = 0.6;
+game.sfxVolume = 0.6;
+game.transitionVolume = 0;
+game.score = 0;
+game.levelIndex = 1;
+game.currentMusic;

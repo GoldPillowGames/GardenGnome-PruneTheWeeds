@@ -85,6 +85,8 @@ export default class SettingsMenu extends Phaser.Scene{
     }
 
     update(delta){
+        SoundManager.update(this);
+
         this.masterVolume.update(delta);
         this.musicVolume.update(delta);
         this.sfxVolume.update(delta);
@@ -92,7 +94,6 @@ export default class SettingsMenu extends Phaser.Scene{
 
         this.sys.game.globalVolume = this.masterVolume.value / 5;
         this.sys.game.musicVolume  = this.musicVolume.value / 5;
-        this.sys.game.currentMusic.setVolume(this.sys.game.musicVolume * this.sys.game.globalVolume);
         this.sys.game.sfxVolume    = this.sfxVolume.value / 5;
     }
 }

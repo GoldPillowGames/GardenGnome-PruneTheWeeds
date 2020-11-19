@@ -135,5 +135,6 @@ export default class CreditsMenu extends Phaser.Scene{
     }
 
     update(delta){
+        SoundManager.update(this);
     }
 }
