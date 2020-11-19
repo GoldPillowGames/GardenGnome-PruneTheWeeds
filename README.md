@@ -13,15 +13,12 @@ Tipo: Free to play
 El objetivo es llegar a un acuerdo con una compañía conocida, en el que la compañía lance una línea de productos cuya temática sea la misma que la del juego (y de la que recibiríamos un porcentaje de los beneficios), y al mismo tiempo dentro del juego se publicite dicha compañía y sus productos. De esta forma, se produciría un proceso de retroalimentación en el que la compañía vendería más productos gracias a la publicidad del juego, y al mismo ese aumento de ventas supondría también un aumento de los ingresos de Gold Pillow Games.  
 
 #### Mapa de empatía:
-
 ![Modelo_Empatia_Gold_Pillow_Games](https://user-images.githubusercontent.com/44704611/99603174-11648180-2a03-11eb-8e79-f300098ddc1d.png)
 
 #### Canvas:
-
 ![ModeloCanvas (1)](https://user-images.githubusercontent.com/44704611/99667252-6ab4cb00-2a6c-11eb-80c0-36070c903d7f.png)
 
 #### Caja de herramientas:
-
 ![Caja de herramientas](https://user-images.githubusercontent.com/44704611/99704363-951c7d80-2a98-11eb-8d14-9bbd86566efd.png)
 
 ### Alcance del proyecto 
