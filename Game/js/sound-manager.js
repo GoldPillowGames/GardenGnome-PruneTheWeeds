@@ -28,7 +28,7 @@ export default class SoundManager {
         targets: scene.sys.game.currentMusic,
         volume: 0,
         duration: 500,
-        onComplete: function() {previousMusic.pause();}
+        onComplete: function () { previousMusic.pause(); }
       });
     }
 
@@ -36,6 +36,7 @@ export default class SoundManager {
       scene.sys.game.currentMusic = scene.sound.add(musicName);
       scene.sys.game.currentMusic.play({
         mute: false,
+        volume: 0,
         rate: 1,
         detune: 0,
         seek: 0,
