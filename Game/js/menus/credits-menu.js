@@ -1,155 +1,159 @@
 /**
  * Codigo desarrollado por:
  * -
- * German Lopez Gutierrez
+ * Germán López Gutiérrez
  * Ignacio Atance Loras
- * Alberto Romero Abarca
- * Jorge Sanchez Sanchez
+ * Fernando Martín Espina
+ * Jorge Sánchez Sánchez
+ * Elvira Gutiérrez Bartolomé
  * -
  */
 
-class creditsMenu extends Phaser.Scene{
+import UsefulMethods from '../useful-methods.js';
+import Button from '../button.js';
+import SoundManager from '../sound-manager.js';
+
+export default class CreditsMenu extends Phaser.Scene{
     constructor(){
-        super({key:"creditsMenu"});
+        super('creditsMenu');
       }
-
-    preload(){
-        this.load.image('controls-player1'  , 'assets/controls-menu/controls-player1.png');    
-        this.load.image('controls-player2'  , 'assets/controls-menu/controls-player2.png');  
-        this.load.image('return-btn'        , 'assets/controls-menu/return-btn.jpg');       
-        this.load.image('scroll-background-credits' , 'assets/main-menu/pergamino-vertical.png');   
-        //this.load.image('scroll-background2', 'assets/controls-menu/pergamino2.png'); 
-        this.load.image('credits'           , 'assets/credits.png');
-        this.load.spritesheet('backgroundSheet'     , 'assets/game-elements/BackgroundSheet.png',{
-            frameWidth: 800,
-            frameHeight: 600
-        }); 
-    }
-
+    
     create(){
-        this.width  = 800;
-        this.height = 600;
-
-        var that = this;
-
-
-
-        this.background = this.add.sprite(this.width/2,this.height/2,'backgroundSheet',0);
-
-        this.anims.create({
-            key: 'backgroundAnimation',
-            frames: this.anims.generateFrameNumbers('backgroundSheet', { start: 0, end: 2}),
-            frameRate: 8,
-            repeat: -1
-          });
-        this.background.anims.play('backgroundAnimation');
-
-        this.cameras.main.fadeIn(500);
-
-        this.credits_background= this.physics.add.sprite(this.width/2, this.height/2,'scroll-background-credits').setGravityY(-1000).setInteractive();
-        this.credits_background.displayWidth = 700;
-
-
-        this.creditsDevText = this.add.text(this.width/2.85, this.height/16, "CREDITS", {
-            fontFamily: '"Roboto Condensed"',
-            fontFamily: '"kouzan_font"',
-            boundsAlignH: "center",
-            boundsAlignV: "middle",
-            align:'center',
-            color: 'black',
-            fontSize: 72 });
-        this.creditsDevText.setDepth(11000);
-
-        this.creditsDevText = this.add.text(this.width/3, this.height/3.6, "GAME DEVELOPED BY", {
-            fontFamily: '"Roboto Condensed"',
-            fontFamily: '"kouzan_font"',
-            boundsAlignH: "center",
-            boundsAlignV: "middle",
-            align:'center',
-            color: 'black',
-            fontSize: 32 });
-        this.creditsDevText.setDepth(11000);
-
-        this.creditsText = this.add.text(this.width/2.71, this.height/3, "German Lopez Gutierrez\nJorge Sanchez Sanchez\nIgnacio Atance Loras\nAlberto Romero Abarca", {
-            fontFamily: '"Roboto Condensed"',
-            fontFamily: '"kouzan_font"',
-            boundsAlignH: "center",
-            boundsAlignV: "middle",
-            align:'center',
-            color: 'black',
-            fontSize: 20 });
-        this.creditsText.setDepth(11000);
-
-        this.otherText = this.add.text(this.width/2.2, this.height/1.75, "OTHER", {
-            fontFamily: '"Roboto Condensed"',
-            fontFamily: '"kouzan_font"',
-            boundsAlignH: "center",
-            boundsAlignV: "middle",
-            align:'center',
-            color: 'black',
-            fontSize: 32 });
-        this.otherText.setDepth(11000);
-
-        this.otherContentText = this.add.text(this.width/2.92, this.height/1.6, "Additional sound effects from\nhttps://www.zapsplat.com", {
-            fontFamily: '"Roboto Condensed"',
-            fontFamily: '"kouzan_font"',
-            boundsAlignH: "center",
-            boundsAlignV: "middle",
-            align:'center',
-            color: 'black',
-            fontSize: 18 });
-        this.otherContentText.setDepth(11000);
-
-        var that= this;
-        this.sound1 = this.sound.add('MenuSound1');
-        this.sound1.volume = game.sfxVolume;
-        this.sound2 = this.sound.add('MenuSound2');
-        this.sound2.volume = game.sfxVolume;
+        this.cameras.main.fadeIn(550);
         
-        this.sound1.volume = game.sfxVolume;
-        this.sound2.volume = game.sfxVolume;
+        let that = this;
 
-        this.returnButton = this.add.sprite(this.width/2,this.height/1.08,'Return').setInteractive();
-        this.returnButton.displayWidth = 230;
-        this.returnButton.scaleY= this.returnButton.scaleX;
-        this.returnButton.setDepth(13000);
-        this.returnButton.on('pointerup', function(){
-                that.sound2.play();
-                that.cameras.main.fadeOut(200);
-                that.scene.get("creditsMenu").time.addEvent({delay: 210, callback: function(){that.scene.start('mainMenu');}, callbackScope:this, loop:false});
-        });
+        this.width  = this.sys.game.config.width;
+        this.height = this.sys.game.config.height;
+
+        var background = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this),'SettingsBackground');
+        background.setDepth(-100);
+
+         // this.lights.enable();
+        if(!(this.sys.game.device.os.android || this.sys.game.device.os.iOS || this.sys.game.device.os.iPad || this.sys.game.device.os.iPhone)){
+            var light  = this.lights.addLight(0, 0, 100000, 0xe6fcf5, 0.2);
+            this.lights.enable().setAmbientColor(0xc3c3c3);
+            this.input.on('pointermove', function (pointer) {
+                light.x = pointer.x;
+                light.y = pointer.y;
+            });
+            background.setPipeline('Light2D');
+        }
+        
+        
+        
+
+        background.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
+        background.scaleY = background.scaleX;
+
+        let style = {
+            fontFamily: 'amazingkids_font', 
+            fontSize: '88px',
+            color: '#e6fcf5',
+            stroke: '#0e302f',
+            strokeThickness: 15
+        }
+
+        let zapsplatText = 'Additional sound effects from https://www.zapsplat.com';
+        let contactText = 'CONTACT: goldpillowgames@gmail.com';
+        let creditsTitle = 'CREDITS';
+
+        switch(this.sys.game.language){
+            case "en":
+                zapsplatText = 'Additional sound effects from https://www.zapsplat.com';
+                contactText = 'CONTACT: goldpillowgames@gmail.com';
+                creditsTitle = 'CREDITS';
+                break;
+            case "es":
+                zapsplatText = 'Efectos de sonido adicionales de https://www.zapsplat.com';
+                contactText = 'CONTACTO: goldpillowgames@gmail.com';
+                creditsTitle = 'CRÉDITOS';
+                break;
+            default:
+                break;
+        }
+
+        let text = this.add.text(UsefulMethods.RelativePosition(50, 'x', this), UsefulMethods.RelativePosition(15, 'y', this), creditsTitle, style);
+
+        text.setOrigin(0.5);
+        text.setDepth(100);
+        text.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        text.scaleY = text.scaleX;
+
+        let creditsStyle = {
+            fontFamily: 'amazingkids_font', 
+            fontSize: '36px',
+            color: '#e6fcf5',
+            stroke: '#0e302f',
+            strokeThickness: 12
+        }
+
+        let x = 90;
+        let y = 33.5;
+        let y_increment = 7.5;
 
         
 
-        this.anims.create({
-            key: 'return',
-            frames: [ { key: 'Return'} ],
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'returnSelected',
-            frames: [ { key: 'ReturnSelected'} ],
-            frameRate: 10,
-            repeat: -1
-        });
+        let credits_german = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y, 'y', this), 'Germán López Gutiérrez', creditsStyle);
+        let credits_fernando = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), 'Fernando Martín Espina', creditsStyle);
+        y_increment += 7.5;
+        let credits_ignacio = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), 'Ignacio Atance Loras', creditsStyle);
+        y_increment += 7.5;
+        let credits_elvira = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), 'Elvira Gutiérrez Bartolomé', creditsStyle);
+        y_increment += 7.5;
+        let credits_jorge = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), 'Jorge Sánchez Sánchez', creditsStyle);
+        y_increment += 11.5;
+        let credits_Zapsplat = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), zapsplatText, creditsStyle);
+        y_increment += 11.5;
+        let credits_contact = this.add.text(UsefulMethods.RelativePosition(x, 'x', this), UsefulMethods.RelativePosition(y + y_increment, 'y', this), contactText, creditsStyle);
 
-        this.returnButton.on('pointerover', function() {
-            that.returnButton.anims.play('returnSelected');
-            do{                     // Reproducimos el sonido unicamente si no se ha reproducido antes, es decir, si acabamos de entrar con el raton al botón. Si ya llevamos un rato
-                that.sound1.play(); // el sonido no se reproducirá gracias al booleano. El booleano vuelve a true, al sacar el ratón del botón.
-                this.pointerOver = false;
-            }while(this.pointerover);
-        });
 
-        // Cuando apartas el raton
-        this.returnButton.on('pointerout', function() {
-            that.returnButton.anims.play('return');
-            this.pointerOver = true;
-        });
+        credits_german.setOrigin(1);
+        credits_german.setDepth(100);
+        credits_german.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        credits_german.scaleY = text.scaleX;
+
+        credits_fernando.setOrigin(1);
+        credits_fernando.setDepth(100);
+        credits_fernando.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        credits_fernando.scaleY = text.scaleX;
+
+        credits_ignacio.setOrigin(1);
+        credits_ignacio.setDepth(100);
+        credits_ignacio.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        credits_ignacio.scaleY = text.scaleX;
+
+        credits_elvira.setOrigin(1);
+        credits_elvira.setDepth(100);
+        credits_elvira.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        credits_elvira.scaleY = text.scaleX;
+
+        credits_jorge.setOrigin(1);
+        credits_jorge.setDepth(100);
+        credits_jorge.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        credits_jorge.scaleY = text.scaleX;
+
+        credits_contact.setOrigin(1);
+        credits_contact.setDepth(100);
+        credits_contact.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        credits_contact.scaleY = text.scaleX;
+
+        credits_Zapsplat.setOrigin(1);
+        credits_Zapsplat.setDepth(100);
+        credits_Zapsplat.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        credits_Zapsplat.scaleY = text.scaleX;
+
+        this.exitButton = new Button({scene:this, x:9.5, y:86, texture:'ExitButton', frame:4, scale:-0.018});
+        this.exitButton.create();
+        this.exitButton.pointerUp = function(){
+
+            SoundManager.playSound('ButtonSound', that);
+            that.cameras.main.fadeOut(225);
+            that.scene.get("creditsMenu").time.addEvent({delay: 510, callback: function(){that.scene.start('mainMenu');}, callbackScope:this, loop:false});
+        }
+        this.exitButton.setTint(0xe6fcf5);
     }
 
-    update(){
-
+    update(delta){
     }
 }

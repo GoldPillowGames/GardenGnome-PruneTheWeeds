@@ -1,171 +1,146 @@
 /**
  * Codigo desarrollado por:
  * -
- * German Lopez Gutierrez
+ * Germán López Gutiérrez
  * Ignacio Atance Loras
- * Alberto Romero Abarca
- * Jorge Sanchez Sanchez
+ * Fernando Martín Espina
+ * Jorge Sánchez Sánchez
+ * Elvira Gutiérrez Bartolomé
  * -
  */
 
+import UsefulMethods from '../useful-methods.js';
+import Slider from '../slider.js';
+import Selector from '../selector.js';
+import Button from '../button.js';
+import SoundManager from '../sound-manager.js';
 
-
-class settingsMenu extends Phaser.Scene{
-    
+export default class SettingsMenu extends Phaser.Scene{
     constructor(){
-        super({key:"settingsMenu"});
+        super('settingsMenu');
       }
-
-      preload(){
-        this.load.html('slider', 'js/menus/slide-bar.html');
-        this.load.html('sfx-slider', 'js/menus/sfx-slider.html');
-
-        this.load.image('controls-player1'  , 'assets/controls-menu/controls-player1.png');    
-        this.load.image('controls-player2'  , 'assets/controls-menu/controls-player2.png');  
-        this.load.image('return-btn'        , 'assets/controls-menu/return-btn.jpg');       
-        this.load.image('scroll-background-credits' , 'assets/main-menu/pergamino-vertical.png');  
-        this.load.image('return-background' , 'assets/main-menu/return-button-background.png'); 
-        //this.load.image('scroll-background2', 'assets/controls-menu/pergamino2.png'); 
-        this.load.image('credits'           , 'assets/credits.png');
-        this.load.spritesheet('backgroundSheet'     , 'assets/game-elements/BackgroundSheet.png',{
-            frameWidth: 800,
-            frameHeight: 600
-        }); 
-    }
-
+    
     create(){
-        this.width  = 800;
-        this.height = 600;
-
-        var that = this;
-
-
-
-        this.background = this.add.sprite(this.width/2,this.height/2,'backgroundSheet',0);
-
-        this.anims.create({
-            key: 'backgroundAnimation',
-            frames: this.anims.generateFrameNumbers('backgroundSheet', { start: 0, end: 2}),
-            frameRate: 8,
-            repeat: -1
-          });
-        this.background.anims.play('backgroundAnimation');
-
-        this.cameras.main.fadeIn(500);
-
-        this.musicText = this.add.text(this.width/5,this.height/2.39, "Music Volume", {
-            fontFamily: '"Roboto Condensed"',
-            fontFamily: '"kouzan_font"',
-            boundsAlignH: "center",
-            boundsAlignV: "middle",
-            align:'center',
-            color: 'black',
-            fontSize: 32 });
-        this.musicText.setDepth(11000);
-
-        this.sfxText = this.add.text(this.width/5,this.height/1.99, "Sfx Volume", {
-            fontFamily: '"Roboto Condensed"',
-            fontFamily: '"kouzan_font"',
-            boundsAlignH: "center",
-            boundsAlignV: "middle",
-            align:'center',
-            color: 'black',
-            fontSize: 32 });
-        this.sfxText.setDepth(11000);
-
-        var that= this;
-        this.sound1 = this.sound.add('MenuSound1');
-        this.sound1.volume = game.sfxVolume;
-        this.sound2 = this.sound.add('MenuSound2');
-        this.sound2.volume = game.sfxVolume;
+        this.cameras.main.fadeIn(550);
         
-        this.returnButton = this.add.sprite(this.width/2, this.height/1.065, 'Return').setInteractive();
-        this.returnButton.displayWidth = 230;
-        this.returnButton.scaleY= this.returnButton.scaleX;
-        this.returnButton.setDepth(13000);
-        this.returnButton.on('pointerup', function(){
-                that.sound2.play();
-                that.cameras.main.fadeOut(200);
-                that.scene.get("settingsMenu").time.addEvent({delay: 210, callback: function(){that.scene.start('mainMenu');}, callbackScope:this, loop:false});
-        });
+        let that = this;
+
+        this.width  = this.sys.game.config.width;
+        this.height = this.sys.game.config.height;
+
+        var background = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this),'SettingsBackground');
+        background.setDepth(-100);
+
+         // this.lights.enable();
+        if(!(this.sys.game.device.os.android || this.sys.game.device.os.iOS || this.sys.game.device.os.iPad || this.sys.game.device.os.iPhone)){
+            var light  = this.lights.addLight(0, 0, 100000, 0xe6fcf5, 0.2);
+            this.lights.enable().setAmbientColor(0xc3c3c3);
+            this.input.on('pointermove', function (pointer) {
+                light.x = pointer.x;
+                light.y = pointer.y;
+            });
+            background.setPipeline('Light2D');
+        }
+        
 
         
 
-        this.anims.create({
-            key: 'return',
-            frames: [ { key: 'Return'} ],
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'returnSelected',
-            frames: [ { key: 'ReturnSelected'} ],
-            frameRate: 10,
-            repeat: -1
-        });
+        background.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
+        background.scaleY = background.scaleX;
 
-        this.returnButton.on('pointerover', function() {
-            that.returnButton.anims.play('returnSelected');
-            do{                     // Reproducimos el sonido unicamente si no se ha reproducido antes, es decir, si acabamos de entrar con el raton al botón. Si ya llevamos un rato
-                that.sound1.play(); // el sonido no se reproducirá gracias al booleano. El booleano vuelve a true, al sacar el ratón del botón.
-                this.pointerOver = false;
-            }while(this.pointerover);
-        });
+        let style = {
+            fontFamily: 'amazingkids_font', 
+            fontSize: '88px',
+            color: '#e6fcf5',
+            stroke: '#0e302f',
+            strokeThickness: 15
+        }
 
-        // Cuando apartas el raton
-        this.returnButton.on('pointerout', function() {
-            that.returnButton.anims.play('return');
-            this.pointerOver = true;
-        });
+        this.text = this.add.text(UsefulMethods.RelativePosition(50, 'x', this), UsefulMethods.RelativePosition(15, 'y', this), 'SETTINGS', style);
 
-        this.volumeSlider = this.add.dom(this.width/1.5,this.height/2.2).createFromCache('slider').getChildByName('musicVolumeSlider');
-        //this.volumeSliderChild = this.volumeSlider.getChildByName('musicVolumeSlider');
+        this.text .setOrigin(0.5);
+        this.text .setDepth(100);
+        this.text .scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+        this.text .scaleY = this.text.scaleX;
 
-        if(game.musicVolume)
-            this.volumeSlider.value=game.musicVolume;
+        this.masterVolume = new Slider({scene:this, x:10, y:34, sliderTexture:'SliderBar', minusTexture:'Minus', plusTexture:'Plus', sliderText:'MASTER VOLUME', currentValue: this.sys.game.globalVolume * 5});
+        this.masterVolume.create();
 
-        this.sfxSlider = this.add.dom(this.width/1.5,this.height/1.85).createFromCache('sfx-slider').getChildByName('sfxVolumeSlider');
+        this.musicVolume = new Slider({scene:this, x:10, y:45.5, sliderTexture:'SliderBar', minusTexture:'Minus', plusTexture:'Plus', sliderText:'MUSIC VOLUME', currentValue: this.sys.game.musicVolume * 5});
+        this.musicVolume.create();
 
-        if(game.sfxVolume)
-            this.sfxSlider.value = game.sfxVolume;
+        this.sfxVolume = new Slider({scene:this, x:10, y:57, sliderTexture:'SliderBar', minusTexture:'Minus', plusTexture:'Plus', sliderText:'SFX VOLUME', currentValue: this.sys.game.sfxVolume * 5});
+        this.sfxVolume.create();
 
-        this.InitControlsBackground();
-    }
-/**
-     * Inicializa los pergaminos
-     */
-    InitControlsBackground(){
+        var languageValue = 0;
 
-        this.controls_background2= this.add.sprite(this.width/1.9, this.height/2,'scroll-background').setInteractive();
-        this.controls_background2.displayWidth = 730;
-        this.controls_background2.setDepth(5000)
-        this.controls_background2.scaleY= this.controls_background2.scaleX;
+        switch(this.sys.game.language){
+            case "en":
+                languageValue = 0;
+                break;
+            case "es":
+                languageValue = 1;
+                break;
+            default:
+                break;
+        }
 
-        this.btn_bck2 = this.add.sprite(this.width/20, this.height/2,'buttons-background-2').setInteractive();
-        this.btn_bck2.displayWidth = 80;
-        this.btn_bck2.scaleY= this.btn_bck2.scaleX;
-        this.btn_bck2.displayWidth = 65;
-        this.btn_bck2.setDepth(5000);
+        this.languageSelector = new Selector({scene:this, x:10, y:68.5, minusTexture:'arrowLeft', plusTexture:'arrowRight', sliderText:'LANGUAGE', currentValue: languageValue, options:["en", "es"]});
+        this.languageSelector.create();
 
-        this.returnButtonBackground = this.add.sprite(this.width/2, this.height/1.06,'return-background').setInteractive();
-        this.returnButtonBackground.displayWidth = 805;
-        this.returnButtonBackground.setDepth(5000);
+        this.exitButton = new Button({scene:this, x:89.5, y:86, texture:'ExitButton', frame:4, scale:0.018});
+        this.exitButton.create();
+        this.exitButton.pointerUp = function(){
+
+            SoundManager.playSound('ButtonSound', that);
+            that.cameras.main.fadeOut(225);
+            that.scene.get("settingsMenu").time.addEvent({delay: 510, callback: function(){that.scene.start('mainMenu');}, callbackScope:this, loop:false});
+        }
+        this.exitButton.setTint(0xe6fcf5);
 
         
     }
-    update(){
-        if(game.musicVolume !== this.volumeSlider.value){
-            game.musicVolume = this.volumeSlider.value;
-            //console.log("this.volumeSlider.value: " + this.volumeSlider);
-            console.log("Music Volume: " + game.musicVolume);
+
+    update(delta){
+        this.masterVolume.update(delta);
+        this.musicVolume.update(delta);
+        this.sfxVolume.update(delta);
+        //this.languageSelector.update(delta);
+        switch(this.languageSelector.value){
+            case 0:
+                this.languageSelector.valueText.setText("ENGLISH");
+                break;
+            case 1:
+                this.languageSelector.valueText.setText("ESPAÑOL");
+                break;
+            default:
+                break;
         }
-        if(game.sfxVolume !== this.sfxSlider.value){
-            game.sfxVolume = this.sfxSlider.value;
-            //console.log("this.volumeSlider.value: " + this.volumeSlider);
-            this.sound1.volume = game.sfxVolume;
-            this.sound2.volume = game.sfxVolume;
-            game.waterfallSound.volume = game.sfxVolume/5;
-            console.log("Sfx Volume: " + game.sfxVolume);
+
+        switch(this.sys.game.language){
+            case "en":
+                this.masterVolume.text.setText('MASTER VOLUME');
+                this.musicVolume.text.setText('MUSIC VOLUME');
+                this.sfxVolume.text.setText('SFX VOLUME');
+                this.languageSelector.text.setText('LANGUAGE');
+                this.text.setText('SETTINGS');
+                break;
+            case "es":
+                this.masterVolume.text.setText('VOLUMEN MAESTRO');
+                this.musicVolume.text.setText('VOLUMEN DE LA MÚSICA');
+                this.sfxVolume.text.setText('VOLUMEN DE EFECTOS');
+                this.languageSelector.text.setText('IDIOMA');
+                this.text.setText('OPCIONES');
+                break;
+            default:
+                break;
         }
+        this.sys.game.language = this.languageSelector.options[this.languageSelector.value];
+        this.exitButton.update(delta);
+
+        this.sys.game.globalVolume = this.masterVolume.value / 5;
+        this.sys.game.musicVolume  = this.musicVolume.value / 5;
+        this.sys.game.currentMusic.setVolume(this.sys.game.musicVolume * this.sys.game.globalVolume);
+        this.sys.game.sfxVolume    = this.sfxVolume.value / 5;
     }
 }

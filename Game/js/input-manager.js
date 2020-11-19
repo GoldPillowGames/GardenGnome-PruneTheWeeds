@@ -164,6 +164,7 @@ export default class InputManager {
         this.circle_UI.setScale(1 / this.scene.cameras.main.zoom * this.circle_UI_OriginalScale, 1 / this.scene.cameras.main.zoom * this.circle_UI_OriginalScale);
         this.circle_UI.x = this.zoomPosX(Phaser.Math.Clamp(this.pointerX, this.initialMouseX - xMax, this.initialMouseX + xMax));
         this.circle_UI.y = this.zoomPosY(Phaser.Math.Clamp(this.pointerY, this.initialMouseY - yMax, this.initialMouseY + yMax));
+        //console.log(module);
     }
 
     zoomPosX(oldPos) {
