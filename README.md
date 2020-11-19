@@ -1,4 +1,5 @@
-# Garden Gnome: Prune the weeds
+![Logo](https://user-images.githubusercontent.com/44704611/99666511-620fc500-2a6b-11eb-8b4b-4eccd9de9838.png)
+
 ## Visión General
 ### Tema
 La maestría del contraataque como arte. 
@@ -17,11 +18,12 @@ El objetivo es llegar a un acuerdo con una compañía conocida, en el que la com
 
 #### Canvas
 
-![Canvas](https://user-images.githubusercontent.com/44704611/99603198-1cb7ad00-2a03-11eb-8228-9efa5c9d873e.png)
+![ModeloCanvas (1)](https://user-images.githubusercontent.com/44704611/99667252-6ab4cb00-2a6c-11eb-80c0-36070c903d7f.png)
+
 
 ### Alcance del proyecto 
 #### Tiempo y coste
-- **Coste principal:** 101 € 
+- **Coste principal:** 87.50 € 
 - **Tiempo:** 7 semanas 
 #### Equipo
 | Nombre | Roles |
@@ -35,8 +37,8 @@ El objetivo es llegar a un acuerdo con una compañía conocida, en el que la com
 #### Licencias y Hardware
 | Nombre | Software / Licencia | Coste Total
 | ----------- | ----------- | ----------- |
-| Ignacio Atance Loras  | 1. Clip Studio Paint | 21€ |
-| Jorge Sánchez Sánchez  | 1. Clip Studio Paint<br/> 2. Aseprite | 60€ |
+| Ignacio Atance Loras  | 1. Clip Studio Paint | 22.50€ |
+| Jorge Sánchez Sánchez  | 1. Clip Studio Paint<br/> 2. Aseprite | 45€ |
 | Elvira Gutiérrez Bartolomé  | 1. Photoshop | 20€ |
 | Germán López Gutiérrez  | 1. Gimp | 0€ |
 | Fernando Martín Espina  | 1. Gimp | 0€ |
@@ -131,6 +133,19 @@ En cuanto a la transición inicial, esta comienza con un fade in de 200 milisegu
 ![Imagen1](https://user-images.githubusercontent.com/44704611/99540952-80fd5100-29b0-11eb-8721-4f968d43d4cc.png)
 
 Si se pulsa el botón de jugar (el del centro), los 3 botones desaparecerán con una animación, para aparecer otros 2 botones. Aquí el jugador podrá elegir entre uno de los 2 escenarios disponibles para jugar. Cuando esto suceda, de nuevo desaparecerán los botones y aparecerán otros nuevos para elegir la dificultad. Será entonces cuando el jugador elija la dificultad, se producirá un fade out de 200 milisegundos, y empezará la partida. 
+
+### Menú de opciones
+
+En el menú de opciones, se puede configurar el volumen global del juego, y los volúmenes de los efectos de sonido y de la música por separado, para que se pueda configurar la mezcla al gusto del jugador. 
+
+También se podrá elegir el idioma, entre el inglés y el español, y habrá un botón para volver al menú principal. 
+
+### Menú de créditos y contacto
+
+En la escena de créditos y contacto, se mostrarán los autores del proyecto, las referencias necesarias y una forma de contacto por correo electrónico, para poder comunicarse con los desarrolladores. 
+
+También habrá un botón para volver al menú principal. 
+
 
 ## Assets necesarios
 
@@ -230,6 +245,10 @@ Contiene 2 funciones, para reproducir música y audio respectivamente. También 
 #### Script de un selector
 
 Permite elegir entre varias opciones preestablecidas por los programadores (por ejemplo, entre varios idiomas). 
+
+#### Script de la nube 
+
+Permite instanciar nubes en las escenas. Controla el comportamiento de las mismas. 
 
 ## Animación
 
