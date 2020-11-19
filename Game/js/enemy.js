@@ -155,8 +155,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             onComplete: function () {
 
             },
-            onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
-            onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+            onYoyo: function () {  },
+            onRepeat: function () {  },
         });
     }
 
@@ -254,8 +254,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                 that.setTint(that.tinte);
                 UsefulMethods.print("Tinte" + that.tinte);
             },
-            onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
-            onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+            onYoyo: function () {  },
+            onRepeat: function () {  },
         });
 
     }

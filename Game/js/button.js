@@ -222,13 +222,13 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
             yoyo: false,
             repeat: 0,
             onStart: function () { 
-                console.log('onStart'); console.log(arguments); 
+                 
             },
             onComplete: function () { 
                 that.playHideButton();
             },
-            onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
-            onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+            onYoyo: function () {  },
+            onRepeat: function () {  },
         });
     }
 
@@ -254,8 +254,8 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
                    
                 });
             },
-            onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
-            onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+            onYoyo: function () {  },
+            onRepeat: function () {  },
         });
     }
 

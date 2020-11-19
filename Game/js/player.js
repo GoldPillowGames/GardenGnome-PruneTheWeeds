@@ -165,8 +165,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 that.setTint(that.tinte);
                 UsefulMethods.print(that.tinte)
             },
-            onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
-            onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+            onYoyo: function () {  },
+            onRepeat: function () {  },
         });
 
         if (this.HP <= 0) {
@@ -334,8 +334,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 that.setTint(that.tinte);
                 UsefulMethods.print(that.tinte)
             },
-            onYoyo: function () { console.log('onYoyo'); console.log(arguments); },
-            onRepeat: function () { console.log('onRepeat'); console.log(arguments); },
+            onYoyo: function () {  },
+            onRepeat: function () {  },
         });
     }
 }
