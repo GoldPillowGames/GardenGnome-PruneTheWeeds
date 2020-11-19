@@ -14,12 +14,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             WALKING: 'walking',
         }
         this.playerState = this.playerStates.STOPPED;
-        this.velocity = 360;
         this.direction = 0;
         this.HP = HP;
         this.maxHP = HP;
         this.canMove = true;
         this.playerScale = 1;
+        this.velocity = 360;
 
         this.tinte = tint;
 
@@ -109,6 +109,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     create() {
         this.displayWidth = UsefulMethods.RelativeScale(20, "x", this.scene);
+        
+
         this.scaleY = this.scaleX;
         this.playerScale = this.scaleX;
         this.setDepth(0);

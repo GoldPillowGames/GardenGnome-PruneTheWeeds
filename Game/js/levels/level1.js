@@ -65,10 +65,79 @@ export default class level1 extends Phaser.Scene {
     //let that = this;
     this.cameras.main.fadeIn(1000);
     //this.scene.get("Level_1").time.addEvent({delay: 510, callback: function(){that.cameras.main.fadeIn(550);}});
+
+    
+
+    let walkText;
+    let parryText;
+    let attackText;
+
+    if(!(this.sys.game.device.os.android || this.sys.game.device.os.iOS || this.sys.game.device.os.iPad || this.sys.game.device.os.iPhone)){
+      switch(this.sys.game.language){
+        case "en":
+          walkText = "Press D to walk.";
+          parryText = "Press the directional arrows in the direction of the attack!";
+          attackText = "Press the spacebar to attack the enemy when he is tired!";
+          break;
+        case "es":
+          walkText = "Pulsa D para caminar.";
+          parryText = "¡Pulsa las flechas de dirección en la dirección del ataque!";
+          attackText = "¡Pulsa la barra espaciadora para atacar cuando el enemigo esté cansado!";
+          break;
+        default:
+          break;
+      }
+    }else{
+      switch(this.sys.game.language){
+        case "en":
+          walkText = "Slide your finger to walk.";
+          parryText = "Slide your finger in the direction of the attack!";
+          attackText = "Touch the screen to attack the enemy when he is tired!";
+          break;
+        case "es":
+          walkText = "Desliza tu dedo para caminar.";
+          parryText = "¡Desliza tu dedo en la dirección del ataque!";
+          attackText = "¡Pulsa la pantalla para atacar cuando el enemigo esté cansado!";
+          break;
+        default:
+          break;
+      }
+    }
+
+    let style = {
+      fontFamily: 'amazingkids_font',
+      fontSize: '34px',
+      color: '#e6fcf5',
+      stroke: '#0e302f',
+      strokeThickness: 12
+    }
+
+    this.text = this.add.text(UsefulMethods.RelativePosition(15, 'x', this), UsefulMethods.RelativePosition(127.5, 'y', this), '', style);
+    this.text.setOrigin(0.5, 0.45);
+    this.text.setText(walkText);
+    this.text.setDepth(100);
+    this.text.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+    this.text.scaleY = this.text.scaleX;
+
+    this.text = this.add.text(UsefulMethods.RelativePosition(85, 'x', this), UsefulMethods.RelativePosition(125, 'y', this), '', style);
+    this.text.setOrigin(0.5, 0.45);
+    this.text.setText(parryText);
+    this.text.setDepth(100);
+    this.text.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+    this.text.scaleY = this.text.scaleX;
+
+    this.text = this.add.text(UsefulMethods.RelativePosition(85, 'x', this), UsefulMethods.RelativePosition(132.5, 'y', this), '', style);
+    this.text.setOrigin(0.5, 0.45);
+    this.text.setText(attackText);
+    this.text.setDepth(100);
+    this.text.scaleX = UsefulMethods.RelativeScale(0.08, 'x', this)
+    this.text.scaleY = this.text.scaleX;
+
+
     SoundManager.playMusic('theme1', this);
 
     this.darkBackground = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this), 'DarkBackground');
-    this.darkBackground.setOrigin(0.5,0.5);
+    this.darkBackground.setOrigin(0.5, 0.5);
     this.darkBackground.setDepth(1000);
     this.darkBackground.setAlpha(0);
     this.darkBackground.setScrollFactor(0);
@@ -81,7 +150,7 @@ export default class level1 extends Phaser.Scene {
     house.scaleY = house.scaleX;
 
     // Se crea el objeto player en la escena.
-    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2, HP: 5 , tint: this.color});
+    this.player = new Player({ scene: this, x: UsefulMethods.RelativePosition(10, "x", this), y: UsefulMethods.RelativePosition(90, "y", this), texture: 'WalkingGnome', frame: 2, HP: 5, tint: this.color });
     this.player.create();
     this.player.body.setOffset(0, -20);
     // this.player.onDie = () => {SoundManager.stopMusic(that.sys.game.currentMusic);}
@@ -111,9 +180,9 @@ export default class level1 extends Phaser.Scene {
       UsefulMethods.print("Pointerup1");
       that.cameras.main.fadeOut(200);
       SoundManager.playSound('ButtonSound', that);
-      that.scene.get("Level_"+that.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { that.scene.start("mainMenu"); }, callbackScope: this, loop: false });
-    
-      
+      that.scene.get("Level_" + that.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { that.scene.start("mainMenu"); }, callbackScope: this, loop: false });
+
+
     }
 
     this.exitText = this.add.text(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(33.33, "y", this), "Are you sure you want to return?", { fontFamily: '"amazingkids_font"', fontSize: 48, color: 'white' });
@@ -322,7 +391,7 @@ export default class level1 extends Phaser.Scene {
 
     this.enemies.push(new Enemy({
       scene: this, x: (this.floors[2].x + (this.floors[2].width) * (this.floors[2].scaleX) * 0.5), y: 75,
-      texture: 'IdleMushroom', frame: 0, attackTime: 0.45, window: 0.55, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim', tint:this.color
+      texture: 'IdleMushroom', frame: 0, attackTime: 0.45, window: 0.55, stamina: 2, hp: 5, idleAnimation: 'MushroomIdleAnim', attackAnimation: 'MushroomAttackAnim', tint: this.color
     }));
 
     this.arrow = this.add.sprite(this.enemies[0].x, this.enemies[0].y - UsefulMethods.RelativePosition(15, 'y', this), 'Arrow');
