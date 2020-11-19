@@ -27,6 +27,7 @@ export default class SettingsMenu extends Phaser.Scene{
 
         this.width  = this.sys.game.config.width;
         this.height = this.sys.game.config.height;
+        // SoundManager.playMusic('menu-theme', this);
 
         var background = this.add.sprite(UsefulMethods.RelativePosition(50, "x", this), UsefulMethods.RelativePosition(50, "y", this),'SettingsBackground');
         background.setDepth(-100);
@@ -42,9 +43,6 @@ export default class SettingsMenu extends Phaser.Scene{
             background.setPipeline('Light2D');
         }
         
-
-        
-
         background.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
         background.scaleY = background.scaleX;
 
@@ -105,6 +103,9 @@ export default class SettingsMenu extends Phaser.Scene{
         this.masterVolume.update(delta);
         this.musicVolume.update(delta);
         this.sfxVolume.update(delta);
+
+        SoundManager.update(this);
+
         //this.languageSelector.update(delta);
         switch(this.languageSelector.value){
             case 0:

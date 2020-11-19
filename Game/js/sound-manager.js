@@ -84,9 +84,8 @@ export default class SoundManager {
   static update(scene) {
     if (scene.sys.game.currentMusic == null)
       return;
-
       
-    if (scene.cameras.main.fadeEffect.isRunning) {
+    if (!scene.cameras.main.fadeEffect.isRunning) {
       scene.sys.game.transitionVolume = 1;
     }
     else {

@@ -348,7 +348,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
                     this.slowMotion = 0.05;
                     this.scene.tweens.timeScale = this.slowMotion;
 
-                    SoundManager.stopMusic(this.scene, 250);
+                    SoundManager.stopMusic(this.scene, 0);
 
                     this.scene.time.addEvent({
                         delay: 225,

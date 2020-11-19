@@ -20,6 +20,7 @@ export default class CreditsMenu extends Phaser.Scene{
     
     create(){
         this.cameras.main.fadeIn(550);
+        // SoundManager.playMusic('menu-theme', this);
         
         let that = this;
 
@@ -155,5 +156,6 @@ export default class CreditsMenu extends Phaser.Scene{
     }
 
     update(delta){
+        SoundManager.update(this);
     }
 }
