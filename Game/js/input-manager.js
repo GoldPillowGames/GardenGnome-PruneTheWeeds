@@ -151,22 +151,22 @@ export default class InputManager {
         var module = UsefulMethods.vectorModule(this.pointerX - this.initialMouseX, this.pointerY - this.initialMouseY);
 
         var xMax, yMax;
-        if ((this.scene.combatHappening && this.scene.currentEnemy.enemyState == this.scene.currentEnemy.enemyStates.TIRED) || module == 0) {
-            xMax = 0;
-            yMax = 0;
-        } else {
-            xMax = Math.abs((this.pointerX - this.initialMouseX) / module) * this.maxMouseDistance;
-            yMax = Math.abs((this.pointerY - this.initialMouseY) / module) * this.maxMouseDistance;
-        }
+        xMax = Math.abs((this.pointerX - this.initialMouseX) / module) * this.maxMouseDistance;
+        yMax = Math.abs((this.pointerY - this.initialMouseY) / module) * this.maxMouseDistance;
 
         this.circle_UI_Base.setScale(1 / this.scene.cameras.main.zoom * this.circle_UI_Base_OriginalScale, 1 / this.scene.cameras.main.zoom * this.circle_UI_Base_OriginalScale);
         this.circle_UI_Base.x = this.zoomPosX(this.initialMouseX);
         this.circle_UI_Base.y = this.zoomPosY(this.initialMouseY);
 
         this.circle_UI.setScale(1 / this.scene.cameras.main.zoom * this.circle_UI_OriginalScale, 1 / this.scene.cameras.main.zoom * this.circle_UI_OriginalScale);
-        this.circle_UI.x = this.zoomPosX(Phaser.Math.Clamp(this.pointerX, this.initialMouseX - xMax, this.initialMouseX + xMax));
-        this.circle_UI.y = this.zoomPosY(Phaser.Math.Clamp(this.pointerY, this.initialMouseY - yMax, this.initialMouseY + yMax));
-        //console.log(module);
+
+        if ((this.scene.combatHappening && this.scene.currentEnemy.enemyState == this.scene.currentEnemy.enemyStates.TIRED) || module == 0) {
+            this.circle_UI.x = this.zoomPosX(this.initialMouseX)
+            this.circle_UI.y = this.zoomPosY(this.initialMouseY);
+        } else {
+            this.circle_UI.x = this.zoomPosX(Phaser.Math.Clamp(this.pointerX, this.initialMouseX - xMax, this.initialMouseX + xMax));
+            this.circle_UI.y = this.zoomPosY(Phaser.Math.Clamp(this.pointerY, this.initialMouseY - yMax, this.initialMouseY + yMax));
+        }
     }
 
     zoomPosX(oldPos) {
