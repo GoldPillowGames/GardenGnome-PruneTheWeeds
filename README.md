@@ -8,6 +8,17 @@ Arcade, aventura y acción.
 Navegador: Google Chrome, Mozilla Firefox 
 ### Modelo de monetización  
 Tipo: Free to play
+
+El objetivo es llegar a un acuerdo con una compañía conocida, en el que la compañía lance una línea de productos cuya temática sea la misma que la del juego (y de la que recibiríamos un porcentaje de los beneficios), y al mismo tiempo dentro del juego se publicite dicha compañía y sus productos. De esta forma, se produciría un proceso de retroalimentación en el que la compañía vendería más productos gracias a la publicidad del juego, y al mismo ese aumento de ventas supondría también un aumento de los ingresos de Gold Pillow Games.  
+
+#### Mapa de empatía:
+
+![Modelo_Empatia_Gold_Pillow_Games](https://user-images.githubusercontent.com/44704611/99603174-11648180-2a03-11eb-8e79-f300098ddc1d.png)
+
+#### Canvas
+
+![Canvas](https://user-images.githubusercontent.com/44704611/99603198-1cb7ad00-2a03-11eb-8228-9efa5c9d873e.png)
+
 ### Alcance del proyecto 
 #### Tiempo y coste
 - **Coste principal:** 101 € 
@@ -215,6 +226,10 @@ Escena donde los programadores harán cualquier tipo de prueba necesaria, antes 
 #### Script para el gestor de audio
 
 Contiene 2 funciones, para reproducir música y audio respectivamente. También se encarga de que los sonidos y la música se reproduzcan con el volumen correspondiente. 
+
+#### Script de un selector
+
+Permite elegir entre varias opciones preestablecidas por los programadores (por ejemplo, entre varios idiomas). 
 
 ## Animación
 
