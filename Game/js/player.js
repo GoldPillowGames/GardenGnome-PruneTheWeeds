@@ -185,6 +185,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if (!this.isDead) {
             //this.onDie();
             // UsefulMethods.print("El jugador muere. Pasa lo que tenga que pasar.");
+            SoundManager.stopMusic(this.scene, 149);
             this.scene.sys.game.score = this.score;
             this.scene.cameras.main.fadeOut(150);
             this.scene.scene.get("Level_" + this.scene.sys.game.levelIndex).time.addEvent({ delay: 210, callback: function () { this.scene.scene.start("GameOver"); }, callbackScope: this, loop: false });
