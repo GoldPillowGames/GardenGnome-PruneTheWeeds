@@ -38,6 +38,7 @@ export default class SoundManager {
       
     if (scene.sys.game.currentMusic != null) {
       var previousMusic = scene.sys.game.currentMusic;
+      
       scene.tweens.add({
         targets: scene.sys.game.currentMusic,
         volume: 0,
@@ -83,7 +84,8 @@ export default class SoundManager {
     if (scene.sys.game.currentMusic == null)
       return;
 
-    if (!scene.cameras.main.fadeEffect.isRunning) {
+      
+    if (scene.cameras.main.fadeEffect.isRunning) {
       scene.sys.game.transitionVolume = 1;
     }
     else {
@@ -91,17 +93,5 @@ export default class SoundManager {
     }
     scene.sys.game.currentMusic.setVolume(scene.sys.game.transitionVolume * scene.sys.game.musicVolume * scene.sys.game.globalVolume);
   }
-
-    // static playSound(soundName, scene, volume){
-    //   scene.sound.add(soundName).play({
-    //     mute: false,
-    //     volume: scene.sys.game.sfxVolume * scene.sys.game.globalVolume * volume,
-    //     rate: 1,
-    //     detune: 0,
-    //     seek: 0,
-    //     loop: false,
-    //     delay: 0
-    //   });
-    // }
 
 }
