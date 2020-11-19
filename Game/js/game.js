@@ -46,4 +46,6 @@ game.sfxVolume = 0.6;
 game.transitionVolume = 0;
 game.score = 0;
 game.levelIndex = 1;
+game.language = "en";
+
 game.currentMusic;
