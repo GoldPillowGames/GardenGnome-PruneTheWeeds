@@ -405,14 +405,14 @@ export default class level1 extends Phaser.Scene {
 
     this.enemies.push(new Enemy({
       scene: this, x: (this.floors[1].x + (this.floors[1].width) * (this.floors[1].scaleX) * 0.5), y: 75,
-      texture: 'IdleSnail',
+      texture: 'IdleFrog',
       frame: 0,
       attackTime: 0.70,
       window: 0.60,
       stamina: 2,
       hp: 5,
-      idleAnimation: 'SnailIdleAnim',
-      attackAnimation: 'SnailAttackAnim',
+      idleAnimation: 'FrogIdleAnim',
+      attackAnimation: 'FrogAttackAnim',
       tint: this.color
     }));
 
