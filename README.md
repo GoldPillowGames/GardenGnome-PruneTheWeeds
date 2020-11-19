@@ -38,7 +38,7 @@ El objetivo es llegar a un acuerdo con una compañía conocida, en el que la com
 | Nombre | Software / Licencia | Coste Total
 | ----------- | ----------- | ----------- |
 | Ignacio Atance Loras  | 1. Clip Studio Paint | 22.50€ |
-| Jorge Sánchez Sánchez  | 1. Clip Studio Paint<br/> 2. Aseprite | 45€ |
+| Jorge Sánchez Sánchez  | 1. Clip Studio Paint<br/> | 45€ |
 | Elvira Gutiérrez Bartolomé  | 1. Photoshop | 20€ |
 | Germán López Gutiérrez  | 1. Gimp | 0€ |
 | Fernando Martín Espina  | 1. Gimp | 0€ |
