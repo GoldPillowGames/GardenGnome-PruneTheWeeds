@@ -259,9 +259,9 @@ export default class level2 extends Phaser.Scene {
     this.fences = [];
 
     var initialPosition = -40;
-    this.fences.push(this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence'));
+    this.fences.push(this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFenceNight'));
     var fence = this.fences[0];
-    fence.setTint(this.color);
+    //fence.setTint(this.color);
     fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
     fence.scaleY = fence.scaleX;
     fence.setDepth(-8);
@@ -271,8 +271,8 @@ export default class level2 extends Phaser.Scene {
 
     while (fence.x < this.floors[0].width * this.floors[0].scaleX * 3) {
       initialPosition += 12;
-      fence = this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFence');
-      fence.setTint(this.color);
+      fence = this.add.sprite(UsefulMethods.RelativePosition(initialPosition, "x", this), UsefulMethods.RelativePosition(91, "y", this), 'WoodFenceNight');
+      //fence.setTint(this.color);
       this.fences.push(fence);
       fence.scaleX = UsefulMethods.RelativeScale(0.130, "x", this);
       fence.scaleY = fence.scaleX;

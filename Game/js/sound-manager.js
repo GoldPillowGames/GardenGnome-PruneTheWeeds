@@ -68,6 +68,7 @@ export default class SoundManager {
       if(!volume){
         volume = 1;
       }
+
       scene.sound.add(soundName).play({
         mute: false,
         volume: scene.sys.game.sfxVolume * scene.sys.game.globalVolume * volume,

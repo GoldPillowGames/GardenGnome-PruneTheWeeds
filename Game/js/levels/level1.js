@@ -483,23 +483,23 @@ export default class level1 extends Phaser.Scene {
 
     // this.nextFloor.setPipeline('Light2D');
 
-    var randomEnemy = Phaser.Math.Between(1, 5);
+    var randomEnemy = Phaser.Math.Between(1, 4);
     switch (randomEnemy) {
+      // case 1:
+      //   this.enemies.push(new Enemy({
+      //     scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
+      //     texture: 'IdleSnail',
+      //     frame: 0,
+      //     attackTime: 0.85,
+      //     window: 0.45,
+      //     stamina: Phaser.Math.Between(2, 4),
+      //     hp: Phaser.Math.Between(8, 15),
+      //     idleAnimation: 'SnailIdleAnim',
+      //     attackAnimation: 'SnailAttackAnim',
+      //     tint: this.color
+      //   }));
+      //   break;
       case 1:
-        this.enemies.push(new Enemy({
-          scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
-          texture: 'IdleSnail',
-          frame: 0,
-          attackTime: 0.85,
-          window: 0.45,
-          stamina: Phaser.Math.Between(2, 4),
-          hp: Phaser.Math.Between(8, 15),
-          idleAnimation: 'SnailIdleAnim',
-          attackAnimation: 'SnailAttackAnim',
-          tint: this.color
-        }));
-        break;
-      case 2:
         this.enemies.push(new Enemy({
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleCactus',
@@ -513,7 +513,7 @@ export default class level1 extends Phaser.Scene {
           tint: this.color
         }));
         break;
-      case 3:
+      case 2:
         this.enemies.push(new Enemy({
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleMushroom',
@@ -527,7 +527,7 @@ export default class level1 extends Phaser.Scene {
           tint: this.color
         }));
         break;
-      case 4:
+      case 3:
         this.enemies.push(new Enemy({
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdlePlant',
@@ -541,7 +541,7 @@ export default class level1 extends Phaser.Scene {
           tint: this.color
         }));
         break;
-      case 5:
+      case 4:
         this.enemies.push(new Enemy({
           scene: this, x: (this.floors[this.currentFloor].x + (this.floors[this.currentFloor].width) * (this.floors[this.currentFloor].scaleX) * 0.5), y: 75,
           texture: 'IdleFrog',
