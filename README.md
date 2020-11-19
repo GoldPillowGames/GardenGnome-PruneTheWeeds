@@ -131,7 +131,7 @@ El título se ubica en la parte superior con una leve animación de escalado eje
 
 En cuanto a la transición inicial, esta comienza con un fade in de 200 milisegundos de duración a la par que los tres botones de la mitad inferior de la pantalla ascienden mientras rotan levemente en un ángulo de 45º hasta colocarse en sus respectivos lugares. 
 
-![Imagen1](https://user-images.githubusercontent.com/44704611/99540952-80fd5100-29b0-11eb-8721-4f968d43d4cc.png)
+![Captura3](https://user-images.githubusercontent.com/44704611/99705347-e4af7900-2a99-11eb-8019-d665e74a664c.png)
 
 Si se pulsa el botón de jugar (el del centro), los 3 botones desaparecerán con una animación, para aparecer otros 2 botones. Aquí el jugador podrá elegir entre uno de los 2 escenarios disponibles para jugar. Cuando esto suceda, de nuevo desaparecerán los botones y aparecerán otros nuevos para elegir la dificultad. Será entonces cuando el jugador elija la dificultad, se producirá un fade out de 200 milisegundos, y empezará la partida. 
 
@@ -141,12 +141,15 @@ En el menú de opciones, se puede configurar el volumen global del juego, y los 
 
 También se podrá elegir el idioma, entre el inglés y el español, y habrá un botón para volver al menú principal. 
 
+![Captura2](https://user-images.githubusercontent.com/44704611/99705345-e416e280-2a99-11eb-890b-83ef6ed6f92d.png)
+
 ### Menú de créditos y contacto
 
 En la escena de créditos y contacto, se mostrarán los autores del proyecto, las referencias necesarias y una forma de contacto por correo electrónico, para poder comunicarse con los desarrolladores. 
 
 También habrá un botón para volver al menú principal. 
 
+![Captura5](https://user-images.githubusercontent.com/44704611/99705351-e5480f80-2a99-11eb-80cd-5a46413da3d8.png)
 
 ## Assets necesarios
 
