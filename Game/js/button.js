@@ -3,7 +3,7 @@ import UsefulMethods from '../js/useful-methods.js';
 export default class Button extends Phaser.Physics.Arcade.Sprite {
     constructor(data) {
         // #region Contructor
-        let { scene, x, y, texture, frame, scale} = data;
+        let { scene, x, y, texture, frame, scale, multipleUse} = data;
         super(scene, UsefulMethods.RelativePosition(x, "x", scene), UsefulMethods.RelativePosition(y, "y", scene), texture);
         // #endregion
 
@@ -25,6 +25,7 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
         this.pointerUpScale = 0.03;
         // #endregion
 
+        this.multipleUse = multipleUse;
         this.activated = true;
 
         this.scene.add.existing(this);
@@ -70,6 +71,8 @@ export default class Button extends Phaser.Physics.Arcade.Sprite {
                 that.pressed = false;
                 if(that.activated){
                     that.activated = false;
+                    that.pointerUp();
+                }else if(that.multipleUse){
                     that.pointerUp();
                 }
                 
