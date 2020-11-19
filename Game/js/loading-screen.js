@@ -135,12 +135,15 @@ export default class LoadingScreen extends Phaser.Scene {
             }
         });
 
+        var isPC = !(that.sys.game.device.os.android || that.sys.game.device.os.iOS || that.sys.game.device.os.iPad || that.sys.game.device.os.iPhone);
+        var size = isPC ? 26 : 18;
+
         let loadingText = this.make.text({
             x: that.width / 2,
             y: that.height / 1.06,
             text: 'Please wait...',
             style: {
-                font: '26px amazingkids_font',
+                font: size + 'px amazingkids_font',
                 fill: '#ffffff'
                 
             }
@@ -150,12 +153,15 @@ export default class LoadingScreen extends Phaser.Scene {
         loadingText.scaleX = UsefulMethods.RelativeScale(0.08, "x", this);
         loadingText.scaleY = loadingText.scaleY;
 
+        var isPC = !(that.sys.game.device.os.android || that.sys.game.device.os.iOS || that.sys.game.device.os.iPad || that.sys.game.device.os.iPhone);
+        var size = isPC ? 22 : 16.5;
+
         let percentText = this.make.text({
             x: that.width / 2,
             y: that.height / 1.11675,
             text: '0%',
             style: {
-                font: '22px amazingkids_font',
+                font: size + 'px amazingkids_font',
                 fill: '#000000'
             }
         });
@@ -170,11 +176,11 @@ export default class LoadingScreen extends Phaser.Scene {
             loadingBar.fillRect(that.width / 2 - that.width / 2.423,
                 that.height / 1.145,
                 that.width * percent / 1.216,
-                30);
+                that.height/25);
             loadingBar.strokeRect(that.width / 2 - that.width / 2.423,
                 that.height / 1.145,
                 that.width / 1.216,
-                30);
+                that.height/25);    
         })
 
         this.load.on('fileprogress', (file) => {
